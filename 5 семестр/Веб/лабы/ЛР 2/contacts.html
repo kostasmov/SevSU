@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="style.css">
+    <title>ЛР: Контакт</title>
+    <script src="scripts/check-form.js"></script>
+    <script src="scripts/validate-contact.js"></script>
+</head>
+
+<body>
+    <!--Навигационная панель-->
+    <nav class="nav-block">
+        <table class="nav-table">
+            <tr>
+                <td><a href="index.html">
+                    <img width="25px" src="photos/logo.png" alt="Логотип">
+                  </a></td> 
+                <td><a href="interests.html">Мои интересы</a></td>
+                <td><a href="about-me.html">Обо мне</a></td>
+                <td><a href="album.html">Фотоальбом</a></td>
+                <td><a href="study.html">Учёба</a></td>
+                <td><a href="contacts.html">Контакт</a></td>
+                <td><a href="test.html">Тест</a></td>
+            </tr>
+        </table>
+    </nav>
+
+    <!--Информация о лабораторной работе-->
+    <main>
+        <header>
+            <h1>Отправить сообщение</h1>
+        </header>
+
+        <form method=post action="mailto: kostasmov@mail.ru" id="contactForm">
+            <p>
+                <b>Фамилия Имя Отчество</b>:
+                <input id="full_name" name="full_name" type="text">
+            </p>
+
+            <p>
+                <b>Пол</b>:
+                <input name="sex" type="radio" value="Мужской" required>Мужской 
+                <input name="sex" type="radio" value="Женский" required>Женский
+            </p>
+
+            <p>
+                <b>Телефон</b>:
+                <input id="phone" name="phone" type="text">
+            </p>
+
+            <p>
+                <b>Возраст</b>:
+                <select name="age" required>
+                    <option value="До 18 лет">До 18 лет</option>
+                    <option value="18-29 лет">18-29 лет</option>
+                    <option value="30-50 лет">30-50 лет</option>
+                    <option value="Старше 50 лет">Старше 50 лет</option>
+                </select>
+            </p>
+
+            <p>
+                <b>E-mail</b>:
+                <input id="mail" name="mail" type="email">
+            </p>
+
+            <b>Сообщение:<br></b>
+            <textarea id="message" name="message" rows="4" cols="50"></textarea>
+            <br>
+
+            <input type="submit" value="Отправить">
+            <input type="reset" value="Очистить форму">
+        </form>
+        <script>checkContactForm()</script>
+    </div>
+</body>
+</html>

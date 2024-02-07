@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="style.css">
+    <title>ЛР: Учёба</title>
+    <script src="scripts/date_updater.js"></script>
+</head>
+
+<body>
+    <header class="main-header">
+        <nav>
+            <ul>
+                <li><a href="index.html"><img width="25px" src="photos/logo.png" alt="Логотип"></a></li>
+                <li><a href="about-me.html">Обо мне</a></li>
+                <li class="dropdown">
+                    <a href="interests.html">Мои интересы</a>
+                    <ul class="dropdown-content">
+                        <li><a href="interests.html#winter">Зима</a></li>
+                        <li><a href="interests.html#spring">Весна</a></li>
+                        <li><a href="interests.html#summer">Лето</a></li>
+                        <li><a href="interests.html#autumn">Осень</a></li>
+                    </ul>
+                </li>
+                <li><a href="study.html">Учеба</a></li>
+                <li><a href="album.html">Фотоальбом</a></li>
+                <li><a href="contacts.html">Контакт</a></li>
+                <li><a href="test.html">Тест</a></li>
+                <li><a href="history.html">История просмотра</a></li>
+                <li><p id="currentDateTime"></p></li>
+            </ul>
+        </nav>
+    </header>
+
+    <script>
+        updateDateTime();
+        setInterval(updateDateTime, 1000);
+    </script>
+
+    <!--Информация о лабораторной работе-->
+    <main>
+        <h1>Учёба</h1>
+
+        <section>
+            <p>Севастопольский государственный университет</p>
+            <p>Кафедра "Информационные системы"</p>
+        </section>
+
+        <table class="study-table">
+            <tr>
+                <td rowspan="3">№</td>
+                <th rowspan="3">Дисциплина</th>
+                <th colspan="12">Часов в неделю<br>(Лекций, Лаб.раб, Практ. раб)</th>
+            </tr>
+            <tr>
+                <th colspan="6">1 курс</th>
+                <th colspan="6">2 курс</th>
+            </tr>
+            <tr>
+                <th colspan="3">1 сем</th>
+                <th colspan="3">2 сем</th>
+                <th colspan="3">3 сем</th>
+                <th colspan="3">4 сем</th>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td><i style="text-align: left;">Экология</i></td>
+                <th></th> <th></th> <th></th>
+                <th></th> <th></th> <th></th>
+                <th>1</th> <th>0</th> <th>1</th>
+                <th></th> <th></th> <th></th>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td><i style="text-align: left;">Высшая математика</i></td>
+                <th>3</th> <th>0</th> <th>3</th>
+                <th>3</th> <th>0</th> <th>3</th>
+                <th>2</th> <th>0</th> <th>2</th>
+                <th></th> <th></th> <th></th>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td><i style="text-align: left;">Русский язык и культура речи</i></td>
+                <th>1</th> <th>0</th> <th>2</th>
+                <th></th> <th></th> <th></th>
+                <th></th> <th></th> <th></th>
+                <th></th> <th></th> <th></th>
+            </tr>
+            <tr>
+                <td>4</td>
+                <td><i style="text-align: left;">Основы дискретной математики</i></td>
+                <th>2</th> <th>0</th> <th>1</th>
+                <th>3</th> <th>0</th> <th>2</th>
+                <th></th> <th></th> <th></th>
+                <th></th> <th></th> <th></th>
+            </tr>
+            <tr>
+                <td>5</td>
+                <td><i style="text-align: left;">Основы программирования и алгоритмические языки</i></td>
+                <th>3</th> <th>2</th> <th>0</th>
+                <th>3</th> <th>3</th> <th>0</th>
+                <th>0</th> <th>0</th> <th>1</th>
+                <th></th> <th></th> <th></th>
+            </tr>
+            <tr>
+                <td>6</td>
+                <td><i style="text-align: left;">Основы экологии</i></td>
+                <th></th> <th></th> <th></th>
+                <th></th> <th></th> <th></th>
+                <th>1</th> <th>0</th> <th>0</th>
+                <th></th> <th></th> <th></th>
+            </tr>
+            <tr>
+                <td>7</td>
+                <td><i style="text-align: left;">Теория вероятностей и математическая статистика</i></td>
+                <th></th> <th></th> <th></th>
+                <th></th> <th></th> <th></th>
+                <th>3</th> <th>1</th> <th>0</th>
+                <th></th> <th></th> <th></th>
+            </tr>
+            <tr>
+                <td>8</td>
+                <td><i style="text-align: left;">Физика</i></td>
+                <th>2</th> <th>2</th> <th>0</th>
+                <th>2</th> <th>2</th> <th>0</th>
+                <th>2</th> <th>1</th> <th>0</th>
+                <th></th> <th></th> <th></th>
+            </tr>
+            <tr>
+                <td>9</td>
+                <td><i style="text-align: left;">Основы электротехники и электроники</i></td>
+                <th></th> <th></th> <th></th>
+                <th></th> <th></th> <th></th>
+                <th>2</th> <th>1</th> <th>1</th>
+                <th></th> <th></th> <th></th>
+            </tr>
+            <tr>
+                <td>10</td>
+                <td><i style="text-align: left;">Численные методы в информатике</i></td>
+                <th></th> <th></th> <th></th>
+                <th></th> <th></th> <th></th>
+                <th>2</th> <th>2</th> <th>0</th>
+                <th>0</th> <th>0</th> <th>1</th>
+            </tr>
+            <tr>
+                <td>11</td>
+                <td><i style="text-align: left;">Методы исследования операций</i></td>
+                <th></th> <th></th> <th></th>
+                <th></th> <th></th> <th></th>
+                <th>1</th> <th>1</th> <th>0</th>
+                <th>2</th> <th>1</th> <th>1</th>
+            </tr>
+        </table>
+    </main>
+
+    <script src='scripts/drop_menu.js'></script>
+    <script src='scripts/nav_page_loader.js'></script>
+    <script src="scripts/history.js"></script>
+</body>
+</html>

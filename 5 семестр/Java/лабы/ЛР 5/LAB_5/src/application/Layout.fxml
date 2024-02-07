@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.chart.PieChart?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane id="pane" minHeight="-Infinity" minWidth="-Infinity" prefHeight="527.0" prefWidth="860.0" style="-fx-background-color: #EAEAEA;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.Controller">
+   <children>
+      <TableView id="table" fx:id="table" layoutX="22.0" layoutY="14.0" prefHeight="344.0" prefWidth="473.0">
+        <columns>
+          <TableColumn id="colBrand" fx:id="colBrand" prefWidth="137.33331298828125" text="Марка" />
+            <TableColumn id="colYear" fx:id="colYear" prefWidth="99.66665649414062" text="Год выпуска" />
+          <TableColumn id="colEngineVolume" fx:id="colEngineVolume" prefWidth="116.0" text="Объём &#10;двигателя" />
+            <TableColumn id="colMaxSpeed" fx:id="colMaxSpeed" prefWidth="120.0" text="Макс. скорость" />
+        </columns>
+      </TableView>
+      <Button id="btnAdd" fx:id="btnAdd" layoutX="52.0" layoutY="365.0" mnemonicParsing="false" onAction="#addEntry" prefHeight="30.0" prefWidth="187.0" text="Добавить запись" />
+      <Button id="btnImport" fx:id="btnLoad" layoutX="573.0" layoutY="365.0" mnemonicParsing="false" onAction="#loadData" prefHeight="30.0" prefWidth="200.0" text="Загрузка таблицы из файла" />
+      <Button id="btnExport" fx:id="btnSave" layoutX="573.0" layoutY="409.0" mnemonicParsing="false" onAction="#saveData" prefHeight="30.0" prefWidth="200.0" text="Запись таблицы в файл" />
+      <TextField id="txtBrand" fx:id="txtBrand" layoutX="58.0" layoutY="430.0" prefHeight="26.0" prefWidth="175.0" promptText="Название" />
+      <TextField id="txtYear" fx:id="txtYear" layoutX="58.0" layoutY="484.0" prefHeight="26.0" prefWidth="175.0" promptText="2023" />
+      <TextField id="txtEngineVolume" fx:id="txtEngineVolume" layoutX="285.0" layoutY="430.0" prefHeight="26.0" prefWidth="175.0" promptText="0.0" />
+      <TextField id="txtMaxSpeed" fx:id="txtMaxSpeed" layoutX="285.0" layoutY="484.0" prefHeight="26.0" prefWidth="175.0" promptText="0" />
+      <PieChart fx:id="chart" layoutX="502.0" layoutY="14.0" legendVisible="false" prefHeight="344.0" prefWidth="341.0" title="Объём двигателя в автомобилях" />
+      <Button fx:id="btnDelete" layoutX="279.0" layoutY="365.0" mnemonicParsing="false" onAction="#deleteEntry" prefHeight="30.0" prefWidth="187.0" text="Удалить запись" />
+      <Label layoutX="58.0" layoutY="407.0" text="Марка" />
+      <Label layoutX="58.0" layoutY="465.0" text="Год выпуска" />
+      <Label layoutX="285.0" layoutY="409.0" text="Объём двигателя (л.)" />
+      <Label layoutX="285.0" layoutY="467.0" text="Макс. скорость (км/ч.)" />
+   </children>
+</AnchorPane>

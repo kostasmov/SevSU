@@ -1,0 +1,356 @@
+$font-family: sans-serif
+$font-size: 15px
+$color-black: #000000
+$color-white: #ffffff
+$color-grey: rgb(173, 173, 173)
+$background-color-black: #000000
+$background-color-white: rgb(255, 255, 255)
+$background-color-grey: #efefef
+$font-size-18: 18px
+$background-none: none
+$font-size-14: 14px
+$background-black: #000000
+$background-white: #ffffff
+$color-red: rgb(255, 0, 0)
+$background-grey: #efefef
+$background-lightblue: #00e5ff
+$base-margin: 5px
+
+@mixin padding($top, $left, $right)
+  padding-top: $top
+  padding-left: $left
+  padding-right: $right
+
+@mixin font($family, $size)
+  font-family: $family
+  font-size: $size
+
+
+main
+  @include padding(40px, 50px, 50px)
+  @include font($font-family, $font-size)
+
+h1, h2
+  @include font($font-family, 25px)
+  text-align: center
+  &:hover
+    color: lighten($color-black, 35%)
+
+h2
+  font-size: $font-size
+
+span
+  margin-top: $base-margin * 2
+
+.linkable
+  scroll-margin-top: ($base-margin * 10) + 5px
+
+.image-wrapper
+  float: right
+  margin-left: $base-margin * 2
+
+table
+  border-collapse: collapse
+  width: 100%
+  color: $color-black
+  @include font($font-family, $font-size)
+  font-weight: bold
+  margin-bottom: $base-margin
+
+th, td
+  border: 1px solid $color-black
+  padding: 5px
+  text-align: left
+
+
+/* Навигационная панель */
+header
+  @include font($font-family, $font-size)
+  background-color: $color-black
+
+.main-header
+  top: 0
+  left: 0
+  right: 0
+  display: flex
+  align-items: center
+  height: 50px
+  position: fixed
+
+nav ul
+  list-style-type: none
+  display: flex
+  align-items: center
+  padding-left: 20px
+
+nav ul li
+  margin-right: 15px
+  margin-top: 0
+
+nav p
+  margin: 0
+
+nav ul li a
+  text-decoration: none
+  color: $color-grey
+
+  &:hover
+    color: $color-white
+
+#currentDateTime
+  text-align: right
+  color: $color-white
+  font-weight: bold
+
+
+/* Выпадающее меню "Мои интересы" */
+.dropdown-content
+  width: 120px
+  display: none
+  position: absolute
+  background-color: $background-color-grey
+  list-style: none
+  padding: 5px
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3)
+
+  & a
+    width: 100%
+    color: $color-black
+    display: block
+    padding: 7px
+
+    &:hover
+      color: $color-white
+      background-color: $color-black
+
+
+/* Проверка заполнения форм */ 
+.error-message
+  display: none
+  color: red
+  margin-top: 5px
+
+.error-input
+  border: 1px solid red
+
+.valid-input
+  border: 1px solid green
+
+.red-border
+  border: 2px solid red
+
+
+/* Календарь */
+.calendar
+  text-decoration: none
+  color: $color-black
+  @include font($font-family, $font-size)
+  background: $background-color-white
+  position: absolute
+  top: 100%
+  display: none
+  padding: 5px
+  width: 300px
+
+  &--active
+    display: block
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2)
+
+  &__days
+    display: flex
+    width: 100%
+    justify-content: space-between
+
+  &__day
+    font-weight: bold
+    padding-right: 5px
+    color: $color-black
+
+  &__day, &__date
+    transition: 0.1s
+    width: 36px
+    height: 36px
+    display: flex
+    align-items: center
+    justify-content: center
+    background: $background-color-white
+
+  &__date:not(&__date--empty):hover
+    background: $color-black
+    color: $color-white
+
+  &__date
+    cursor: pointer
+
+  &__dates
+    display: grid
+    gap: 0px
+    grid-template-columns: repeat(7, 1fr)
+    margin-left: 5px
+
+  &__date--empty
+    cursor: auto
+    background: transparent
+
+  &__header
+    display: flex
+    gap: 5px
+    justify-content: center
+    padding: 5px
+    margin-bottom: $base-margin * 2
+
+
+/* Фотоальбом */
+#photo-album
+  display: flex
+  flex-wrap: wrap
+
+.row
+  display: flex
+  justify-content: space-between
+  margin-bottom: $base-margin * 4
+
+
+/* Стили для увеличенного изображения */
+.photo-modal
+  @include font($font-family, 16px)
+  position: fixed
+  top: 0
+  left: 0
+  width: 100%
+  height: 100%
+  background-color: rgba(0, 0, 0, 0.7)
+  display: table-column
+  justify-content: center
+  align-items: center
+
+.photo-container
+  text-align: center
+  justify-content: center
+  align-items: center
+  padding-top: 5%
+
+.enlarged-photo
+  max-width: 25%
+  border-radius: 10px
+
+.title-text
+  margin-top: $base-margin * 2
+  font-size: 24px
+  font-weight: 700
+  color: $color-white
+  margin-bottom: $base-margin * 2
+
+.counter-text
+  text-align: center
+  justify-content: center
+  align-items: center
+  font-weight: 500
+  color: $color-white
+  @include font($font-family, 16px)
+
+
+/* Стили для кнопок "Назад" и "Вперед" */
+.btn-container
+  margin-top: $base-margin * 4
+  display: flex
+  flex-direction: row
+  justify-content: center
+  align-items: center
+  text-align: center
+
+.previous-btn, .next-btn
+  font-size: $font-size-18
+  border: none
+  cursor: pointer
+  padding: 15px
+  background: $background-none
+  color: $color-white
+
+
+/* Стили для миниатюрных изображений */
+.cell
+  display: inline-block
+  text-align: center
+  margin: 10px
+
+.photo
+  width: 200px
+  height: 200px
+  border-radius: 5px
+  transition: width 0.2s ease, height 0.2s ease
+
+
+/* Стили для Popover */
+.popover
+  position: absolute
+  display: none
+  background-color: $background-black
+  color: $color-white
+  padding: 10px
+  @include font($font-family, $font-size-14)
+
+.modal
+  display: none
+  position: fixed
+  z-index: 9999
+  top: 0
+  left: 0
+  width: 100%
+  height: 100%
+
+  &-content
+    position: absolute
+    top: 50%
+    left: 50%
+    transform: translate(-50%, -50%)
+    background-color: $background-white
+    padding: 20px
+
+  &-buttons
+    text-align: left
+    margin-top: $base-margin * 2
+
+button
+  padding: 15px
+  border: none
+  color: $color-white
+  @include font($font-family, 16px)
+  font-weight: 500
+  cursor: pointer
+
+button.openModalButton
+  margin-top: $base-margin * 8
+  background-color: $background-black
+  color: $color-white
+
+  &:hover
+    background-color: $background-lightblue
+    color: $color-black
+
+#confirmBtn
+  background-color: $background-black
+  color: $color-white
+  margin-right: $base-margin * 2
+
+  &:hover
+    background-color: $background-black
+    color: $color-white
+
+#cancelBtn
+  background-color: $background-white
+  color: $color-red
+
+  &:hover
+    background-color: $background-grey
+
+.overlay
+  display: none
+  position: fixed
+  z-index: 9998
+  left: 0
+  top: 0
+  width: 100%
+  height: 100%
+  background-color: rgba(0, 0, 0, 0)
+  backdrop-filter: blur(6px)

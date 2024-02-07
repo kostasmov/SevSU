@@ -1,0 +1,23 @@
+Создать базу данных
+CREATE DATABASE "путь_к_бд\Имя_бд.fdb"
+user 'SYSDBA' password 'masterkey'
+page_size = 4096
+default character set win1251;
+
+
+Подключится к базе данных
+CONNECT "путь_к_бд\Имя_бд.fdb" user 'SYSDBA' password 'masterkey';
+
+Показать список существующих таблиц
+show table;
+
+Показать поля и типы таблицы
+show table <name_table>;
+
+Вставка кортежей в таблицу
+INSERT INTO <имя таблицы> (атрибуты через запятую) VALUES (значения атрибутов через запятую);
+пример: INSERT INTO Room_type (room_type_num, room_type) VALUES (8897460, 'Workshop');
+
+вывести все атрибуты из таблицы
+SELECT * FROM <Название таблицы>
+

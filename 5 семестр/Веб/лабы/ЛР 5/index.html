@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <link rel='stylesheet' href='./scss/main.css'>
+    <title>ЛР: Главная страница</title>
+    <script src="scripts/date_updater.js"></script>
+</head>
+
+<body>
+    <header class="main-header">
+        <nav>
+            <ul>
+                <li><a href="index.html"><img width="25px" src="photos/logo.png" alt="Логотип"></a></li>
+                <li><a href="about-me.html">Обо мне</a></li>
+                <li class="dropdown">
+                    <a href="interests.html">Мои интересы</a>
+                    <ul class="dropdown-content">
+                        <li><a href="interests.html#winter">Зима</a></li>
+                        <li><a href="interests.html#spring">Весна</a></li>
+                        <li><a href="interests.html#summer">Лето</a></li>
+                        <li><a href="interests.html#autumn">Осень</a></li>
+                    </ul>
+                </li>
+                <li><a href="study.html">Учеба</a></li>
+                <li><a href="album.html">Фотоальбом</a></li>
+                <li><a href="contacts.html">Контакт</a></li>
+                <li><a href="test.html">Тест</a></li>
+                <li><a href="history.html">История просмотра</a></li>
+                <li><p id="currentDateTime"></p></li>
+            </ul>
+        </nav>
+    </header>
+
+    <script>
+        updateDateTime();
+        setInterval(updateDateTime, 1000);
+    </script>
+    
+    <main>
+        <h1>Главная страница</h1>
+
+        <section>
+            <img src="photos/photo.png" style="float: left; margin-right: 20px;" width="8%" alt="Фотография" title="Кермит">
+            <p><b>ФИО студента</b>: Мовенко К.М.</p>
+            <p><b>Группа</b>: ИС/б-21-2-о</p>
+            <p><b>Лабораторная работа 5</b>: Исследование возможностей ускорения разработки клиентских
+                приложений с использованием SASS</p>
+        </section>
+    </main>
+
+    <script src='scripts/drop_menu.js'></script>
+    <script src='scripts/nav_page_loader.js'></script>
+    <script src="scripts/history.js"></script>
+</body>
+</html>

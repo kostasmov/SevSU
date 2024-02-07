@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="style.css">
+    <title>ЛР: Контакт</title>
+    <script src="scripts/date_updater.js"></script>
+    <script src="scripts/calendar.js" defer></script>
+    <script src="scripts/contact_validator.js" defer></script>
+    <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+</head>
+
+<body>
+    <header class="main-header">
+        <nav>
+            <ul>
+                <li><a href="index.html"><img width="25px" src="photos/logo.png" alt="Логотип"></a></li>
+                <li><a href="about-me.html">Обо мне</a></li>
+                <li class="dropdown">
+                    <a href="interests.html">Мои интересы</a>
+                    <ul class="dropdown-content">
+                        <li><a href="interests.html#winter">Зима</a></li>
+                        <li><a href="interests.html#spring">Весна</a></li>
+                        <li><a href="interests.html#summer">Лето</a></li>
+                        <li><a href="interests.html#autumn">Осень</a></li>
+                    </ul>
+                </li>
+                <li><a href="study.html">Учеба</a></li>
+                <li><a href="album.html">Фотоальбом</a></li>
+                <li><a href="contacts.html">Контакт</a></li>
+                <li><a href="test.html">Тест</a></li>
+                <li><a href="history.html">История просмотра</a></li>
+                <li><p id="currentDateTime"></p></li>
+            </ul>
+        </nav>
+    </header>
+
+    <script>
+        updateDateTime();
+        setInterval(updateDateTime, 1000);
+    </script>
+
+    <!--Информация о лабораторной работе-->
+    <main>
+        <h1>Отправить сообщение</h1>
+
+        <form method=post action="mailto: kostasmov@mail.ru" id="contactForm">
+            <p>
+                <b>Фамилия Имя Отчество: </b>
+                <input id="full_name" name="full_name" style="width: 20%;" type="text">
+                <span class="error" id="full_name-error"></span>
+            </p>
+
+            <p>
+                <b>Пол: </b>
+                <input name="sex" type="radio" value="Мужской" required>Мужской 
+                <input name="sex" type="radio" value="Женский" required>Женский
+                <span class="error" id="sex-error"></span>
+            </p>
+
+            <p>
+                <b>Дата рождения: </b>
+                <input id="birthday" name="birthday" title="birthday" type="text" readonly>
+                <span class="error" id="birthday-error"></span>
+            </p>
+
+            <p>
+                <b>Телефон: </b>
+                <input id="phone" name="phone" type="text">
+                <span class="error" id="phone-error"></span>
+            </p>
+
+            <p>
+                <b>Возраст: </b>
+                <select name="age" id="age">
+                    <option value="">Не выбрано</option>
+                    <option value="До 18 лет">До 18 лет</option>
+                    <option value="18-29 лет">18-29 лет</option>
+                    <option value="30-50 лет">30-50 лет</option>
+                    <option value="Старше 50 лет">Старше 50 лет</option>
+                </select>
+                <span class="error" id="age-error"></span>
+            </p>
+
+            <p>
+                <b>E-mail: </b>
+                <input id="mail" name="mail" type="email">
+                <span class="error" id="mail-error"></span>
+            </p>
+
+            <b>Сообщение:</b><br>
+            <textarea id="message" name="message" rows="4" cols="50"></textarea>
+            <span class="error" id="message-error"></span>
+            <br>
+
+            <input type="submit" value="Отправить" id="submit">
+            <input type="reset" value="Очистить форму">
+        </form>
+        
+        <div id="popover" class="popover"></div>
+
+        <button id="openModalButton" class="openModalButton">Взломать РНКБ Банк</button>
+
+        <div id="modal" class="modal">
+            <div class="modal-content">
+            <h3>Взлом</h3>
+            <p>Денег выкачено 100$ / 1 000 000$ ...<br>Продолжить?</p>
+            <div class="modal-buttons">
+                <button id="confirmBtn">Да</button>
+                <button id="cancelBtn">Нет</button>
+            </div>
+            </div>
+        </div>
+
+        <div id="overlay" class="overlay"></div>
+    </main>
+
+    <script src='scripts/modal.js'></script>
+    <script src='scripts/drop_menu.js'></script>
+    <script src='scripts/nav_page_loader.js'></script>
+    <script src="scripts/history.js"></script>
+    <script src="scripts/popover.js"></script>
+</body>
+</html>

@@ -1,0 +1,68 @@
+INSERT INTO models VALUES ('Toyota Camry', 'Toyota', 50, 5, NULL);
+INSERT INTO models VALUES ('BMW X5', 'BMW', 90, 7, NULL);
+INSERT INTO models VALUES ('Audi A4', 'Audi', 60, 4, NULL);
+INSERT INTO models VALUES ('Toyota Corolla', 'Toyota', 55, 5, NULL);
+INSERT INTO models VALUES ('Audi A5', 'Audi', 70, 5, NULL);
+INSERT INTO models VALUES ('Audi A6', 'Audi', 80, 5, NULL);
+
+INSERT INTO autos (number, year, color, mileage, model)
+VALUES ('ABC123', 2018, 'Red', 5000, 'Toyota Camry');
+INSERT INTO autos (number, year, color, mileage, model)
+VALUES ('DEF456', 2020, 'Blue', 1000, 'BMW X5');
+INSERT INTO autos (number, year, color, mileage, model)
+VALUES ('GHI789', 2019, 'Black', 8000, 'Audi A4');
+INSERT INTO autos (number, year, color, mileage, model)
+VALUES ('JKL012', 2021, 'White', 200, 'Toyota Corolla');
+INSERT INTO autos (number, year, color, mileage, model)
+VALUES ('MNO345', 2017, 'Silver', 6000, 'Audi A5');
+INSERT INTO autos (number, year, color, mileage, model)
+VALUES ('PQR678', 2022, 'Gray', 500, 'Audi A6');
+INSERT INTO autos (number, year, color, mileage, model)
+VALUES ('STU901', 2019, 'Red', 7000, 'Toyota Camry');
+INSERT INTO autos (number, year, color, mileage, model)
+VALUES ('VWX234', 2020, 'Black', 1000, 'BMW X5');
+INSERT INTO autos (number, year, color, mileage, model)
+VALUES ('YZA567', 2018, 'Blue', 4000, 'Audi A4');
+INSERT INTO autos (number, year, color, mileage, model)
+VALUES ('BCD890', 2021, 'White', 300, 'Toyota Corolla');
+
+INSERT INTO clients (full_name) VALUES ('Иван Петров');
+INSERT INTO clients (full_name) VALUES ('Елена Смирнова');
+INSERT INTO clients (full_name) VALUES ('Александр Иванов');
+INSERT INTO clients (full_name) VALUES ('Мария Сидорова');
+INSERT INTO clients (full_name) VALUES ('Дмитрий Мельников');
+INSERT INTO clients (full_name) VALUES ('Анна Кузнецова');
+INSERT INTO clients (full_name) VALUES ('Сергей Васильев');
+INSERT INTO clients (full_name) VALUES ('Ольга Миронова');
+INSERT INTO clients (full_name) VALUES ('Артём Морозов');
+INSERT INTO clients (full_name) VALUES ('Наталья Соколова');
+
+INSERT INTO rent_contracts (client, auto, start_date, duration)
+VALUES (1, 'PQR678', '2023-02-01', 6);
+INSERT INTO rent_contracts (client, auto, start_date, duration)
+VALUES (2, 'MNO345', '2023-02-01', 7);
+INSERT INTO rent_contracts (client, auto, start_date, duration)
+VALUES (3, 'GHI789', '2023-03-01', 10);
+INSERT INTO rent_contracts (client, auto, start_date, duration)
+VALUES (4, 'PQR678', '2023-05-15', 6);
+INSERT INTO rent_contracts (client, auto, start_date, duration)
+VALUES (5, 'MNO345', '2023-12-01', 5);
+INSERT INTO rent_contracts (client, auto, start_date, duration)
+VALUES (6, 'ABC123', '2023-01-12', 6);
+INSERT INTO rent_contracts (client, auto, start_date, duration)
+VALUES (7, 'JKL012', '2023-02-10', 5);
+INSERT INTO rent_contracts (client, auto, start_date, duration)
+VALUES (8, 'STU901', '2023-12-01', 9);
+INSERT INTO rent_contracts (client, auto, start_date, duration)
+VALUES (9, 'DEF456', '2023-01-15', 3);
+INSERT INTO rent_contracts (client, auto, start_date, duration)
+VALUES (10, 'VWX234', '2023-11-20', 20);
+
+UPDATE rent_contracts SET end_date = '2023-02-07' WHERE id=1;
+UPDATE rent_contracts SET end_date = '2023-02-11' WHERE id=2;
+UPDATE rent_contracts SET end_date = '2023-03-11' WHERE id=3;
+UPDATE rent_contracts SET end_date = '2023-05-21' WHERE id=4;
+UPDATE rent_contracts SET end_date = '2023-01-18' WHERE id=6;
+UPDATE rent_contracts SET end_date = '2023-02-17' WHERE id=7;
+UPDATE rent_contracts SET end_date = '2023-01-18' WHERE id=9;
+

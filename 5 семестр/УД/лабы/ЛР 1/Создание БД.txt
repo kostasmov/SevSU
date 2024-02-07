@@ -1,0 +1,119 @@
+create database 'C:\Users\kosta\Documents\firebird\lab1.fdb'
+user 'SYSDBA' password 'masterkey'
+page_size = 4096
+default character set win1251;
+
+create table person(
+p_id integer not null (check p_id > 0),
+primary key(p_id),
+full_name varchar(30) not null,
+birth_date date not null,
+sex char check (sex in (‘M’, ‘F’)) not null,
+mar_stat varchar(12) check (mar_stat in (‘married’, ‘not married’)) not null,
+n_child integer not null,
+features varchar(30)
+);
+
+insert into person values (1, 'Ivanov I.I.', '01.01.1981', 'M', 'married', 2, 'red hair');
+insert into person values (2, 'Romanov R.R.', '02.02.1982', 'M', 'not married', 0, null);
+insert into person values (3, 'Nikitina N.N.', '03.03.1993', 'F', 'not married', 1, 'tall');
+insert into person values (4, 'Nikolaev N.N.', '04.04.1984', 'M', 'married', 0, 'no eye, bald');
+insert into person values (5, 'Vasin V.V.', '05.05.1995', 'M', 'not married', 1, null);
+insert into person values (6, 'Makarova M.M.', '06.06.1996', 'F', 'married', 0, 'pink eyes');
+insert into person values (7, 'Antonov A.A.', '07.07.1997', 'M', 'not married', 3, 'six fingers');
+insert into person values (8, 'Artyomov A.A.', '08.08.1988', 'M', 'not married', 0, null);
+insert into person values (9, 'Maximov M.M.', '09.09.1969', 'M', 'not married', 0, 'face tattoo, piercing');
+insert into person values (10, 'Zlobina Z.Z.', '10.10.1910', 'F', 'not married', 10, 'eternal youth');
+
+create table cases(
+c_id integer not null check (c_id > 0),
+primary key (c_id),
+descr varchar(30) not null
+);
+
+insert into cases values (1, 'Did something wrong');
+insert into cases values (2, 'Did not pet a cat');
+insert into cases values (3, 'Was too lazy');
+insert into cases values (4, 'INFORMATION SECRETED');
+insert into cases values (5, 'Stole bread from market');
+insert into cases values (6, 'Used copyright music');
+insert into cases values (7, 'Debt in 2 rubles');
+insert into cases values (8, 'Was late on PPDT lecture');
+insert into cases values (9, 'Smoked where it was forbidden');
+insert into cases values (10, 'Silly jokes overdose');
+
+create table alias(
+a_id integer not null check (a_id > 0),
+primary key (a_id);
+alias varchar(15) not null
+);
+
+insert into alias values (1, 'Alias1');
+insert into alias values (2, 'Alias2');
+insert into alias values (3, 'Alias3');
+insert into alias values (4, 'Alias4');
+insert into alias values (5, 'Alias5');
+insert into alias values (6, 'Alias6');
+insert into alias values (7, 'Alias7');
+insert into alias values (8, 'Alias8');
+insert into alias values (9, 'Alias9');
+insert into alias values (10, 'Alias10');
+
+create table relatives(
+eld_id int not null,
+jun_id int not null,
+rel_type varchar(20) not null,
+primary key (eld_id, jun_id),
+foreign key (eld_id) references person(p_id) on delete cascade,
+foreign key (jun_id) references person(p_id) on delete cascade
+);
+
+insert into relatives values (10, 1, 'mother & son');
+insert into relatives values (1, 4, 'brothers');
+insert into relatives values (10, 4, 'mother & son');
+insert into relatives values (9, 6, 'father & daughter');
+insert into relatives values (10, 3, 'mother & daughter');
+insert into relatives values (4, 3, 'siblings');
+insert into relatives values (1, 3, 'siblings');
+
+create table person_case(
+p_id int not null,
+c_id int not null,
+clause varchar(30) not null,
+term int check (term > 0),
+conv_date date not null,
+conv_place varchar(30),
+primary key (p_id, c_id),
+foreign key (p_id) references person(p_id) on delete cascade,
+foreign key (c_id) references cases(c_id) on delete cascade
+);
+
+insert into person_case values (1, 9, 'Clause19', 2, '03-31-2023', 'Green Dolphin Street');
+insert into person_case values (2, 4, 'Clause24', 30, '05-24-2020', 'Vladimir Central');
+insert into person_case values (3, 7, 'Clause37', 8, '06-04-2018', 'Green Dolphin Street');
+insert into person_case values (4, 2, 'Clause42', 15, '01-01-2015', 'Showshank');
+insert into person_case values (5, 6, 'Clause56', 3, '01-01-2017', 'Showshank');
+insert into person_case values (6, 3, 'Clause63', 10, '04-05-2011', 'Green Dolphin Street');
+insert into person_case values (7, 10, 'Clause710', 1, '04-05-2016', 'Vladimir Central');
+insert into person_case values (8, 8, 'Clause88', 15, '03-23-2022', 'Vladimir Central');
+insert into person_case values (9, 5, 'Clause95', 1, '04-05-2011', 'Green Dolphin Street');
+insert into person_case values (10, 4, 'Clause104', 30, '05-24-2020', 'Showshank');
+
+create table person_alias(
+p_id int not null,
+a_id int not null,
+foreign key (p_id) references person(p_id) on delete cascade,
+foreign key (a_id) references alias(a_id) on delete cascade,
+primary key (p_id, a_id)
+);
+
+insert into person_alias values (1, 1);
+insert into person_alias values (2, 2);
+insert into person_alias values (3, 3);
+insert into person_alias values (4, 4);
+insert into person_alias values (5, 5);
+insert into person_alias values (6, 6);
+insert into person_alias values (7, 7);
+insert into person_alias values (8, 8);
+insert into person_alias values (9, 9);
+insert into person_alias values (10, 10);

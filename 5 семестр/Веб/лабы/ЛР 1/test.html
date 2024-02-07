@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="style.css">
+    <title>ЛР1: Тест по дисциплине "Основы электротехники и электроники"</title>
+</head>
+
+<body>
+    <!--Навигационная панель-->
+    <nav class="nav-block">
+        <table class="nav-table">
+            <tr>
+                <td><a href="index.html">
+                    <img width="25px" src="photos/logo.png" alt="Логотип">
+                  </a></td> 
+                <td><a href="interests.html">Мои интересы</a></td>
+                <td><a href="about-me.html">Обо мне</a></td>
+                <td><a href="album.html">Фотоальбом</a></td>
+                <td><a href="study.html">Учёба</a></td>
+                <td><a href="contacts.html">Контакт</a></td>
+                <td><a href="test.html">Тест</a></td>
+            </tr>
+        </table>
+    </nav>
+
+    <!--Информация о лабораторной работе-->
+    <main>
+        <h1>Тест по дисциплине "Основы электротехники и электроники"</h1>
+        <form method=post action="mailto: kostasmov@mail.ru">
+            <section>
+                <p>Фамилия Имя Отчество:
+                    <input name="full_name" type="text" required></p>
+                <p>Группа:
+                <select name="course" required>
+                    <optgroup label="3 курс">
+                        <option value="ИС/б-21-1-о">ИС/б-21-1-о</option>
+                        <option value="ИС/б-21-2-о">ИС/б-21-2-о</option>
+                        <option value="ИС/б-21-3-о">ИС/б-21-3-о</option>
+                    </optgroup>
+                    <optgroup label="4 курс">
+                        <option value="ИС/б-20-1-о">ИС/б-20-1-о</option>
+                        <option value="ИС/б-20-2-о">ИС/б-20-2-о</option>
+                    </optgroup>
+                </select>
+                </p><hr>
+            </section>
+            
+            <section>
+                <p>Вопрос 1: Какая формула описывает закон Ома?</p>
+                <input type="radio" name="quest1" value="1" required> U = I / R<br> 
+                <input type="radio" name="quest1" value="2" required> I = U / R<br> 
+                <input type="radio" name="quest1" value="3" required> R = U * I<hr> 
+            </section>
+
+            <section>
+                <p>Вопрос 2: Что такое сопротивление в электрической цепи?</p>
+                <select name="quest2" required>
+                    <option value="">Выберите ответ</option>
+                    <option value="1">Отрицательная энергия</option>
+                    <option value="2">Разность потенциалов</option>
+                    <option value="3">Параметр конденсатора</option>
+                    <option value="4">Единица измерения электрического заряда</option>
+                    <option value="5">Неповиновение заряда цепи</option>
+                </select>
+                <hr>
+            </section>
+
+            <section>
+                <p>Вопрос 3: Что такое триггер?</p>
+                <textarea name="quest3" rows="2" cols="50" required></textarea>
+                <hr>
+            </section>
+
+            <section>
+                <input type="submit" value="Отправить">
+                <input type="reset" value="Очистить форму">
+            </section>
+        </form>
+    </main>
+</body>
+</html>

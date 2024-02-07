@@ -1,0 +1,240 @@
+main {
+  padding-top: 40px;
+  padding-left: 50px;
+  padding-right: 50px;
+  font-size: 15px;
+  font-family: sans-serif;
+}
+h1 {
+  font-family: sans-serif;
+  font-size: 25px;
+  text-align: center; 
+}
+h2 {
+  font-size: 15px;
+  text-align: center; 
+}
+span {
+  margin-top: 10px;
+}
+.linkable {
+  scroll-margin-top: 55px;
+}
+.image-wrapper {
+  float: right;
+  margin-left: 10px;
+}
+table {
+  border-collapse: collapse;
+  width: 100%;
+  color: #000000;
+  font-family: sans-serif;
+  font-size: 15px;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+th, td {
+  border: 1px solid #000000;
+  padding: 5px;
+  text-align: left;
+}
+
+
+/* Навигационная панель */
+header {
+  font-family: sans-serif;
+  font-size: 15px;
+  background-color: #000000;
+}
+.main-header {
+  top: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  height: 50px;
+  position: fixed;
+}
+nav ul {
+  list-style-type: none;
+  display: flex;
+  align-items: center;
+  padding-left: 20px;
+}
+nav ul li {
+  margin-right: 15px;
+  margin-top: 0;
+}
+nav p {
+  margin: 0;
+}
+nav ul li a {
+  text-decoration: none;
+  color: rgb(173, 173, 173);
+}
+nav ul li a:hover {
+  color: #ffffff;
+}
+#currentDateTime {
+  text-align: right;
+  color: white;
+  font-weight: bold;
+}
+
+
+/* Выпадающее меню "Мои интересы" */
+.dropdown-content {
+  width: 120px;
+  display: none;
+  position: absolute;
+  background-color: #efefef;
+  list-style: none;
+  padding: 5px;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+}
+.dropdown-content a {
+  width: 100%;
+  color: #000000;
+  display: block;
+  padding: 7px;
+}
+.dropdown-content a:hover {
+  background-color: #000000;
+  color: #ffffff;
+}
+
+
+/* Проверка заполнения формы "Контакт" */ 
+.error-message {
+  display: none;
+  color: red;
+  margin-top: 5px;
+}
+.error-input {
+  border: 1px solid red;
+}
+.valid-input {
+  border: 1px solid green;
+}
+
+
+/* Проверка заполнения формы "Тест" */
+.red-border {
+  border: 2px solid red;
+}
+  
+
+/* Календарь */
+.calendar {
+  text-decoration: none;
+  color: #000000;
+  font-size: 15px;
+  font-family: sans-serif;
+  background: rgb(255, 255, 255);
+  position: absolute;
+  top: 100%;
+  display: none;
+  padding: 5px;
+  width: 300px;
+}
+.calendar--active {
+  display: block;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+}  
+.calendar__days {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+}
+.calendar__day {
+  font-weight: bold;
+  padding-right: 5px;
+  color: #000000;
+}
+.calendar__day, .calendar__date {
+  transition: 0.1s;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgb(255, 255, 255);
+}
+.calendar__date:not(.calendar__date--empty):hover {
+  background: #000000;
+  color: #ffffff;
+}
+.calendar__date {
+  cursor: pointer;
+}
+.calendar__dates {
+  display: grid;
+  gap: 0px;
+  grid-template-columns: repeat(7, 1fr);
+  margin-left: 5px;
+}
+.calendar__date--empty {
+  cursor: auto;
+  background: transparent;
+}
+.calendar__header {
+  display: flex;
+  gap: 5px;
+  justify-content: center;
+  padding: 5px;
+  margin-bottom: 10px;
+}
+
+
+/* Фотоальбом */
+#photo-album {
+  display: flex;
+  flex-wrap: wrap;
+}
+.row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+.photo-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-right: 40px;
+}
+.photo-container img {
+  width: 100%;
+  max-width: 180px;
+  height: auto;
+  object-fit: cover;
+  margin-bottom: 10px;
+}
+.caption {
+  text-align: center;
+  font-size: 15px;
+  font-weight: bold;
+}
+
+
+/* Модальное окно для фотоальбома */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+.modal-content {
+  max-width: 80%;
+  max-height: 80%;
+}
+.modal-content img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}

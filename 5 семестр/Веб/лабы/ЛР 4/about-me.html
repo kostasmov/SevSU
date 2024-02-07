@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="style.css">
+    <title>ЛР: Обо мне</title>
+    <script src="scripts/date_updater.js"></script>
+</head>
+
+<body>
+    <header class="main-header">
+        <nav>
+            <ul>
+                <li><a href="index.html"><img width="25px" src="photos/logo.png" alt="Логотип"></a></li>
+                <li><a href="about-me.html">Обо мне</a></li>
+                <li class="dropdown">
+                    <a href="interests.html">Мои интересы</a>
+                    <ul class="dropdown-content">
+                        <li><a href="interests.html#winter">Зима</a></li>
+                        <li><a href="interests.html#spring">Весна</a></li>
+                        <li><a href="interests.html#summer">Лето</a></li>
+                        <li><a href="interests.html#autumn">Осень</a></li>
+                    </ul>
+                </li>
+                <li><a href="study.html">Учеба</a></li>
+                <li><a href="album.html">Фотоальбом</a></li>
+                <li><a href="contacts.html">Контакт</a></li>
+                <li><a href="test.html">Тест</a></li>
+                <li><a href="history.html">История просмотра</a></li>
+                <li><p id="currentDateTime"></p></li>
+            </ul>
+        </nav>
+    </header>
+
+    <script>
+        updateDateTime();
+        setInterval(updateDateTime, 1000);
+    </script>
+
+    <!--Автобиография-->
+    <main>
+        <h1>Обо мне</h1>
+        <section>
+            <p>Я, Мовенко Константин Михайлович, родился 11 октября 2003 года в г. Севастополе.
+                Гражданин Российской Федерации.</p>
+            <p>В 2010 году пошел в среднюю общеобразовательную школу № 14 г. Севастополя. В 2019 году перешёл
+                учиться в Севастопольский политехнический лицей, который с отличием окончил в 2021 г.</p>
+            <p>В 2021 году поступил в Севастопольский государственный университет на специальность
+                «09.03.02 Информационные системы и технологии», где в настоящее время обучаюсь на втором курсе,
+                очная форма обучения.</p>
+            <p>В настоящее время проживаю по адресу: г. Севастополь, ул. Льва Толстого, д. 29.</p>
+            <p>Не женат. Детей не имею. Не судим.</p>
+        </section>
+    </main>
+    
+    <script src='scripts/drop_menu.js'></script>
+    <script src='scripts/nav_page_loader.js'></script>
+    <script src="scripts/history.js"></script>
+</body>
+</html>

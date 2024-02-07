@@ -1,0 +1,4 @@
+﻿  задача 3.cpp
+C:\Users\kosta\Documents\Учёба\СДЕЛАНО\2 семестр\Практика\задача 3\задача 3.cpp(59,32): warning C4305: =: усечение из "double" в "float"
+C:\Users\kosta\Documents\Учёба\СДЕЛАНО\2 семестр\Практика\задача 3\задача 3.cpp(60,34): warning C4305: =: усечение из "double" в "float"
+  задача 3.vcxproj -> C:\Users\kosta\Documents\Учёба\СДЕЛАНО\2 семестр\Практика\задача 3\x64\Debug\задача 3.exe
