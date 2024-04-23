@@ -9,7 +9,7 @@ from dlcv.rnn_layers import *
 class CaptioningRNN(object):
     """
     Класс создает подписи к изображениям  с помощью RNN.
-    Работает с мини-пакетами   размера N. Не использует    регуляризацию.
+    Работает с мини-пакетами размера N. Не использует регуляризацию.
     """
 
     def __init__(self, word_to_idx, input_dim=512, wordvec_dim=128,
@@ -26,6 +26,7 @@ class CaptioningRNN(object):
         - dtype: тип данных numpy; float32 для обучения и float64 для
           численной проверки градиента.
         """
+
         if cell_type not in {'rnn', 'lstm'}:
             raise ValueError('Ошибочное имя ячейки "%s"' % cell_type)
 
@@ -41,11 +42,11 @@ class CaptioningRNN(object):
         self._start = word_to_idx.get('<START>', None)
         self._end = word_to_idx.get('<END>', None)
 
-        #Инициализация и включение в словарь-параметров матрицы векторов слов
+        # Инициализация и включение в словарь-параметров матрицы векторов слов
         self.params['W_embed'] = np.random.randn(vocab_size, wordvec_dim)
         self.params['W_embed'] /= 100
 
-        #Инициализация матрицы проекции изображений на скрытое состояние
+        # Инициализация матрицы проекции изображений на скрытое состояние
         self.params['W_proj'] = np.random.randn(input_dim, hidden_dim)
         self.params['W_proj'] /= np.sqrt(input_dim)
         self.params['b_proj'] = np.zeros(hidden_dim)
@@ -81,6 +82,7 @@ class CaptioningRNN(object):
         - loss: Скалярные потери
         - grads: Словарь градиентов, параллельно к self.params
         """
+
         # Создаем два массива заголовков: captions_in содержит все слова, кроме 
         # последнего слова, и этот массив подается на вход RNN; captions_out 
         # содержит все слова, кроме первого слова, и это то, что мы ожидаем получить на 
@@ -109,6 +111,7 @@ class CaptioningRNN(object):
         W_vocab, b_vocab = self.params['W_vocab'], self.params['b_vocab']
 
         loss, grads = 0.0, {}
+
         ############################################################################
         # ЗАДАНИЕ:                                                                 #
         # Реализуйте прямое и обратное распространение для CaptioningRNN.          #
@@ -122,12 +125,12 @@ class CaptioningRNN(object):
         # для обработки  последовательности векторов входных слов и формирования   #
         # векторов скрытых состояний для всех временных шагов,сеть формирует       #
         # массив формы (N, T, H).                                                  #
-        #(4) Используйте (временное) аффинное преобразование для вычисления        # 
+        # (4) Используйте (временное) аффинное преобразование для вычисления       #
         # рейтингов слов на каждом временном шаге, используя скрытые состояния и   #
         # формируя массив  формы (N, T, V).                                        #
         # (5) Примените функцию softmax для расчета потерь, используя captions_out #
         # и игнорируя точки, где выходное слово равно <NULL>, воспользовавшись     #
-        # маской, сфомированной  выше.                                             #
+        # маской, сфомированной выше.                                              #
         # При  обратном распространении Вам нужно будет вычислить градиенты потерь #
         # относительно всех параметров модели. Используйте переменные loss и grads,#
         # определенные выше для хранения потерь и градиентов; grads[k] должны      #
@@ -137,43 +140,45 @@ class CaptioningRNN(object):
         
         # Прямое распространение 
        
-       # 1. Получаем, h0 преобразуя изображение c  помощью аффинного слоя
-        h0,cache1 = affine_forward(features, W_proj, b_proj)  #[NxH]
+        # 1. Получаем, h0 преобразуя изображение c  помощью аффинного слоя
+        h0, cache1 = affine_forward(features, W_proj, b_proj)  #[NxH]
        
         # 2. Получаем последовательность векторов слов из вх. заголовка
-        x,cache2 = word_embedding_forward(captions_in, W_embed) #[NxTxW]
+        x, cache2 = word_embedding_forward(captions_in, W_embed) #[NxTxW]
         
         # 3. Прямая обработка вх. последовательности для всех шагов по времени
         if self.cell_type == 'rnn':
-            h,cache3 = rnn_forward(x, h0, Wx, Wh, b) #[NxTxH]
+            h, cache3 = rnn_forward(x, h0, Wx, Wh, b) #[NxTxH]
         else:
-            h,cache3 = lstm_forward(x, h0, Wx, Wh, b) #[NxTxH]
+            h, cache3 = lstm_forward(x, h0, Wx, Wh, b) #[NxTxH]
         
-        #4. Вычисление рейтингов слов с использов. временного аффинного слоя
-        score,cache4 = temporal_affine_forward(h, W_vocab, b_vocab) #[NxTxV]
+        # 4. Вычисление рейтингов слов с использов. временного аффинного слоя
+        score, cache4 = temporal_affine_forward(h, W_vocab, b_vocab) #[NxTxV]
        
-        #5. Вычисление потерь и градиентов
-        loss,dscore = temporal_softmax_loss(score, captions_out, mask, verbose=False)
+        # 5. Вычисление потерь и градиентов
+        loss, dscore = temporal_softmax_loss(score, captions_out, mask, verbose=False)
 
         # Обратное распространение
         # Вычисление градиентов по всем параметрам
       
-        #1. Временной аффинный слой
+        # 1. Временной аффинный слой
         dh, dW_vocab, db_vocab = temporal_affine_backward(dscore, cache4)
-        #2. RNN
+
+        # 2. RNN
         if self.cell_type == 'rnn':
            dx, dh0, dWx, dWh, db = rnn_backward(dh, cache3)
         else:
            dx, dh0, dWx, dWh, db = lstm_backward(dh, cache3)
-        #3. Слой встраивания слов
+
+        # 3. Слой встраивания слов
         dW_embed = word_embedding_backward(dx, cache2)
-        #4. Слой проецирования признаков изображения на h0
+
+        # 4. Слой проецирования признаков изображения на h0
         dW_proj = features.T.dot(dh0)
         db_proj = dh0.sum(axis=0)
-        #5. Формирование словаря градиентов по всем параметрам
-        grads = {'W_vocab':dW_vocab, 'b_vocab':db_vocab, 'Wx':dWx, 'Wh':dWh,'b':db, 'W_embed':dW_embed, 'W_proj':dW_proj, 'b_proj':db_proj}
 
-        pass
+        # 5. Формирование словаря градиентов по всем параметрам
+        grads = {'W_vocab':dW_vocab, 'b_vocab':db_vocab, 'Wx':dWx, 'Wh':dWh,'b':db, 'W_embed':dW_embed, 'W_proj':dW_proj, 'b_proj':db_proj}
 
         # *****КОНЕЦ ВАШЕГО КОДА (НЕ УДАЛЯЙТЕ/НЕ МОДИФИЦИРУЙТЕ ЭТУ СТРОКУ)*****
         ##############################################################################
@@ -206,6 +211,7 @@ class CaptioningRNN(object):
           элемент является целым числом в диапазоне [0, V). Первый элемент 
           заголовка должен быть первым выбранным словом, а не токеном <START>.
         """
+
         N = features.shape[0]
         captions = self._null * np.ones((N, max_length), dtype=np.int32)
 
@@ -243,28 +249,32 @@ class CaptioningRNN(object):
         
         # Формируем целочисленные коды начальных слов
         index = self._start * np.ones((N), dtype=np.int32)  #(N,)
+
         # Вычисляем значение  скрытого состояния h0  
         h_next, _ = affine_forward(features, W_proj, b_proj)   #(N,H)
         prev_c = np.zeros_like(h_next)     # только LSTM
-         #  Выполняем циклически прямую  передачу через ячейку RNN
+
+        # Выполняем циклически прямую  передачу через ячейку RNN
         for i in range(max_length):
             # Формируем векторы слов по их целочисленным кодам
             word_v, _ = word_embedding_forward(index, W_embed)   # (N,W)
+
             # Вычисляем новое значение скрытого состояния
             if self.cell_type == 'rnn':
                 h_next, _ = rnn_step_forward(word_v, h_next, Wx, Wh, b)
             else:
                 h_next, prev_c, _ = lstm_step_forward(word_v, h_next, prev_c, Wx, Wh, b)
+
             # Вычисляем рейтинги слов и находим максимальный для всех N
             pred, _ = affine_forward(h_next, W_vocab, b_vocab)  #(N,V)
             index = np.argmax(pred, axis=-1)  # (N,)
+
             # Размещаем индексы слов с макс рейтингом в i-oй позиции заголовков
             captions[:, i] = index
-
-        pass
 
         # *****КОНЕЦ ВАШЕГО КОДА (НЕ УДАЛЯЙТЕ/НЕ МОДИФИЦИРУЙТЕ ЭТУ СТРОКУ)*****
         ############################################################################
         #                               Конец Вашего кода                          #
         ############################################################################
+
         return captions

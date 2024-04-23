@@ -44,7 +44,7 @@ def findU(l_prev, h_prev, seen, m, iter):
         if B[m][l] == 1:
             if l not in seen:
                 L.append(l)
-                Uk[l] = -iter
+                Uk[l] = Uk[m] - 1   #-iter
                 iter += 1
                 seen.append(l)
             else:
@@ -55,7 +55,7 @@ def findU(l_prev, h_prev, seen, m, iter):
         if B[h][m] == 1:
             if h not in seen:
                 H.append(h)
-                Uk[h] = iter
+                Uk[h] = Uk[m] + 1   #iter
                 iter += 1
                 seen.append(h)
             else:
@@ -74,11 +74,11 @@ def findU(l_prev, h_prev, seen, m, iter):
 n = 5  # число альтернатив
 
 A = [
-    [1, 0, 0, 1, 0],
-    [0, 1, 1, 0, 0],
-    [1, 0, 1, 0, 0],
-    [1, 0, 0, 1, 0],
-    [0, 1, 0, 0, 1]
+    [1, 1, 0, 0, 0],
+    [1, 1, 1, 0, 0],
+    [0, 0, 1, 0, 1],
+    [0, 0, 0, 1, 1],
+    [0, 0, 1, 0, 1]
 ]
 
 R = [[] for _ in range(n)]  # множества экв. элементов
