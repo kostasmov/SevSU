@@ -1,114 +1,94 @@
 import numpy as np
 import matplotlib.pyplot as plt
-from scipy.optimize import curve_fit
-# import pprint
-# from pylab import *
-# from scipy.linalg import *
-# from operator import itemgetter
 
-# class SquareFunction:
-#
-#     def __init__(self, a, b, c):
-#         self.a = a
-#         self.b = b
-#         self.c = c
-#
-#     def get_value(self, x):
-#         return self.a * (x**2) + self.b * x + self.c
 
+def findU(k1, k2, k3):
+    u1 = a[0] * k1 + b[0]
+    u2 = a[1] * k2 + b[1]
+    u3 = a[2] * k3 + b[2]
+
+    return u1 + u2 + u3
+
+# множество решений
+X = [(40, 50, 30),
+     (80, 30, 50),
+     (50, 90, 45),
+     (75, 40, 60),
+     (60, 80, 40)]
 
 # дискретные значения критериев
 K1 = [20, 40, 60, 80, 100]
 K2 = [20, 40, 60, 80, 100, 120]
 K3 = [20, 30, 40, 50, 60, 70]
 
-K = [K1, K2, K3]
-inverted = [False, True, True]
+K = [K1, K2, K3]                # множество критериев
+inverted = [False, True, True]  # "обратность" критериев
+
+n = len(X)      # число решений
+m = int(len(K)) # число критериев
+
 crit_names = ['Качество дачи', 'Расстояние до города', 'Цена']
 
-fig, axs = plt.subplots(3, 1)
+a, b = list(), list()   # значения a, b для Ui=ai*ki+bi
 
+# вычисление коэффициентов одномерных Ui и вывод графиков
 for i in range(len(K)):
     x = np.array(K[i].copy())
     y = np.array([i for i in range(len(K[i]))])
 
     if inverted[i]:
-        x = 1 / x
+        x = x[::-1]
 
     subplot = plt.subplot(3, 1, i+1)
 
-    m = np.vstack((x**2, x, np.ones(len(x)))).T
-    a, b, k = np.linalg.lstsq(m, y, rcond=None)[0]
+    xx = np.vstack([x, np.ones(len(x))]).T
+    a_i, b_i = np.linalg.lstsq(xx, y, rcond=None)[0]
+    a.append(a_i)
+    b.append(b_i)
 
     x_s = np.linspace(x[0], x[-1])
 
-    subplot.title.set_text("U%i:%10.3f*x^2+%10.3f*x+%10.3f" % (i+1, a, b, k))
-    subplot.plot(x_s, a*(x_s**2) + b*x_s + k)
+    subplot.title.set_text("U%i:%10.3f*k+%10.3f" % (i+1, a_i, b_i))
+    subplot.plot(x_s, a_i * x_s + b_i)
     subplot.plot(x, y, '.', markersize=5)
 
     subplot.set_xlabel(crit_names[i])
     subplot.set_ylabel('U%i' % (i+1))
-    #
-    # subplot.set_xticks(x)
-    # subplot.set_yticks(y)
 
-fig.subplots_adjust(hspace=1.2)
+    for y_i in y:
+        subplot.axhline(y=y_i, linestyle='--', alpha=0.2)
 
+    subplot.set_xticks(x)
+    subplot.set_yticks(y)
+
+plt.subplots_adjust(hspace=1.2)
 plt.show()
 
-# x_plot = np.linspace(min(x), max(x), 100)
-# y_plot = a * x_plot + b * (x_plot ** 2)
-#
-# subplot = plt.subplot(3, 1, i + 1)
-# plt.plot(x_plot, y_plot, color='r', label=crit_names[i])
+Uk = [[] for _ in range(m)]     # одномерные полезности
+U = [0 for _ in range(n)]       # многомерная полезность
+
+# значения многомерной полезности
+for i in range(n):
+    for j in range(m):
+        result = a[j] * X[i][j] + b[j]
+        Uk[j].append(result)
+        U[i] += result
 
 
-# for c in range(criterias_count):
-#     criteria = {}
-#     criteria['name'] = input_file.readline().strip()
-#     criteria['values'] = list(map(lambda x: float(x), input_file.readline().split(' ')))
-#     if input_file.readline().strip() == 'inverted':
-#         criteria['values'] = list(map(lambda x: 1 / x, criteria['values']))
-#         criteria['inverted'] = True
-#     else:
-#         criteria['inverted'] = False
-#
-#     # calculate criteria profitability function
-#     subplot = plt.subplot(3, 1, c + 1)
-#     x = np.array(criteria['values'])
-#     y = np.array([i for i in range(len(x))])
-#     m = vstack((x**2, x, ones(len(x)))).T
-#     a, b, k = lstsq(m, y)[0]
-#     x_s = linspace(x[0], x[-1])
-#     subplot.title.set_text("%s: %10.4f*x^2+%10.4f*x+%10.4f" % (criteria['name'], a, b, k))
-#     subplot.plot(x_s, a*(x_s**2) + b*x_s + k, '--')
-#     subplot.plot(x, y, '.', markersize = 4)
-#     criteria['function'] = SquareFunction(a, b, k)
-#
-#     criterias.append(criteria)
-#
-# plt.show()
-#
-# alternatives_count = int(input_file.readline())
-# alternatives = []
-# header = list(map(lambda x: x.strip(), input_file.readline().split(' ')))
-#
-# for i in range(alternatives_count):
-#     line = list(map(lambda x: x.strip(), input_file.readline().split(' ')))
-#     alternative = {}
-#     alternative['name'] = line[0]
-#     profitability = 0
-#     for c in range(criterias_count):
-#         val = float(line[c + 1])
-#         if criterias[c]['inverted']:
-#             val = 1 / val
-#         alternative[header[c + 1]] = val
-#         profitability += criterias[c]['function'].get_value(val)
-#     alternative['profitability'] = profitability
-#     alternatives.append(alternative)
-#
-# pp.pprint(criterias)
-# pp.pprint(alternatives)
-#
-# pp.pprint(max(alternatives, key=itemgetter('profitability')))
+# ВЫВОД РЕЗУЛЬТАТОВ
 
+# входные данные: решения и частные критерии
+print('     k1   k2   k3    U1     U2     U3      U  ')
+for i in range(n):
+    print('x%i | %2i | %2i | %2i | %.2f | %.2f | %.2f | %.2f |' %
+          (i+1, X[i][0], X[i][1], X[i][2], Uk[0][i], Uk[1][i], Uk[2][i], U[i]))
+print()
+
+# матрицы предпочтения
+for k3 in K3:
+    print('U(k3) = %i' % k3)
+    for k2 in K2:
+        for k1 in K1:
+            print('%2.0f' % findU(k1, k2, k3), end=' ')
+        print()
+    print()
