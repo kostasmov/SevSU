@@ -2,12 +2,14 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 
+# значение аддитивной функции полезности по трём критериям
 def findU(k1, k2, k3):
     u1 = a[0] * k1 + b[0]
     u2 = a[1] * k2 + b[1]
     u3 = a[2] * k3 + b[2]
 
     return u1 + u2 + u3
+
 
 # множество решений
 X = [(40, 50, 30),
@@ -41,13 +43,21 @@ for i in range(len(K)):
 
     subplot = plt.subplot(3, 1, i+1)
 
-    xx = np.vstack([x, np.ones(len(x))]).T
-    a_i, b_i = np.linalg.lstsq(xx, y, rcond=None)[0]
+    sum_x = sum(x)
+    sum_y = sum(y)
+    sum_xy = sum(x * y)
+    sum_x_sq = sum(x ** 2)
+
+    # метод наименьших квадратов
+    a_i = (len(x) * sum_xy - sum_x * sum_y) / (len(x) * sum_x_sq - (sum_x ** 2))
+    b_i = (sum_y - a_i * sum_x) / len(x)
+
     a.append(a_i)
     b.append(b_i)
 
     x_s = np.linspace(x[0], x[-1])
 
+    # формирование подграфика
     subplot.title.set_text("U%i:%10.3f*k+%10.3f" % (i+1, a_i, b_i))
     subplot.plot(x_s, a_i * x_s + b_i)
     subplot.plot(x, y, '.', markersize=5)
@@ -86,7 +96,7 @@ print()
 
 # матрицы предпочтения
 for k3 in K3:
-    print('U(k3) = %i' % k3)
+    print('k3 = %i' % k3)
     for k2 in K2:
         for k1 in K1:
             print('%2.0f' % findU(k1, k2, k3), end=' ')
