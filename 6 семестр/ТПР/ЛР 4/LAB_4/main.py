@@ -48,7 +48,7 @@ for j in range(n):
             break
 
         if is_preferable(x[j], x[i]):
-            on_delete = [i]
+            on_delete += [i]
     else:
         P.append(j)
         for index in on_delete:
@@ -69,7 +69,7 @@ for i in P:
     R[i] = sqrt(metric)
 
 # эффективное решение
-x_opt = min(R, key=R.get)
+x_opt = min(R, key=R.get) + 1
 
 
 # ВЫВОД ДАННЫХ
@@ -83,7 +83,7 @@ print()
 # множество Парето
 print('P(X) = { ', end='')
 for i in P:
-    print('x%i' % i, end=', ')
+    print('x%i' % (i+1), end=', ')
 print('}\n')
 
 print('Точка утопии: (', end='')
@@ -93,7 +93,7 @@ print()
 
 print('Расстояния от решений до точки утопии:')
 for i, r in R.items():
-    print('r_x%i = %.3f' % (i, r))
+    print('r_x%i = %.3f' % (i+1, r))
 print()
 
 print('Эффективное решение: x%i' % x_opt)
