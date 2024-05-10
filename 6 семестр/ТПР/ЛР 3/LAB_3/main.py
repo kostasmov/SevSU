@@ -97,7 +97,7 @@ print()
 # матрицы предпочтения
 for k3 in K3:
     print('k3 = %i' % k3)
-    for k2 in K2:
+    for k2 in K2[::-1]:
         for k1 in K1:
             print('%2.0f' % findU(k1, k2, k3), end=' ')
         print()

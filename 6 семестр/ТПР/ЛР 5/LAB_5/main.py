@@ -10,14 +10,14 @@ def is_preferable(x1, x2):
 
 
 # вывод таблицы векторных критериев
-def print_table(x, f=-1):
+def print_table(x, f=[]):
     # заголовки столбцов
     print('    ', end='')
     for i in range(len(x[0])):
-        if i != f:
+        if i not in f:
             print(' K%i' % (i + 1), end='  ')
         else:
-            print('  K%i' % (i+1), end='   ')
+            print('  K%i' % (i + 1), end='   ')
     print()
 
     # строки таблицы
@@ -26,7 +26,7 @@ def print_table(x, f=-1):
             continue
         print('x%i' % (i+1), end=' | ')
         for j, item in enumerate(row):
-            if j != f:
+            if j not in f:
                 print('%2i' % item, end=' | ')
             else:
                 print('%3.2f' % item, end=' | ')
@@ -59,8 +59,7 @@ def get_CX(x):
         for i in C:
             if is_preferable(x[i], x[j]):
                 break
-
-            if is_preferable(x[j], x[i]):
+            elif is_preferable(x[j], x[i]):
                 on_delete += [i]
         else:
             C.append(j)
@@ -72,31 +71,31 @@ def get_CX(x):
 
 # ВЫЧИСЛЕНИЯ
 
-# # множество решений
-# x = [[3, 5, 5, 4, 4],
-#      [4, 4, 4, 5, 4],
-#      [5, 4, 3, 3, 5],
-#      [3, 5, 3, 5, 3],
-#      [4, 2, 4, 5, 5],
-#      [3, 5, 3, 5, 3],
-#      [5, 3, 4, 3, 4],
-#      [4, 5, 3, 4, 3]]
-#
-# # параметры уступок и приращения
-# W = (((1, 2), (2, 1)),
-#      ((4, 1), (5, 2)))
-
 # множество решений
-x = [[3, 5, 5, 4],
-     [5, 4, 3, 5],
-     [5, 4, 4, 3],
-     [2, 5, 3, 3],
-     [4, 2, 4, 5],
-     [3, 5, 3, 2],
-     [4, 5, 3, 5]]
+x = [[3, 5, 5, 4, 4],
+     [4, 4, 4, 5, 4],
+     [5, 4, 3, 3, 5],
+     [3, 5, 3, 5, 3],
+     [4, 2, 4, 5, 5],
+     [3, 5, 3, 5, 3],
+     [5, 3, 4, 3, 4],
+     [4, 5, 3, 4, 3]]
 
 # параметры уступок и приращения
-W = (((1, 1), (2, 2)),)
+W = (((1, 2), (2, 1)),
+     ((4, 1), (5, 2)))
+
+# # множество решений
+# x = [[3, 5, 5, 4],
+#      [5, 4, 3, 5],
+#      [5, 4, 4, 3],
+#      [2, 5, 3, 3],
+#      [4, 2, 4, 5],
+#      [3, 5, 3, 2],
+#      [4, 5, 3, 5]]
+#
+# # параметры уступок и приращения
+# W = (((1, 1), (2, 2)),)
 
 print_table(x)
 
@@ -104,31 +103,41 @@ print_table(x)
 C_x = get_CX(x)
 print_C(C_x, 0)
 
-# несравнимые вектора
-C_k = [x[i].copy() if i in C_x else [] for i in range(len(x))]
-
-# вектора с модифицированными оценками
-tables = [C_k.copy() for _ in range(len(W))]
+indexes = []
 
 # подсчёт коэффициентов относительной важности
-for w in W:
+for iter, w in enumerate(W):
     wi = w[0][1]
     wj = w[1][1]
 
     i = w[0][0] - 1
     j = w[1][0] - 1
 
-    theta = wj / (wj + wi)
+    print('w%i = %i, w%i = %i' % (i + 1, wi, j + 1, wj))
 
-    print('w%i = %i, w%i = %i' % (i+1, wi, j+1, wj))
+    if wi > wj:
+        c = i
+        i = j
+        j = c
+
+        c = wi
+        wi = wj
+        wj = c
+
+    # коэффициент относительной важности
+    theta = wj / (wj + wi)
     print("Θ = %.3f" % theta, end='\n\n')
 
     table = [x[i].copy() if i in C_x else [] for i in range(len(x))]
 
     for index, K in enumerate(x):
         if table[index]:
-            table[index][j] = theta * K[i] + (1 - theta) * K[j]
+            table[index][j] = round(theta * K[i] + (1 - theta) * K[j], 3)
 
-    print_table(table, j)
+    indexes.append(j)
+
+    print_table(table, indexes)
     C_x = get_CX(table)
-    print_C(C_x, 1)
+    print_C(C_x, iter+1)
+
+    x = table
