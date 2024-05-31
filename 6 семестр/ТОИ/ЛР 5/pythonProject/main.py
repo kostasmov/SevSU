@@ -1,7 +1,8 @@
 import cv2
 import numpy as np
 
-image_paths = ["frame1.jpg", "frame2.jpg", "frame3.jpg", "frame4.jpg"]
+image_paths = ["frame1.png", "frame2.png", "frame3.png", "frame4.png", "frame5.png",
+               "frame6.png", "frame7.png", "frame8.png", "frame9.png", "frame10.png"]
 
 background = cv2.imread(image_paths[0])
 
