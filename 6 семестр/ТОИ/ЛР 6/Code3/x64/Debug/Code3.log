@@ -1,0 +1,4 @@
+﻿  Code3.cpp
+C:\Users\kosta\Documents\Учёба\СДЕЛАНО\6 семестр\ТОИ\ЛР 6\Code3\Code3.cpp(89,22): warning C4267: инициализация: преобразование из "size_t" в "int"; возможна потеря данных
+C:\Users\kosta\Documents\Учёба\СДЕЛАНО\6 семестр\ТОИ\ЛР 6\Code3\Code3.cpp(90,21): warning C4267: инициализация: преобразование из "size_t" в "int"; возможна потеря данных
+  Code3.vcxproj -> C:\Users\kosta\Documents\Учёба\СДЕЛАНО\6 семестр\ТОИ\ЛР 6\Code3\x64\Debug\Code3.exe
