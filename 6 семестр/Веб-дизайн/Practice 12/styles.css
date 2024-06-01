@@ -1,0 +1,294 @@
+body {
+    background-image: url("imgs/back.jpg");
+    background-size: 100% auto;
+    background-repeat: no-repeat;
+    background-position: top;
+    background-attachment: scroll;
+}
+
+.left-menu-block {
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    width: 6.25%;
+    aspect-ratio: 12 / 100;
+
+    backdrop-filter: blur(40px);
+    background: linear-gradient(90deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.15) 100%);
+    border-right: 2px solid rgba(255, 255, 255, 0.4);
+}
+
+.left-menu-block #burger-image {
+    position: absolute;
+    top: 3%;
+    left: 25%;
+    width: 50%;
+    height: 2.9%;
+}
+
+.left-menu-block .image-container {
+    position: absolute;
+    top: 16.9%;
+    left: 39.16%;
+
+    width: 20.83%;
+    aspect-ratio: 25 / 169;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.left-menu-block .image-container a {
+    display: block;
+    width: 100%;
+}
+
+.left-menu-block .image-container img {
+    width: 100%;
+    height: auto;
+}
+
+#burger-image:hover {
+    cursor: pointer;
+}
+
+.logo-block {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+
+    width: 100%;
+    aspect-ratio: 1 / 1;
+
+    backdrop-filter: blur(40px);
+    background: rgba(255, 255, 255, 0.14);
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.logo-block img {
+    position: absolute;
+    top: 25%;
+    left: 25%;
+    width: 50%;
+    height: 50%;
+    object-fit: contain;
+}
+
+.mid-container {
+    position: absolute;
+    top: 0;
+    left: 6.25%;
+
+    width: 39.8958%;
+    aspect-ratio: 383 / 500;
+}
+
+.addition-data {
+    position: absolute;
+
+    font-size: 100vw;
+    text-align: center;
+
+    width: 38.9%;
+    aspect-ratio: 298 / 151;
+
+    border-radius: 15px;
+    box-shadow: 4px 4px 6px 0 rgba(0, 0, 0, 0.25);
+
+    backdrop-filter: blur(10px);
+    background: rgba(255, 255, 255, 0.14);
+}
+
+.addition-data h1 {
+    font-family: "RobotoBold";
+    font-size: 1.66%;
+    margin-bottom: 0;
+    margin-top: 10%;
+    color: white;
+}
+
+.addition-data p {
+    font-family: "RobotoRegular";
+    font-size: 0.9%;
+    margin-top: 3%;
+    color: rgb(221, 221, 221, 1);
+}
+
+.addition-data #progress-img {
+    position: relative;
+    width: 44.79%;
+    aspect-ratio: 133.48 / 35.81;
+    display: block;
+    margin: 0 auto;
+    margin-top: 10%;
+}
+
+.content-block {
+    position: absolute;
+    top: 0;
+    right: 0;
+    font-size: 100vw;
+
+    width: 53.854%;
+    aspect-ratio: 1034 / 1000;
+
+    backdrop-filter: blur(40px);
+    background: linear-gradient(0deg, rgba(255, 255, 255, 0.13) 0%, rgba(255, 255, 255, 0.16) 100%);
+}
+
+.content-additional {
+    position: absolute;
+    top: 0;
+
+    width: 100%;
+    aspect-ratio: 1034 / 120;
+
+    background: rgba(255, 255, 255, 0.14);
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 20%;
+}
+
+.nav-link {
+    font-family: "RobotoLight";
+    text-decoration: none;
+    font-size: 1.2%;
+    color: white;
+    letter-spacing: 0.02em;
+}
+
+.nav-link:hover {
+    text-decoration: underline;
+}
+
+.content-info {
+    position: absolute;
+    top: 16%;
+    left: 11.7%;
+
+    width: 76.69%;
+    aspect-ratio: 793 / 693;
+    padding: 0;
+}
+
+.content-info h1 {
+    font-family: "RobotoMedium";
+    font-size: 2.5%;
+    margin-bottom: 3%;
+    margin-top: 0%;
+    color: white;
+}
+
+.content-info p {
+    font-family: "RobotoLight";
+    font-size: 1.05%;
+    letter-spacing: 0.07em;
+    line-height: 125%;
+    margin-bottom: 3%;
+    color: white;
+}
+
+.content-info img {
+    position: absolute;
+    width: 47.9%;
+    aspect-ratio: 380 / 221;
+}
+
+.addition-data-mini {
+    position: absolute;
+
+    font-size: 100vw;
+    text-align: center;
+
+    width: 25.22%;
+    aspect-ratio: 100 / 52;
+
+    border-radius: 10px;
+    box-shadow: 4px 4px 6px 0 rgba(0, 0, 0, 0.25);
+
+    backdrop-filter: blur(10px);
+    background: rgba(255, 255, 255, 0.14);
+}
+
+.addition-data-mini p {
+    font-family: "RobotoRegular";
+    font-size: 0.67%;
+    margin-top: 1%;
+    color: rgb(221, 221, 221, 1);
+}
+
+.addition-data-mini img {
+    position: relative;
+    height: 38.46%;
+    width: 20%;
+    display: block;
+    margin: 0 auto;
+    margin-top: 8%;
+    margin-bottom: 0;
+}
+
+.content-buttons {
+    position: absolute;
+    bottom: 0;
+
+    width: 100%;
+    aspect-ratio: 1034 / 120;
+
+    backdrop-filter: blur(10px);
+    background: rgba(0, 0, 0, 0.3);
+}
+
+.button {
+    position: absolute;
+    width: 34.8%;
+    aspect-ratio: 36 / 5;
+
+    border-radius: 3px;
+    backdrop-filter: blur(40px);
+    background: rgba(255, 255, 255, 0.2);
+    border: 0px;
+
+    font-family: "RobotoRegular";
+    color: rgba(215, 215, 215, 1);
+    letter-spacing: 0.08em;
+    font-size: 1%;
+    color: white;
+}
+
+#colored-button {
+    color: rgba(5, 4, 55, 1);
+    /* box-shadow: 4px 4px 10px 0 rgba(255, 255, 255, 0.26), -4px -4px 10px 0 rgba(255, 255, 255, 0.2); */
+    background: linear-gradient(135deg, #bbf3ff 0%, #f5b8ff 100%);
+}
+
+.button:hover {
+    box-shadow: 4px 4px 10px 0 rgba(255, 255, 255, 0.26), -4px -4px 10px 0 rgba(255, 255, 255, 0.2);
+}
+
+@font-face {
+    font-family: "RobotoRegular";
+    src: url("fonts/Roboto-Regular.ttf");
+}
+
+@font-face {
+    font-family: "RobotoLight";
+    src: url("fonts/Roboto-Light.ttf");
+}
+
+@font-face {
+    font-family: "RobotoBold";
+    src: url("fonts/Roboto-Bold.ttf");
+}
+
+@font-face {
+    font-family: "RobotoMedium";
+    src: url("fonts/Roboto-Medium.ttf");
+}
