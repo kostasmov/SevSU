@@ -1,0 +1,15 @@
+C:\Users\kosta\Documents\Учёба\СДЕЛАНО\6 семестр\ТОИ\ЛР 8\Code1\bin\Debug\net8.0\Code1.exe
+C:\Users\kosta\Documents\Учёба\СДЕЛАНО\6 семестр\ТОИ\ЛР 8\Code1\bin\Debug\net8.0\Code1.deps.json
+C:\Users\kosta\Documents\Учёба\СДЕЛАНО\6 семестр\ТОИ\ЛР 8\Code1\bin\Debug\net8.0\Code1.runtimeconfig.json
+C:\Users\kosta\Documents\Учёба\СДЕЛАНО\6 семестр\ТОИ\ЛР 8\Code1\bin\Debug\net8.0\Code1.dll
+C:\Users\kosta\Documents\Учёба\СДЕЛАНО\6 семестр\ТОИ\ЛР 8\Code1\bin\Debug\net8.0\Code1.pdb
+C:\Users\kosta\Documents\Учёба\СДЕЛАНО\6 семестр\ТОИ\ЛР 8\Code1\obj\Debug\net8.0\Code1.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\kosta\Documents\Учёба\СДЕЛАНО\6 семестр\ТОИ\ЛР 8\Code1\obj\Debug\net8.0\Code1.AssemblyInfoInputs.cache
+C:\Users\kosta\Documents\Учёба\СДЕЛАНО\6 семестр\ТОИ\ЛР 8\Code1\obj\Debug\net8.0\Code1.AssemblyInfo.cs
+C:\Users\kosta\Documents\Учёба\СДЕЛАНО\6 семестр\ТОИ\ЛР 8\Code1\obj\Debug\net8.0\Code1.csproj.CoreCompileInputs.cache
+C:\Users\kosta\Documents\Учёба\СДЕЛАНО\6 семестр\ТОИ\ЛР 8\Code1\obj\Debug\net8.0\Code1.sourcelink.json
+C:\Users\kosta\Documents\Учёба\СДЕЛАНО\6 семестр\ТОИ\ЛР 8\Code1\obj\Debug\net8.0\Code1.dll
+C:\Users\kosta\Documents\Учёба\СДЕЛАНО\6 семестр\ТОИ\ЛР 8\Code1\obj\Debug\net8.0\refint\Code1.dll
+C:\Users\kosta\Documents\Учёба\СДЕЛАНО\6 семестр\ТОИ\ЛР 8\Code1\obj\Debug\net8.0\Code1.pdb
+C:\Users\kosta\Documents\Учёба\СДЕЛАНО\6 семестр\ТОИ\ЛР 8\Code1\obj\Debug\net8.0\Code1.genruntimeconfig.cache
+C:\Users\kosta\Documents\Учёба\СДЕЛАНО\6 семестр\ТОИ\ЛР 8\Code1\obj\Debug\net8.0\ref\Code1.dll

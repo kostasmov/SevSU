@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "cy+ZFWc+GyIGYdwA5tECNt1jJEZuzsk8D/4090OfVfOX7Cn5IJIRhns2Alnx1OEoySHwEvund636WiM0QGBn+w==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\kosta\\Documents\\Учёба\\СДЕЛАНО\\6 семестр\\ТОИ\\ЛР 7\\Code2\\Code2.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\kosta\\.nuget\\packages\\microsoft.win32.systemevents\\8.0.0\\microsoft.win32.systemevents.8.0.0.nupkg.sha512",
+    "C:\\Users\\kosta\\.nuget\\packages\\system.drawing.common\\8.0.6\\system.drawing.common.8.0.6.nupkg.sha512"
+  ],
+  "logs": []
+}
