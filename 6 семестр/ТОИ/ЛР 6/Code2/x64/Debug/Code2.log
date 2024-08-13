@@ -1,7 +1,0 @@
-﻿  Code2.cpp
-C:\Users\kosta\Documents\Учёба\СДЕЛАНО\6 семестр\ТОИ\ЛР 6\Code2\Code2.cpp(26,69): warning C4244: аргумент: преобразование "_Ty2" в "int", возможна потеря данных
-C:\Users\kosta\Documents\Учёба\СДЕЛАНО\6 семестр\ТОИ\ЛР 6\Code2\Code2.cpp(26,69): warning C4244:         with
-C:\Users\kosta\Documents\Учёба\СДЕЛАНО\6 семестр\ТОИ\ЛР 6\Code2\Code2.cpp(26,69): warning C4244:         [
-C:\Users\kosta\Documents\Учёба\СДЕЛАНО\6 семестр\ТОИ\ЛР 6\Code2\Code2.cpp(26,69): warning C4244:             _Ty2=double
-C:\Users\kosta\Documents\Учёба\СДЕЛАНО\6 семестр\ТОИ\ЛР 6\Code2\Code2.cpp(26,69): warning C4244:         ]
-  Code2.vcxproj -> C:\Users\kosta\Documents\Учёба\СДЕЛАНО\6 семестр\ТОИ\ЛР 6\Code2\x64\Debug\Code2.exe
