@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ru">
+
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="style.css">
@@ -27,7 +28,9 @@
                 <li><a href="contacts.html">Контакт</a></li>
                 <li><a href="test.html">Тест</a></li>
                 <li><a href="history.html">История просмотра</a></li>
-                <li><p id="currentDateTime"></p></li>
+                <li>
+                    <p id="currentDateTime"></p>
+                </li>
             </ul>
         </nav>
     </header>
@@ -36,15 +39,16 @@
         updateDateTime();
         setInterval(updateDateTime, 1000);
     </script>
-    
+
     <main>
         <h1>Главная страница</h1>
 
         <section>
-            <img src="photos/photo.png" style="float: left; margin-right: 20px;" width="8%" alt="Фотография" title="Кермит">
+            <img src="photos/photo.png" style="float: left; margin-right: 20px;" width="8%" alt="Фотография"
+                title="Кермит">
             <p><b>ФИО студента</b>: Мовенко К.М.</p>
             <p><b>Группа</b>: ИС/б-21-2-о</p>
-            <p><b>Лабораторная работа 3</b>: Исследование объектной модели документа (DOM) и 
+            <p><b>Лабораторная работа 3</b>: Исследование объектной модели документа (DOM) и
                 системы событий JavaScript</p>
         </section>
     </main>
@@ -53,4 +57,5 @@
     <script src='scripts/nav_page_loader.js'></script>
     <script src="scripts/history.js"></script>
 </body>
+
 </html>
