@@ -1,9 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="97d37dc9-affa-42dc-8453-bc53eda749a8" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/../../../../4 семестр/ТСПП/реферат/Реферат ТСПП.doc" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../4 семестр/ТСПП/реферат/Реферат ТСПП.doc" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../МиСИИ_лаб1_2024.zip" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../ВКР/Анализ предметной области и её информационные характеристики.docx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../ВКР/Анализ существующих решений.docx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../ВКР/Анализ существующих решений.pptx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../ВКР/Заявление ВКР.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../ВКР/Пример ТЗ 2.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../ВКР/Пример Техническое задание (1).pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Ин. язык/Thematic notes.docx" beforeDir="false" afterPath="$PROJECT_DIR$/../../../Ин. язык/Thematic notes.docx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Кроссплатформа/ЛР 1.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Кроссплатформа/ЛР 2.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Кроссплатформа/ЛР 3.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Кроссплатформа/ЛР 4.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Кроссплатформа/ЛР 5.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Кроссплатформа/ЛР 6.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Кроссплатформа/ЛР 7.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -13,21 +30,21 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../../../.." />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 2
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 2
+}</component>
   <component name="ProjectId" id="2oI5enKseSrstBIHCnWquCMopCD" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "last_opened_file_path": "C:/Users/kosta/Documents/Учёба/СДЕЛАНО/7 семестр/МиСИИ/ЛР 1/codingdiagnostic_r"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/kosta/Documents/Учёба/СДЕЛАНО/7 семестр/МиСИИ/ЛР 1/codingdiagnostic_r&quot;
   }
-}]]></component>
+}</component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">

@@ -24,13 +24,8 @@ def validate(string):
             q = transitions[2][q]
         else:
             q = None
-
-        # print(s, q)
         if q == None:
-            # print(f'{s} - недопустимый символ')
             break
-        # else:
-        #     print(f'{s} - допустимый символ')
 
     if q == None:
         print('СТРОКА НЕДОПУСТИМА')
