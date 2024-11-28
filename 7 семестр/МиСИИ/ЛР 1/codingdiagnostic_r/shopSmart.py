@@ -30,13 +30,22 @@ def shopSmart(orderList, fruitShops):
         orderList: Список-заказ из кортежей (fruit, numPound) 
         fruitShops: Список магазинов типа shop
     """
-    "*** ВСТАВЬТЕ ВАШ КОД СЮДА ***"
-                    
-    return None
+    minTotalCost = -1
+    bestShopName = ''
+
+    for shop in fruitShops:
+        totalCost = shop.getPriceOfOrder(orderList)
+
+        if totalCost < minTotalCost or minTotalCost < 0:
+            minTotalCost = totalCost
+            bestShopName = shop.getName()
+
+    print(f"For orders: {orderList} best shop is {bestShopName}")
+    return f"<FruitShop: {bestShopName}>"
 
 
 if __name__ == '__main__':
-    "Этот код выполняется, когда Вы запускаете скрипт из командной строки "
+    "Этот код выполняется, когда Вы запускаете скрипт из командной строки"
     orders = [('apples', 1.0), ('oranges', 3.0)]
     dir1 = {'apples': 2.0, 'oranges': 1.0}
     shop1 = shop.FruitShop('shop1', dir1)

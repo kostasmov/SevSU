@@ -35,8 +35,15 @@ def buyLotsOfFruit(orderList):
     Возвращает стоимость заказа
     """
     totalCost = 0.0
-    "***  ВСТАВЬТЕ ВАШ КОД СЮДА ***"
-          
+
+    for fruit, weight in orderList:
+        if fruitPrices.get(fruit) is None:
+            print('Error: no such fruit in price list')
+            return None
+
+        totalCost += fruitPrices[fruit] * weight
+
+    print(f"Cost of {orderList} is {totalCost:.2f}")
     return totalCost
 
 
