@@ -1,4 +1,0 @@
-WAIT(S)
-K=K+5.3 %
-C=K+C+1 %
-SIGNAL(S<=0xabba)
