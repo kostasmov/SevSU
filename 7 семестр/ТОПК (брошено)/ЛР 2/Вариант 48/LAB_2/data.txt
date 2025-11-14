@@ -1,0 +1,4 @@
+WHILE (K<=0x171) DO 
+K=KKK+1,
+A=A-1,
+END

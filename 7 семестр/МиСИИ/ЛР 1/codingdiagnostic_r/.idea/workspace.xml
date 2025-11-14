@@ -5,79 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="97d37dc9-affa-42dc-8453-bc53eda749a8" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/../.ipynb_checkpoints/ЛР1 1-5-checkpoint.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/../.ipynb_checkpoints/ЛР1 1-5-checkpoint.ipynb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../LAB_1/.idea/LAB_1.iml" beforeDir="false" afterPath="$PROJECT_DIR$/../LAB_1/.idea/LAB_1.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../LAB_1/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../LAB_1/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/codingdiagnostic_r.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/codingdiagnostic_r.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/shopSmart.py" beforeDir="false" afterPath="$PROJECT_DIR$/shopSmart.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../ЛР1 1-5.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/../ЛР1 1-5.ipynb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../../ТОПК/ЛР 1/LAB_1/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../../ТОПК/ЛР 1/LAB_1/.idea/.name" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../../ТОПК/ЛР 1/LAB_1/.idea/LAB_1.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../../ТОПК/ЛР 1/LAB_1/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../../ТОПК/ЛР 1/LAB_1/.idea/inspectionProfiles/profiles_settings.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../../ТОПК/ЛР 1/LAB_1/.idea/misc.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../../ТОПК/ЛР 1/LAB_1/.idea/modules.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../../ТОПК/ЛР 1/LAB_1/.idea/vcs.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../../ТОПК/ЛР 1/LAB_1/input.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../../ТОПК/ЛР 1/LAB_1/main.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../../ТОПК/ЛР 1/graph.graph" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../../ТОПК/ЛР 1/graph.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../../ТОПК/ЛР 1/ЛАБ ТОПК 1.docx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../../ТОПК/ЛР 2/LAB_2/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../../ТОПК/ЛР 2/LAB_2/.idea/.name" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../../ТОПК/ЛР 2/LAB_2/.idea/LAB_2.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../../ТОПК/ЛР 2/LAB_2/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../../ТОПК/ЛР 2/LAB_2/.idea/inspectionProfiles/profiles_settings.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../../ТОПК/ЛР 2/LAB_2/.idea/misc.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../../ТОПК/ЛР 2/LAB_2/.idea/modules.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../../ТОПК/ЛР 2/LAB_2/.idea/vcs.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../../ТОПК/ЛР 2/LAB_2/data.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../../ТОПК/ЛР 2/LAB_2/main.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../../ТОПК/ЛР 2/LAB_2/transitions.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../../ТОПК/ЛР 2/ЛАБ ТОПК 2.docx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../../ТОПК/ЛР 2/вычисления.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../../ТОПК/ЛР 2/графы/graph1.graph" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../../ТОПК/ЛР 2/графы/graph1.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../../ТОПК/ЛР 2/графы/graph2.graph" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../../ТОПК/ЛР 2/графы/graph2.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../../ТОПК/ЛР 2/заказы/Вариант 42/LAB_2/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../../ТОПК/ЛР 2/заказы/Вариант 42/LAB_2/.idea/.name" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../../ТОПК/ЛР 2/заказы/Вариант 42/LAB_2/.idea/LAB_2.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../../ТОПК/ЛР 2/заказы/Вариант 42/LAB_2/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../../ТОПК/ЛР 2/заказы/Вариант 42/LAB_2/.idea/inspectionProfiles/profiles_settings.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../../ТОПК/ЛР 2/заказы/Вариант 42/LAB_2/.idea/misc.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../../ТОПК/ЛР 2/заказы/Вариант 42/LAB_2/.idea/modules.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../../ТОПК/ЛР 2/заказы/Вариант 42/LAB_2/.idea/vcs.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../../ТОПК/ЛР 2/заказы/Вариант 42/LAB_2/data.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../../ТОПК/ЛР 2/заказы/Вариант 42/LAB_2/main.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../../ТОПК/ЛР 2/заказы/Вариант 42/LAB_2/transitions.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../../ТОПК/ЛР 2/заказы/Вариант 42/ЛАБ ТОПК 2 (42).docx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../../ТОПК/ЛР 2/заказы/Вариант 42/топк 2-42.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../../ТОПК/ЛР 2/заказы/Вариант 48/LAB_2/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../../ТОПК/ЛР 2/заказы/Вариант 48/LAB_2/.idea/.name" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../../ТОПК/ЛР 2/заказы/Вариант 48/LAB_2/.idea/LAB_2.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../../ТОПК/ЛР 2/заказы/Вариант 48/LAB_2/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../../ТОПК/ЛР 2/заказы/Вариант 48/LAB_2/.idea/inspectionProfiles/profiles_settings.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../../ТОПК/ЛР 2/заказы/Вариант 48/LAB_2/.idea/misc.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../../ТОПК/ЛР 2/заказы/Вариант 48/LAB_2/.idea/modules.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../../ТОПК/ЛР 2/заказы/Вариант 48/LAB_2/.idea/vcs.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../../ТОПК/ЛР 2/заказы/Вариант 48/LAB_2/data.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../../ТОПК/ЛР 2/заказы/Вариант 48/LAB_2/main.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../../ТОПК/ЛР 2/заказы/Вариант 48/LAB_2/transitions.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../../ТОПК/ЛР 2/заказы/Вариант 48/ЛАБ ТОПК 2 (48).docx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../../ТОПК/ЛР 2/заказы/Вариант 48/топк 2-48.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../../ТОПК/алгоритмы решения задач.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../../ТОПК/лекции/Лекция 1.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../../ТОПК/лекции/Лекция 2.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../../ТОПК/лекции/Лекция 3.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../../ТОПК/лекции/Лекция 4.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../../ТОПК/лекции/Лекция 5.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../../ТОПК/лекции/Лекция 6.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../../ТОПК/методичка.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../../ТОПК/примеры выполнения работ.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../ИСИС/ЛР 2.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../ИСИС/ЛР 3.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../ИСИС/ЛР 4.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../ИСИС/ЛР 5.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../ИСИС/ЛР 6.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/addition.py" beforeDir="false" afterPath="$PROJECT_DIR$/addition.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../метода.pdf" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -102,18 +36,18 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Python.autograder.executor": "Run",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "main",
-    "last_opened_file_path": "C:/Users/kosta/Documents/Учёба/СДЕЛАНО/7 семестр/МиСИИ/ЛР 1/codingdiagnostic_r",
-    "settings.editor.selected.configurable": "terminal"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Python.autograder.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/kosta/Documents/Учёба/СДЕЛАНО/7 семестр/МиСИИ/ЛР 1/codingdiagnostic_r&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;terminal&quot;
   }
-}]]></component>
+}</component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
