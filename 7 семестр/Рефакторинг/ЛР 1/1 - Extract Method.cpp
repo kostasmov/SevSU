@@ -40,7 +40,7 @@ public:
         }
 
         // подсчёт налога (с учётом скидки!)
-        tax = total * (1 - discountRate) * taxRate;
+        tax = (total - discount) * taxRate;
 
         // вывод чека
         cout << "----- RECEIPT -----" << endl;
