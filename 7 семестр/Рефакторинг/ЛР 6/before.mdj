@@ -420,7 +420,7 @@
 											"width": 183.4189453125,
 											"height": 13,
 											"underline": true,
-											"text": "+enterSystem(user: UserRoles)",
+											"text": "+enterSystem(user: User)",
 											"horizontalAlignment": 0
 										}
 									],
@@ -2132,7 +2132,9 @@
 										"$ref": "AAAAAAGbrU2jAm1b1pY="
 									},
 									"name": "user",
-									"type": "UserRoles"
+									"type": {
+										"$ref": "AAAAAAGbrUrab2zio8c="
+									}
 								}
 							]
 						}
