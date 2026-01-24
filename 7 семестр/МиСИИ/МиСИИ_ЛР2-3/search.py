@@ -75,8 +75,8 @@ def depthFirstSearch(problem):
     Ваш алгоритм поиска должен возвращать список действий, которые 
     ведут к цели. Убедитесь, что реализуете алгоритм поиска на графе
 
-    Прежде чем кодировать,полезно выполнить функцию  с этими простыми
-    командами,чтобы понять смысл задачи (problem), передаваемой на вход:
+    Прежде чем кодировать, полезно выполнить функцию с этими простыми
+    командами, чтобы понять смысл задачи (problem), передаваемой на вход:
     
     print("Start:", problem.getStartState())
     print("Is the start a goal?", problem.isGoalState(problem.getStartState()))
@@ -85,13 +85,41 @@ def depthFirstSearch(problem):
 
     "*** ВСТАВЬТЕ ВАШ КОД СЮДА ***"
 
+    OPEN = util.Stack()
+    CLOSED = set()
+
+    # определить стартовую вершину (состояние, цена пути, действия)
+    start = (problem.getStartState(), [])
     print("Start:", problem.getStartState())
-    print("Is the start a goal?", problem.isGoalState(problem.getStartState()))
-    print("Start's successors:", problem.getSuccessors(problem.getStartState()))
+
+    # поместить стартовую вершину в список OPEN
+    OPEN.push(start)
+
+    while not OPEN.isEmpty():
+        node, path = OPEN.pop()
+
+        if problem.isGoalState(node):
+            print("Path:", path)
+            return path
+
+        # избегать посещённые состояния
+        if node not in CLOSED:
+            CLOSED.add(node)
+
+            successors = problem.getSuccessors(node)
+            #print("Successors:", successors, " for node ", node)
+
+            for child_node, child_direction, null in successors:
+                if child_node not in CLOSED:
+                    new_path = path + [child_direction]
+                    new_state = [child_node, new_path]
+                    OPEN.push(new_state)
 
     "-----------------------------"
 
-    util.raiseNotDefined()
+    return []
+    #util.raiseNotDefined()
+
 
 def breadthFirstSearch(problem):
     """Находит самые поверхностные узлы в дереве поиска """
