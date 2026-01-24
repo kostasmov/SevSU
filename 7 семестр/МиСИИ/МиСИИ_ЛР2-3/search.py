@@ -88,7 +88,48 @@ def depthFirstSearch(problem):
     OPEN = util.Stack()
     CLOSED = set()
 
-    # определить стартовую вершину (состояние, цена пути, действия)
+    # определить стартовую вершину (состояние, путь)
+    start = (problem.getStartState(), [])
+    print("Start:", problem.getStartState())
+
+    # поместить стартовую вершину в стек OPEN
+    OPEN.push(start)
+
+    while not OPEN.isEmpty():
+        node, path = OPEN.pop()
+
+        if problem.isGoalState(node):
+            print("Path:", path)
+            return path
+
+        # избегать посещённые состояния
+        if node not in CLOSED:
+            CLOSED.add(node)
+
+            successors = problem.getSuccessors(node)
+            #print("Successors:", successors, " for node ", node)
+
+            for child_node, child_direction, _ in successors:
+                if child_node not in CLOSED:
+                    new_path = path + [child_direction]
+                    new_node = [child_node, new_path]
+                    OPEN.push(new_node)
+
+    "-----------------------------"
+
+    return []
+    #util.raiseNotDefined()
+
+
+def breadthFirstSearch(problem):
+    """Находит самые поверхностные узлы в дереве поиска"""
+
+    "*** ВСТАВЬТЕ ВАШ КОД СЮДА ***"
+
+    OPEN = util.Queue()
+    CLOSED = set()
+
+    # определить стартовую вершину (состояние, путь)
     start = (problem.getStartState(), [])
     print("Start:", problem.getStartState())
 
@@ -107,26 +148,19 @@ def depthFirstSearch(problem):
             CLOSED.add(node)
 
             successors = problem.getSuccessors(node)
-            #print("Successors:", successors, " for node ", node)
+            print("Successors:", successors, " for node ", node)
 
-            for child_node, child_direction, null in successors:
+            for child_node, child_direction, _ in successors:
                 if child_node not in CLOSED:
                     new_path = path + [child_direction]
-                    new_state = [child_node, new_path]
-                    OPEN.push(new_state)
+                    new_node = [child_node, new_path]
+                    OPEN.push(new_node)
 
     "-----------------------------"
 
     return []
     #util.raiseNotDefined()
 
-
-def breadthFirstSearch(problem):
-    """Находит самые поверхностные узлы в дереве поиска """
-
-    "*** ВСТАВЬТЕ ВАШ КОД СЮДА ***"
-
-    util.raiseNotDefined()
 
 def uniformCostSearch(problem):
     """Находит узел минимальной стоимости """
