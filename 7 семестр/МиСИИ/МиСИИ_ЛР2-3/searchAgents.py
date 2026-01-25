@@ -139,7 +139,6 @@ class PositionSearchProblem(search.SearchProblem):
     Пространство состояний состоит из координат (x, y) позиций в игре pacman.
 
     Примечание: задача поиска полностью определена; вы НЕ должны менять её код.
-    
     """
 
     def __init__(self, gameState, costFn = lambda x: 1, goal=(1,1), start=None, warn=True, visualize=True):
@@ -249,7 +248,10 @@ class StayWestSearchAgent(SearchAgent):
         self.searchType = lambda state: PositionSearchProblem(state, costFn)
 
 def manhattanHeuristic(position, problem, info={}):
-    "The Manhattan distance heuristic for a PositionSearchProblem"
+    """
+    Функция вычисляет сумму абсолютных разностей координат
+    текущей позиции и целевой позиции (манхэттенское расстояние)
+    """
     xy1 = position
     xy2 = problem.goal
     return abs(xy1[0] - xy2[0]) + abs(xy1[1] - xy2[1])
@@ -267,14 +269,12 @@ def euclideanHeuristic(position, problem, info={}):
 class CornersProblem(search.SearchProblem):
     """
     Эта задача поиска находит пути через все четыре угла схемы игры.
-
     Вы должны выбрать подходящее пространство состояний и функцию-преемник.
     """
 
     def __init__(self, startingGameState):
         """
         Хранит стены, исходную позицию Пакмана и углы.
-        
         """
         self.walls = startingGameState.getWalls()
         self.startingPosition = startingGameState.getPacmanPosition()
@@ -286,7 +286,10 @@ class CornersProblem(search.SearchProblem):
         self._expanded = 0 # НЕ МЕНЯЙТЕ; Количество раскрытых поисковых узлов
         # Пожалуйста, добавьте сюда любой код, который вы хотели бы использовать
         # при инициализации задачи
+
         "*** ВСТАВЬТЕ ВАШ КОД СЮДА ***"
+        "-----------------------------"
+
 
     def getStartState(self):
         """

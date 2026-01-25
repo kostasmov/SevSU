@@ -68,6 +68,7 @@ def tinyMazeSearch(problem):
     w = Directions.WEST
     return  [s, s, w, s, w, w, s, w]
 
+
 def depthFirstSearch(problem):
     """
     Поиск в глубину. 
@@ -193,7 +194,6 @@ def uniformCostSearch(problem):
 
             for child_node, child_direction, child_cost in successors:
                 new_cost = cost + child_cost
-                print("Cost:", new_cost)
                 new_path = path + [child_direction]
                 new_node = (child_node, new_path, new_cost)
                 OPEN.push(new_node, new_cost)
@@ -202,6 +202,7 @@ def uniformCostSearch(problem):
 
     return []
     #util.raiseNotDefined()
+
 
 def nullHeuristic(state, problem=None):
     """
@@ -218,7 +219,40 @@ def aStarSearch(problem, heuristic=nullHeuristic):
 
     "*** ВСТАВЬТЕ ВАШ КОД СЮДА ***"
 
-    util.raiseNotDefined()
+    OPEN = util.PriorityQueue()
+    CLOSED = set()
+
+    # определить стартовую вершину
+    start = (problem.getStartState(), [], 0)
+    #print("Start:", problem.getStartState())
+
+    # поместить стартовую вершину в список OPEN
+    OPEN.push(start, 0)
+
+    while not OPEN.isEmpty():
+        node, path, cost = OPEN.pop()
+
+        if problem.isGoalState(node):
+            # print("Path:", path)
+            return path
+
+        if node not in CLOSED:
+            CLOSED.add(node)
+
+            successors = problem.getSuccessors(node)
+            #print("Successors:", successors, " for node ", node)
+
+            for child_node, child_direction, child_cost in successors:
+                new_cost = cost + child_cost
+                new_path = path + [child_direction]
+                new_node = (child_node, new_path, new_cost)
+
+                OPEN.update(new_node, new_cost + heuristic(child_node, problem))
+
+    "-----------------------------"
+
+    return[]
+    #util.raiseNotDefined()
 
 
 # Аббревиатуры
