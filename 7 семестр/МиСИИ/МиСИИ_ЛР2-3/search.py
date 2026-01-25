@@ -132,7 +132,7 @@ def breadthFirstSearch(problem):
 
     # определить стартовую вершину (состояние, путь)
     start = (problem.getStartState(), [])
-    print("Start:", problem.getStartState())
+    #print("Start:", problem.getStartState())
 
     # поместить стартовую вершину в список OPEN
     OPEN.push(start)
@@ -141,7 +141,7 @@ def breadthFirstSearch(problem):
         node, path = OPEN.pop()
 
         if problem.isGoalState(node):
-            print("Path:", path)
+            #print("Path:", path)
             return path
 
         # избегать посещённые состояния
@@ -149,7 +149,7 @@ def breadthFirstSearch(problem):
             CLOSED.add(node)
 
             successors = problem.getSuccessors(node)
-            print("Successors:", successors, " for node ", node)
+            #print("Successors:", successors, " for node ", node)
 
             for child_node, child_direction, _ in successors:
                 if child_node not in CLOSED:
