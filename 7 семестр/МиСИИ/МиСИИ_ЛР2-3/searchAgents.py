@@ -531,11 +531,11 @@ def foodHeuristic(state, problem):
 
 
 class ClosestDotSearchAgent(SearchAgent):
-    " Поиск еды с помощью последовательных поисков"
+    """ Поиск еды с помощью последовательных поисков"""
     def registerInitialState(self, state):
         self.actions = []
         currentState = state
-        while(currentState.getFood().count() > 0):
+        while currentState.getFood().count() > 0:
             nextPathSegment = self.findPathToClosestDot(currentState) # The missing piece
             self.actions += nextPathSegment
             for action in nextPathSegment:
@@ -549,36 +549,37 @@ class ClosestDotSearchAgent(SearchAgent):
 
     def findPathToClosestDot(self, gameState):
         """
-        Возвращает путь (список действий) к ближайшей точке, начиная с
-        gameState.
+        Возвращает путь (список действий) к ближайшей точке, начиная с gameState.
         """
-        # Несколько полезных элементов startState
+
+        # несколько полезных элементов startState
         startPosition = gameState.getPacmanPosition()
         food = gameState.getFood()
         walls = gameState.getWalls()
         problem = AnyFoodSearchProblem(gameState)
-   
+
         "*** ВСТАВЬТЕ ВАШ КОД СЮДА ***"
-        util.raiseNotDefined()
+
+        return search.uniformCostSearch(problem)
+        #util.raiseNotDefined()
 
 class AnyFoodSearchProblem(PositionSearchProblem):
     """
     Задача поиска пути к любой еде.
 
-     Эта задача поиска аналогична задаче PositionSearchProblem, но имеет другой 
-     тест цели, который вам необходимо заполнить ниже. Пространство состояний
-     и функцию-преемник изменять не нужно.
+    Эта задача поиска аналогична задаче PositionSearchProblem, но имеет другой
+    тест цели, который вам необходимо заполнить ниже. Пространство состояний
+    и функцию-преемник изменять не нужно.
 
-     Определение класса (см.выше) AnyFoodSearchProblem (PositionSearchProblem),
-     наследует методы PositionSearchProblem.
+    Определение класса (см. выше) AnyFoodSearchProblem (PositionSearchProblem)
+    наследует методы PositionSearchProblem.
 
-     Вы можете использовать эту задачу поиска, для заполнения кода 
-     метода findPathToClosestDot.
-        
+    Вы можете использовать эту задачу поиска, для заполнения кода
+    метода findPathToClosestDot.
     """
 
     def __init__(self, gameState):
-        "Хранит информацию из gameState. Вам не нужно менять этот код"
+        """Хранит информацию из gameState. Вам не нужно менять этот код"""
         # Store the food for later reference
         self.food = gameState.getFood()
 
@@ -595,7 +596,7 @@ class AnyFoodSearchProblem(PositionSearchProblem):
         x,y = state
 
         "*** ВСТАВЬТЕ ВАШ КОД СЮДА ***"
-        util.raiseNotDefined()
+        return (x, y) in self.food.asList()
 
 def mazeDistance(point1, point2, gameState):
     """
