@@ -271,7 +271,6 @@ class CornersProblem(search.SearchProblem):
     Эта задача поиска находит пути через все четыре угла схемы игры.
     Вы должны выбрать подходящее пространство состояний и функцию-преемник.
     """
-
     def __init__(self, startingGameState):
         """
         Хранит стены, исходную позицию Пакмана и углы.
@@ -294,7 +293,6 @@ class CornersProblem(search.SearchProblem):
 
         self.startingGameState = startingGameState
 
-
     def getStartState(self):
         """
         Возвращает начальное состояние (в вашем пространстве состояний, а 
@@ -307,7 +305,6 @@ class CornersProblem(search.SearchProblem):
 
         #util.raiseNotDefined()
 
-
     def isGoalState(self, state):
         """
         Проверяет, является ли это состояние поиска целевым состоянием задачи.
@@ -315,7 +312,6 @@ class CornersProblem(search.SearchProblem):
         "*** ВСТАВЬТЕ ВАШ КОД СЮДА ***"
 
         return len(state[1]) == len(self.corners)
-
 
     def getSuccessors(self, state):
         """
@@ -358,7 +354,6 @@ class CornersProblem(search.SearchProblem):
         self._expanded += 1 # НЕ МЕНЯЙТЕ!
         return successors
 
-
     def getCostOfActions(self, actions):
         """
         Возвращает стоимость определенной последовательности действий. Если эти 
@@ -377,20 +372,48 @@ def cornersHeuristic(state, problem):
     """
     Эвристика для задачи поиска углов, которую необходимо определить.
 
-       state: текущее состояние поиска
-             (структура данных, которую вы выбрали в своей поисковой задаче)
+    state: текущее состояние поиска
+        (структура данных, которую вы выбрали в своей поисковой задаче)
 
-       problem: экземпляр CornersProblem для схемы лабиринта.
+    problem: экземпляр CornersProblem для схемы лабиринта.
 
-     Эта функция всегда должна возвращать число, которое является нижней границей
-     кратчайшего пути от состояния к цели задачи; т.е. она должна быть
-     допустимой (а также монотонной).
-     
+    Эта функция всегда должна возвращать число, которое является нижней границей
+    кратчайшего пути от состояния к цели задачи; т.е. она должна быть
+    допустимой (а также монотонной).
     """
-    corners = problem.corners # Координаты углов
-    walls = problem.walls # Стены лабиринта в виде объекта Grid (game.py)
+
+    corners = problem.corners   # координаты углов
+    walls = problem.walls       # стены лабиринта в виде объекта Grid (game.py)
+
     "*** ВСТАВЬТЕ ВАШ КОД СЮДА ***"
-    return 0 # Default to trivial solution
+
+    position = state[0]         # текущая позиция
+    touchedcorners = state[1]   # посещённые углы
+
+    # список непосещённых углов - разность двух множеств
+    untouchedcorners = list(set(corners).difference(set(touchedcorners)))
+
+    # все углы уже найдены (целевое состояние)
+    if len(untouchedcorners) == 0:
+        return 0
+
+    # расстояния до углов и сумма наименьших из них
+    distances = { corner: 0 for corner in untouchedcorners }
+    totalcost = 0
+
+    while len(distances) > 0:
+        # расчёт манхэттенских растояний до неспосещённых углов
+        for corner in distances.keys():
+            distances[corner] = (abs(corner[0] - position[0]) + abs(corner[1] - position[1]))
+
+        # добавляем в totalcost расстояние до ближайшего угла
+        position = min(distances, key=distances.get)
+        totalcost += distances[position]
+        del distances[position]
+
+    return totalcost
+    #return 0 # Default to trivial solution
+
 
 class AStarCornersAgent(SearchAgent):
     "Агент SearchAgent  для FoodSearchProblem, использующий A*-поиск и  foodHeuristic"

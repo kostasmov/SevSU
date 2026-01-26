@@ -91,7 +91,7 @@ def depthFirstSearch(problem):
 
     # определить стартовую вершину (состояние, путь)
     start = (problem.getStartState(), [])
-    print("Start:", problem.getStartState())
+    #print("Start:", problem.getStartState())
 
     # поместить стартовую вершину в стек OPEN
     OPEN.push(start)
@@ -100,7 +100,7 @@ def depthFirstSearch(problem):
         node, path = OPEN.pop()
 
         if problem.isGoalState(node):
-            print("Path:", path)
+            #print("Path:", path)
             return path
 
         # избегать посещённые состояния
@@ -173,7 +173,7 @@ def uniformCostSearch(problem):
 
     # определить стартовую вершину (состояние, путь, стоимость пути)
     start = (problem.getStartState(), [], 0)
-    print("Start:", problem.getStartState())
+    #print("Start:", problem.getStartState())
 
     # поместить стартовую вершину в список OPEN
     OPEN.push(start, 0)
@@ -190,7 +190,7 @@ def uniformCostSearch(problem):
             CLOSED.add(node)
 
             successors = problem.getSuccessors(node)
-            print("Successors:", successors, " for node ", node)
+            #print("Successors:", successors, " for node ", node)
 
             for child_node, child_direction, child_cost in successors:
                 new_cost = cost + child_cost
