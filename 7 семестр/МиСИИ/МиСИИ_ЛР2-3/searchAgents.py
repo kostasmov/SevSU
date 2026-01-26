@@ -445,7 +445,7 @@ class FoodSearchProblem:
         return state[1].count() == 0
 
     def getSuccessors(self, state):
-        "Возвращает состояния-преемники, действия,  и стоимость 1."
+        """Возвращает состояния-преемники, действия,  и стоимость 1."""
         successors = []
         self._expanded += 1 # DO NOT CHANGE
         for direction in [Directions.NORTH, Directions.SOUTH, Directions.EAST, Directions.WEST]:
@@ -480,7 +480,7 @@ class AStarFoodSearchAgent(SearchAgent):
 
 def foodHeuristic(state, problem):
     """
-    вристика для FoodSearchProblem,которую вы должны определитьь.
+    Эвристика для FoodSearchProblem, которую вы должны определитьь.
 
     Эта эвристика должна быть монотонной, чтобы гарантировать правильность.
     Сначала попробуйте придумать допустимую эвристику; почти все допустимые 
@@ -507,8 +507,28 @@ def foodHeuristic(state, problem):
     issue.heuristicInfo ['wallCount']
     """
     position, foodGrid = state
+
     "*** ВСТАВЬТЕ ВАШ КОД СЮДА ***"
-    return 0
+
+    # координаты размещения еды
+    untouched_food = foodGrid.asList()
+
+    # еду всю поели (цель достигнута)
+    if len(untouched_food) == 0:
+        return 0
+
+    # "расстояния" от текущей позиции до каждой гранулы
+    total_cost = []
+    for food in untouched_food:
+        total_cost.append(mazeDistance(position, food, problem.startingGameState))
+
+    distance = max(total_cost)
+
+    "-----------------------------"
+
+    return distance
+    #return 0
+
 
 class ClosestDotSearchAgent(SearchAgent):
     " Поиск еды с помощью последовательных поисков"
@@ -579,15 +599,16 @@ class AnyFoodSearchProblem(PositionSearchProblem):
 
 def mazeDistance(point1, point2, gameState):
     """
-    Возвращает расстояние  между любыми двумя точками, используя уже созданные
-    вами функции поиска. GameState может быть любым игровым состоянием - позиция 
+    Возвращает расстояние между любыми двумя точками,
+    используя уже созданные вами функции поиска.
+
+    GameState может быть любым игровым состоянием - позиция
     Pacman в этом состоянии игнорируется.
 
-     Пример использования: mazeDistance ((2,4), (5,6), gameState)
+    Пример использования: mazeDistance ((2,4), (5,6), gameState)
 
-     Может быть полезной вспомогательной функцией для вашего 
-     ApproximateSearchAgent.
-    
+    Может быть полезной вспомогательной функцией для вашего
+    ApproximateSearchAgent.
     """
     x1, y1 = point1
     x2, y2 = point2
