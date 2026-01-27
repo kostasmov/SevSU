@@ -38,7 +38,7 @@ class ReflexAgent(Agent):
         getAction принимает состояние GameState и
         возвращает направления Directions.X для некоторого X из мно-ва
         {NORTH, SOUTH, WEST, EAST, STOP}
-       """
+        """
         # Получить допустимые действия для состояния
         legalMoves = gameState.getLegalActions()
 
@@ -63,18 +63,20 @@ class ReflexAgent(Agent):
         Приведенный ниже код извлекает некоторую полезную информацию из 
         состояния, такую как оставшаяся еда (newFood) и положение Pacman после
         перемещения (newPos).
+
         newScaredTimes содержит количество ходов, на которое каждый призрак 
         останется испуганным из-за того, что Пакман съел энерго-гранулу.
 
         Распечатайте эти переменные, чтобы увидеть и понять их значения, а затем
         комбинируйте их, чтобы создать подходящую функцию оценки.
-        
         """
-        
+
         # Полезная информация, которую вы можете извлечь из GameState (pacman.py)
         
-        # Формируем дочернее состояниe после действия action
-        # пример схемы дочернего состояния для поля testClassic,размером 10x5 :
+        # дочернее состояниe после действия action
+        successorGameState = currentGameState.generatePacmanSuccessor(action)
+
+        # пример схемы дочернего состояния для поля testClassic, размером 10x5:
         #    %%%%%
         #    % . %
         #    %.G.%
@@ -86,14 +88,14 @@ class ReflexAgent(Agent):
         #    %< .%
         #    %%%%%
         # Здесь G - призрак, < - Пакман, . - еда, % - стены
-        successorGameState = currentGameState.generatePacmanSuccessor(action)
-        #print("succ:", successorGameState)
         
-        # Определяем координаты Пакмана  в виде кортежа (x,y)
-        # Для приведенной выше схемы newPos=(1,1)
+        # координаты Пакмана в виде кортежа (x,y)
         newPos = successorGameState.getPacmanPosition()
+        #print("newPos:", newPos)
               
-        # Определяем положение точек еды в виде логического массива
+        # положение точек еды в виде логического массива
+        newFood = successorGameState.getFood()
+
         # Для приведенной выше схемы newFood будет равен:
         # FFFFF
         # FFTFF
@@ -106,21 +108,40 @@ class ReflexAgent(Agent):
         # FFFTF
         # FFFFF
         # Здесь Т - есть еда, F - нет еды
-        newFood = successorGameState.getFood()
-        #print("newFood:", newFood)
         
-        # определяем новое состояние для призраков newGhostStates 
+        # новые состояния призраков
         newGhostStates = successorGameState.getGhostStates()
-        
-        # определяем  время испуга прираков 
+        #print("newGhostStateExample:", newGhostStates[0])
+
+        # время испуга призраков
         # пример значения для newScaredTimes при 2-х призраках: [40, 40]
         newScaredTimes = [ghostState.scaredTimer for ghostState in newGhostStates]
+        #print("newScaredTimes:", newScaredTimes)
    
         "*** ВСТАВЬТЕ ВАШ КОД СЮДА ***"
-        
-        
-       
-        return successorGameState.getScore()
+
+        # список координат пищевых гранул
+        newFoodPoses = newFood.asList()
+
+        # список новых координат призраков
+        newGhostPoses = [(G.getPosition()[0], G.getPosition()[1]) for G in newGhostStates]
+
+        # проверка столкновения с призраком
+        for i, pos in enumerate(newGhostPoses):
+            if newPos == pos and not newScaredTimes[i]:
+                return -1
+
+        # проверка наличия гранулы
+        if newPos in currentGameState.getFood().asList():
+            return 1
+
+        # расстояния до ближайшего призрака и гранулы
+        closestGhostDist = min(manhattanDistance(g, newPos) for g in newGhostPoses)
+        closestFoodDist = min(manhattanDistance(f, newPos) for f in newFoodPoses)
+
+        # итоговая оценка (оценочная функция)
+        return 1 / closestFoodDist - 1 / closestGhostDist
+        #return successorGameState.getScore()
 
 def scoreEvaluationFunction(currentGameState):
     """
