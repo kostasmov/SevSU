@@ -290,7 +290,6 @@ class CornersProblem(search.SearchProblem):
         # при инициализации задачи
 
         "*** ВСТАВЬТЕ ВАШ КОД СЮДА ***"
-
         self.startingGameState = startingGameState
 
     def getStartState(self):
@@ -367,7 +366,6 @@ class CornersProblem(search.SearchProblem):
             if self.walls[x][y]: return 999999
         return len(actions)
 
-
 def cornersHeuristic(state, problem):
     """
     Эвристика для задачи поиска углов, которую необходимо определить.
@@ -413,7 +411,6 @@ def cornersHeuristic(state, problem):
 
     return totalcost
     #return 0 # Default to trivial solution
-
 
 class AStarCornersAgent(SearchAgent):
     "Агент SearchAgent  для FoodSearchProblem, использующий A*-поиск и  foodHeuristic"
@@ -559,7 +556,6 @@ class ClosestDotSearchAgent(SearchAgent):
         problem = AnyFoodSearchProblem(gameState)
 
         "*** ВСТАВЬТЕ ВАШ КОД СЮДА ***"
-
         return search.uniformCostSearch(problem)
         #util.raiseNotDefined()
 
