@@ -55,16 +55,16 @@ class ReflexAgent(Agent):
     def evaluationFunction(self, currentGameState, action):
         """
         Разработайте здесь более совершенную функцию оценки.
-        
+
         Функция оценки принимает текущее состояние и допустимое действие
         (pacman.py) и возвращает числовое значение функции оценки
         (большим числам отдается предпочтение).
 
-        Приведенный ниже код извлекает некоторую полезную информацию из 
+        Приведенный ниже код извлекает некоторую полезную информацию из
         состояния, такую как оставшаяся еда (newFood) и положение Pacman после
         перемещения (newPos).
 
-        newScaredTimes содержит количество ходов, на которое каждый призрак 
+        newScaredTimes содержит количество ходов, на которое каждый призрак
         останется испуганным из-за того, что Пакман съел энерго-гранулу.
 
         Распечатайте эти переменные, чтобы увидеть и понять их значения, а затем
@@ -72,7 +72,7 @@ class ReflexAgent(Agent):
         """
 
         # Полезная информация, которую вы можете извлечь из GameState (pacman.py)
-        
+
         # дочернее состояниe после действия action
         successorGameState = currentGameState.generatePacmanSuccessor(action)
 
@@ -88,11 +88,11 @@ class ReflexAgent(Agent):
         #    %< .%
         #    %%%%%
         # Здесь G - призрак, < - Пакман, . - еда, % - стены
-        
+
         # координаты Пакмана в виде кортежа (x,y)
         newPos = successorGameState.getPacmanPosition()
         #print("newPos:", newPos)
-              
+
         # положение точек еды в виде логического массива
         newFood = successorGameState.getFood()
 
@@ -108,7 +108,7 @@ class ReflexAgent(Agent):
         # FFFTF
         # FFFFF
         # Здесь Т - есть еда, F - нет еды
-        
+
         # новые состояния призраков
         newGhostStates = successorGameState.getGhostStates()
         #print("newGhostStateExample:", newGhostStates[0])
@@ -117,7 +117,7 @@ class ReflexAgent(Agent):
         # пример значения для newScaredTimes при 2-х призраках: [40, 40]
         newScaredTimes = [ghostState.scaredTimer for ghostState in newGhostStates]
         #print("newScaredTimes:", newScaredTimes)
-   
+
         "*** ВСТАВЬТЕ ВАШ КОД СЮДА ***"
 
         # список координат пищевых гранул
@@ -176,6 +176,53 @@ class MinimaxAgent(MultiAgentSearchAgent):
     """
     Ваш минимаксный агент (задание 2)
     """
+    def value(self, gameState, currentDepth, agentIndex):
+        """
+         Оценивание вершин дерева поиска
+        """
+        # если gameState является терминальным вернуть utility(state)
+        if currentDepth == self.depth or gameState.isWin() or gameState.isLose():
+            value = self.evaluationFunction(gameState)
+            return value
+
+        # если же это агент MAX (Пакман):
+        elif agentIndex == 0:
+            return self.max_value(gameState, currentDepth)
+
+        # если же это один из агентов MIN (призрак):
+        else:
+            return self.min_value(gameState, currentDepth, agentIndex)
+
+    def max_value(self, gameState, currentDepth):
+        """
+         Динамическая оценка для игрока МАКС (pacman)
+        """
+        PacmanValue = -100000   #-∞
+
+        # ищем наибольшую оценку нижнего уровня
+        for action in gameState.getLegalActions(0):
+            succ = gameState.generateSuccessor(0, action)
+            PacmanValue = max(PacmanValue, self.value(succ, currentDepth, 1))
+
+        return PacmanValue
+
+    def min_value(self, gameState, currentDepth, agentIndex):
+        """
+         Динамическая оценка для игрока МИН (ghost)
+        """
+        GhostValue = 100000     #+∞
+
+        # ищем наименьшую оценку нижнего уровня
+        for action in gameState.getLegalActions(agentIndex):
+            succ = gameState.generateSuccessor(agentIndex, action)
+
+            # перебор цепочки MIN-агентов
+            if agentIndex == gameState.getNumAgents() - 1:
+                GhostValue = min(GhostValue, self.value(succ, currentDepth + 1, 0))
+            else:
+                GhostValue = min(GhostValue, self.value(succ, currentDepth, agentIndex + 1))
+
+        return GhostValue
 
     def getAction(self, gameState):
         """
@@ -185,9 +232,9 @@ class MinimaxAgent(MultiAgentSearchAgent):
         Вот несколько вызовов методов, которые могут быть полезны при реализации
         минимаксного агента.
 
-        gameState.getLegalActions (agentIndex):
+        gameState.getLegalActions(agentIndex):
         Возвращает список допустимых (легальных) действий для агента
-        agentIndex=0 соответсвует Пакману, а для призраков agentIndex > = 1
+        agentIndex=0 соответсвует Пакману, а для призраков agentIndex >= 1
 
         gameState.generateSuccessor(agentIndex, action):
         Возвращает состояние-преемник после того, как агент совершит действие action.
@@ -198,13 +245,27 @@ class MinimaxAgent(MultiAgentSearchAgent):
         gameState.isWin():
         Возвращает True если состояние игры является выигрышным.
 
-        gameState.isLose ():
+        gameState.isLose():
         Возвращает True если состояние игры является проигрышным.
         """
         
         "*** ВСТАВЬТЕ ВАШ КОД СЮДА ***"
-       
-        util.raiseNotDefined()
+
+        PacmanValue = -100000.0
+        PacmanAction = Directions.STOP
+
+        # осмотр допустимых действий Пакмана
+        for action in gameState.getLegalActions(0):
+            nextState = gameState.generateSuccessor(0, action)
+            nextValue = self.value(nextState, 0, 1) # узнаём оценку
+
+            # если есть что-то лучше чем просто стоять - так и делаем
+            if nextValue > PacmanValue:
+                PacmanValue = nextValue
+                PacmanAction = action
+
+        return PacmanAction
+        #util.raiseNotDefined()
 
 class AlphaBetaAgent(MultiAgentSearchAgent):
     """
