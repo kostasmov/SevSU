@@ -180,16 +180,15 @@ class MinimaxAgent(MultiAgentSearchAgent):
         """
          Оценивание вершин дерева поиска
         """
-        # если gameState является терминальным вернуть utility(state)
+        # стат. оценка терминальной вершины
         if currentDepth == self.depth or gameState.isWin() or gameState.isLose():
-            value = self.evaluationFunction(gameState)
-            return value
+            return self.evaluationFunction(gameState)
 
-        # если же это агент MAX (Пакман):
+        # если же это агент MAX (игрок):
         elif agentIndex == 0:
             return self.max_value(gameState, currentDepth)
 
-        # если же это один из агентов MIN (призрак):
+        # если же это один из агентов MIN (противник):
         else:
             return self.min_value(gameState, currentDepth, agentIndex)
 
@@ -197,20 +196,20 @@ class MinimaxAgent(MultiAgentSearchAgent):
         """
          Динамическая оценка для игрока МАКС (pacman)
         """
-        PacmanValue = -100000   #-∞
+        maxValue = -100000  # -∞
 
         # ищем наибольшую оценку нижнего уровня
         for action in gameState.getLegalActions(0):
             succ = gameState.generateSuccessor(0, action)
-            PacmanValue = max(PacmanValue, self.value(succ, currentDepth, 1))
+            maxValue = max(maxValue, self.value(succ, currentDepth, 1))
 
-        return PacmanValue
+        return maxValue
 
     def min_value(self, gameState, currentDepth, agentIndex):
         """
          Динамическая оценка для игрока МИН (ghost)
         """
-        GhostValue = 100000     #+∞
+        minValue = 100000     #+∞
 
         # ищем наименьшую оценку нижнего уровня
         for action in gameState.getLegalActions(agentIndex):
@@ -218,11 +217,11 @@ class MinimaxAgent(MultiAgentSearchAgent):
 
             # перебор цепочки MIN-агентов
             if agentIndex == gameState.getNumAgents() - 1:
-                GhostValue = min(GhostValue, self.value(succ, currentDepth + 1, 0))
+                minValue = min(minValue, self.value(succ, currentDepth + 1, 0))
             else:
-                GhostValue = min(GhostValue, self.value(succ, currentDepth, agentIndex + 1))
+                minValue = min(minValue, self.value(succ, currentDepth, agentIndex + 1))
 
-        return GhostValue
+        return minValue
 
     def getAction(self, gameState):
         """
@@ -251,8 +250,8 @@ class MinimaxAgent(MultiAgentSearchAgent):
         
         "*** ВСТАВЬТЕ ВАШ КОД СЮДА ***"
 
-        PacmanValue = -100000.0
-        PacmanAction = Directions.STOP
+        nodeValue = -100000
+        nextAction = Directions.STOP
 
         # осмотр допустимых действий Пакмана
         for action in gameState.getLegalActions(0):
@@ -260,11 +259,11 @@ class MinimaxAgent(MultiAgentSearchAgent):
             nextValue = self.value(nextState, 0, 1) # узнаём оценку
 
             # если есть что-то лучше чем просто стоять - так и делаем
-            if nextValue > PacmanValue:
-                PacmanValue = nextValue
-                PacmanAction = action
+            if nextValue > nodeValue:
+                nodeValue = nextValue
+                nextAction = action
 
-        return PacmanAction
+        return nextAction
         #util.raiseNotDefined()
 
 class AlphaBetaAgent(MultiAgentSearchAgent):
@@ -272,14 +271,88 @@ class AlphaBetaAgent(MultiAgentSearchAgent):
     Ваш минимаксный агент, реализующий альфа-бета отсечение (задание 3)
     """
 
+    def value(self, gameState, currentDepth, agentIndex, alpha, beta):
+        """
+         Оценивание вершин дерева поиска
+        """
+        # стат. оценка терминальной вершины
+        if currentDepth == self.depth or gameState.isWin() or gameState.isLose():
+            return self.evaluationFunction(gameState)
+
+        # если же это агент MAX (игрок):
+        elif agentIndex == 0:
+            return self.max_value(gameState, currentDepth, alpha, beta)
+
+        # если же это один из агентов MIN (противник):
+        else:
+            return self.min_value(gameState, currentDepth, agentIndex, alpha, beta)
+
+    def max_value(self, gameState, currentDepth, alpha, beta):
+        """
+         Динамическая оценка для игрока МАКС (игрок)
+        """
+        maxValue = -100000  # -∞
+
+        # ищем наибольшую оценку нижнего уровня
+        for action in gameState.getLegalActions(0):
+            succ = gameState.generateSuccessor(0, action)
+            maxValue = max(maxValue, self.value(succ, currentDepth, 1, alpha, beta))
+
+            # альфа-отсечение
+            if maxValue > beta:
+                return maxValue
+            alpha = max(maxValue, alpha)
+
+        return maxValue
+
+    def min_value(self, gameState, currentDepth, agentIndex, alpha, beta):
+        """
+         Динамическая оценка для игрока МИН (противники)
+        """
+        minValue = 100000     #+∞
+
+        # ищем наименьшую оценку нижнего уровня
+        for action in gameState.getLegalActions(agentIndex):
+            succ = gameState.generateSuccessor(agentIndex, action)
+
+            # перебор цепочки MIN-агентов
+            if agentIndex == gameState.getNumAgents() - 1:
+                minValue = min(minValue, self.value(succ, currentDepth + 1, 0, alpha, beta))
+            else:
+                minValue = min(minValue, self.value(succ, currentDepth, agentIndex + 1, alpha, beta))
+
+            # бета-отсечение
+            if minValue < alpha:
+                return minValue
+            beta = min(minValue, beta)
+
+        return minValue
+
     def getAction(self, gameState):
         """
         Возвращает минимаксное действие, используя
         self.depth and self.evaluationFunction
         """
         "*** ВСТАВЬТЕ ВАШ КОД СЮДА ***"
-       
-        util.raiseNotDefined()
+
+        nodeValue = -100000 # -∞
+        alpha = -100000     # -∞
+        beta = 100000       # +∞
+
+        nextAction = Directions.STOP
+
+        # осмотр допустимых действий Пакмана
+        for action in gameState.getLegalActions(0):
+            nextState = gameState.generateSuccessor(0, action)
+            nodeValue = max(nodeValue, self.value(nextState, 0, 1, alpha, beta))
+
+            # если есть что-то лучше, чем просто стоять - так и делаем
+            if nodeValue > alpha:
+                alpha = nodeValue
+                nextAction = action
+
+        return nextAction
+        #util.raiseNotDefined()
 
 class ExpectimaxAgent(MultiAgentSearchAgent):
     """
