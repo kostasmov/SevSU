@@ -255,8 +255,8 @@ class MinimaxAgent(MultiAgentSearchAgent):
 
         # осмотр допустимых действий Пакмана
         for action in gameState.getLegalActions(0):
-            nextState = gameState.generateSuccessor(0, action)
-            nextValue = self.value(nextState, 0, 1) # узнаём оценку
+            succ = gameState.generateSuccessor(0, action)
+            nextValue = self.value(succ, 0, 1) # узнаём оценку
 
             # если есть что-то лучше чем просто стоять - так и делаем
             if nextValue > nodeValue:
@@ -343,8 +343,8 @@ class AlphaBetaAgent(MultiAgentSearchAgent):
 
         # осмотр допустимых действий Пакмана
         for action in gameState.getLegalActions(0):
-            nextState = gameState.generateSuccessor(0, action)
-            nodeValue = max(nodeValue, self.value(nextState, 0, 1, alpha, beta))
+            succ = gameState.generateSuccessor(0, action)
+            nodeValue = max(nodeValue, self.value(succ, 0, 1, alpha, beta))
 
             # если есть что-то лучше, чем просто стоять - так и делаем
             if nodeValue > alpha:
@@ -358,6 +358,54 @@ class ExpectimaxAgent(MultiAgentSearchAgent):
     """
       Ваш expectimax агент (задание 4)
     """
+    def value(self, gameState, currentDepth, agentIndex):
+        """
+         Оценивание вершин дерева поиска
+        """
+        # стат. оценка терминальной вершины
+        if currentDepth == self.depth or gameState.isWin() or gameState.isLose():
+            return self.evaluationFunction(gameState)
+
+        # если же это агент MAX (игрок):
+        elif agentIndex == 0:
+            return self.max_value(gameState, currentDepth)
+
+        # если же это один из агентов MIN (противник):
+        else:
+            return self.min_value(gameState, currentDepth, agentIndex)
+
+    def max_value(self, gameState, currentDepth):
+        """
+         Динамическая оценка для игрока МАКС (pacman)
+        """
+        maxValue = -100000  # -∞
+
+        # ищем наибольшую оценку нижнего уровня
+        for action in gameState.getLegalActions(0):
+            succ = gameState.generateSuccessor(0, action)
+            maxValue = max(maxValue, self.value(succ, currentDepth, 1))
+
+        return maxValue
+
+    def min_value(self, gameState, currentDepth, agentIndex):
+        """
+         Динамическая оценка для игрока МИН (ghost)
+        """
+        minValue = 0
+        actions = gameState.getLegalActions(agentIndex)
+
+        # ищем наименьшую оценку нижнего уровня
+        for action in actions:
+            succ = gameState.generateSuccessor(agentIndex, action)
+
+            # перебор цепочки MIN-агентов
+            if agentIndex == gameState.getNumAgents() - 1:
+                minValue += self.value(succ, currentDepth + 1, 0)
+            else:
+                minValue += self.value(succ, currentDepth, agentIndex + 1)
+
+        # усреднённая оценка для равновероятных действий
+        return minValue / len(actions)
 
     def getAction(self, gameState):
         """
@@ -369,8 +417,22 @@ class ExpectimaxAgent(MultiAgentSearchAgent):
         """
         
         "*** ВСТАВЬТЕ ВАШ КОД СЮДА ***"
-      
-        util.raiseNotDefined()
+
+        nodeValue = -100000
+        nextAction = Directions.STOP
+
+        # осмотр допустимых действий Пакмана
+        for action in gameState.getLegalActions(0):
+            succ = gameState.generateSuccessor(0, action)
+            nextValue = self.value(succ, 0, 1)  # узнаём оценку
+
+            # если есть что-то лучше чем просто стоять - так и делаем
+            if nextValue > nodeValue:
+                nodeValue = nextValue
+                nextAction = action
+
+        return nextAction
+        #util.raiseNotDefined()
 
 def betterEvaluationFunction(currentGameState):
     """
