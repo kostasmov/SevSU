@@ -442,8 +442,37 @@ def betterEvaluationFunction(currentGameState):
     """
     
     "*** ВСТАВЬТЕ ВАШ КОД СЮДА ***"
-   
-    util.raiseNotDefined()
+    weightOfGhost = 0
+    weightOfFood = 0
+
+    # координаты Пакмана и гранул
+    curPos = currentGameState.getPacmanPosition()
+    foodPoses = currentGameState.getFood().asList()
+
+    # состояния призраков
+    ghostStates = currentGameState.getGhostStates()
+
+    # доп. быллы за близость к призракам
+    for G in ghostStates:
+        ghostPos = (G.getPosition()[0], G.getPosition()[1])
+        distance = manhattanDistance(curPos, ghostPos)
+
+        if distance > 0:
+            if G.scaredTimer > 0:
+                weightOfGhost += 1 / distance   # бонус если призрак испуган
+            else:
+                weightOfGhost -= 1 / distance   # штраф если нет
+
+    if len(foodPoses) > 0:
+        # расстояние до ближайшей гранулы
+        closestFoodDist = min(manhattanDistance(f, curPos) for f in foodPoses)
+
+        # бонус за близость к грануле
+        if closestFoodDist > 0:
+            weightOfFood = 1 / closestFoodDist
+
+    return currentGameState.getScore() + weightOfGhost + weightOfFood
+    #util.raiseNotDefined()
 
 # Abbreviation
 better = betterEvaluationFunction
