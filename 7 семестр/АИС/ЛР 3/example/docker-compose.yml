@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+    node_app:
+        image: node:14-alpine
+        volumes:
+            - ./node_app:/app
+        working_dir: /app
+        command: "node server.js"
+        expose:
+            - "3000"
+
+    php_app:
+        image: php:7.4-apache
+        volumes:
+            - ./php_app:/var/www/html
+        expose:
+            - "80"
+
+    python_app:
+        build:
+            context: ./python_app
+            dockerfile: Dockerfile
+        expose:
+            - "5000"
