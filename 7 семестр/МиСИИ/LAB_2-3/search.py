@@ -100,7 +100,7 @@ def depthFirstSearch(problem):
         node, path = OPEN.pop()
 
         if problem.isGoalState(node):
-            #print("Path:", path)
+            print("Path:", path)
             return path
 
         # избегать посещённые состояния
