@@ -413,7 +413,7 @@ def cornersHeuristic(state, problem):
     #return 0 # Default to trivial solution
 
 class AStarCornersAgent(SearchAgent):
-    "Агент SearchAgent  для FoodSearchProblem, использующий A*-поиск и  foodHeuristic"
+    """Агент SearchAgent  для FoodSearchProblem, использующий A*-поиск и  foodHeuristic"""
     def __init__(self):
         self.searchFunction = lambda prob: search.aStarSearch(prob, cornersHeuristic)
         self.searchType = CornersProblem
@@ -470,7 +470,7 @@ class FoodSearchProblem:
         return cost
 
 class AStarFoodSearchAgent(SearchAgent):
-    "Агент SearchAgent для FoodSearchProblem, использующий A*-поиск и вашу foodHeuristic"
+    """Агент SearchAgent для FoodSearchProblem, использующий A*-поиск и вашу foodHeuristic"""
     def __init__(self):
         self.searchFunction = lambda prob: search.aStarSearch(prob, foodHeuristic)
         self.searchType = FoodSearchProblem
