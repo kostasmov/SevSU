@@ -1,10 +1,8 @@
-// Одномерный массив (10 элементов)
-let arr = [55, 81, -34, 12, 7, 0, 4, 2003, -2, 6];
-
 // Сумма элементов массива
-let sum = arr.reduce(
-    (acc, value) => acc + value,
-    0
-);
+const sumArray = array =>
+    array.reduce((sum, value) => sum + value, 0);
 
-console.log("Сумма элементов массива: ", sum);
+// Исходный массив
+const array = [55, 81, -34, 12, 7, 0, 4, 2003, -2, 6];
+
+console.log("Сумма элементов массива:", sumArray(array));

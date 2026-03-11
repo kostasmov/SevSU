@@ -1,13 +1,14 @@
-// Двумерный массив (матрица 4x4 = 16 элементов)
-let matrix = [
+// Удаление из матрицы строк с отрицательными элементами
+const filterPositiveRows = matrix =>
+    matrix.filter(row => !row.some(x => x < 0));
+
+// Исходная матрица
+const matrix = [
     [33, 101, 69, 300],
     [911, -1, 993, 0],
     [66, 228, 2007, 555],
     [-13, 77, 1984, 404]
 ];
 
-// Удаление из матрицы строк с отрицательными элементами
-let positiveMatrix = matrix.filter(row => !row.some(x => x < 0));
-
-console.log("Матрица без строк с отрицательными элементами: ");
-console.log(positiveMatrix);
+console.log("Матрица без строк с отрицательными элементами:");
+console.log(filterPositiveRows(matrix));
