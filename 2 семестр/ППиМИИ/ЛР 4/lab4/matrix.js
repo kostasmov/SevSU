@@ -10,15 +10,15 @@ const matrix = [
 ];
 
 // Создание потока данных из строк матрицы
-from(matrix)
-    .pipe(
-        // фильтр строк без отрицательных элементов
-        filter(row => !row.some(value => value < 0)),
-        toArray()
-    )
-    // точка запуска потока
-    .subscribe(positiveMatrix => {
-        console.log("Матрица без строк с отрицательными элементами:");
-        console.log(positiveMatrix);
-    });
+const matrixStream = from(matrix).pipe(
+    // фильтр строк без отрицательных элементов
+    filter(row => !row.some(value => value < 0)),
+    toArray()
+);
+
+// Точка запуска потока
+matrixStream.subscribe(positiveMatrix => {
+    console.log("Матрица без строк с отрицательными элементами:");
+    console.log(positiveMatrix);
+});
 
