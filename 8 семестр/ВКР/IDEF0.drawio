@@ -1,0 +1,196 @@
+<mxfile host="app.diagrams.net">
+  <diagram name="Страница-1" id="sa583pLew2q_2arKe0Nq">
+    <mxGraphModel dx="911" dy="469" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="JBajWROPyQuNEB8gRvLN-2" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="&lt;div&gt;Оптимизация расписания&amp;nbsp;&lt;/div&gt;&lt;div&gt;пакетов заданий с учётом ПТО&lt;/div&gt;" vertex="1">
+          <mxGeometry height="210" width="328" x="312" y="170" as="geometry" />
+        </mxCell>
+        <mxCell id="JBajWROPyQuNEB8gRvLN-3" edge="1" parent="1" style="endArrow=classic;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="82" y="240" as="sourcePoint" />
+            <mxPoint x="312" y="241" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="JBajWROPyQuNEB8gRvLN-4" connectable="0" parent="JBajWROPyQuNEB8gRvLN-3" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="J - количество позиций в пакете" vertex="1">
+          <mxGeometry relative="1" x="-0.222" y="-4" as="geometry">
+            <mxPoint x="20" y="-13" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="JBajWROPyQuNEB8gRvLN-5" edge="1" parent="1" style="endArrow=classic;html=1;rounded=0;entryX=0.013;entryY=0.863;entryDx=0;entryDy=0;entryPerimeter=0;" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="80" y="209.57999999999998" as="sourcePoint" />
+            <mxPoint x="312" y="209.57999999999998" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="JBajWROPyQuNEB8gRvLN-6" connectable="0" parent="JBajWROPyQuNEB8gRvLN-5" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="L - количество приборов" vertex="1">
+          <mxGeometry relative="1" x="-0.222" y="-4" as="geometry">
+            <mxPoint x="20" y="-13" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="JBajWROPyQuNEB8gRvLN-7" edge="1" parent="1" style="endArrow=classic;html=1;rounded=0;entryX=0.013;entryY=0.863;entryDx=0;entryDy=0;entryPerimeter=0;" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="80" y="180" as="sourcePoint" />
+            <mxPoint x="312" y="180" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="JBajWROPyQuNEB8gRvLN-8" connectable="0" parent="JBajWROPyQuNEB8gRvLN-7" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="I - количество типов заданий" vertex="1">
+          <mxGeometry relative="1" x="-0.222" y="-4" as="geometry">
+            <mxPoint x="20" y="-13" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="JBajWROPyQuNEB8gRvLN-9" edge="1" parent="1" style="endArrow=classic;html=1;rounded=0;" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="82" y="370" as="sourcePoint" />
+            <mxPoint x="312" y="370" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="JBajWROPyQuNEB8gRvLN-10" connectable="0" parent="JBajWROPyQuNEB8gRvLN-9" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="n&lt;sub&gt;i&lt;/sub&gt; — количество заданий i-го типа" vertex="1">
+          <mxGeometry relative="1" x="-0.222" y="-4" as="geometry">
+            <mxPoint x="20" y="-14" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="JBajWROPyQuNEB8gRvLN-11" edge="1" parent="1" style="endArrow=classic;html=1;rounded=0;entryX=0.013;entryY=0.863;entryDx=0;entryDy=0;entryPerimeter=0;" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="80" y="340" as="sourcePoint" />
+            <mxPoint x="312" y="340" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="JBajWROPyQuNEB8gRvLN-12" connectable="0" parent="JBajWROPyQuNEB8gRvLN-11" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="&lt;div&gt;t&lt;sub&gt;li&lt;/sub&gt;&amp;nbsp;- длительность переналадки прибора l&amp;nbsp;&lt;/div&gt;&lt;div&gt;на&amp;nbsp;операции с заданиями типа i&lt;/div&gt;" vertex="1">
+          <mxGeometry relative="1" x="-0.222" y="-4" as="geometry">
+            <mxPoint x="22" y="-24" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="JBajWROPyQuNEB8gRvLN-13" edge="1" parent="1" style="endArrow=classic;html=1;rounded=0;" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="80" y="290" as="sourcePoint" />
+            <mxPoint x="312" y="290" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="JBajWROPyQuNEB8gRvLN-14" connectable="0" parent="JBajWROPyQuNEB8gRvLN-13" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="&lt;div&gt;t&lt;sub&gt;li&lt;/sub&gt; - длительность операций с&amp;nbsp;&lt;/div&gt;&lt;div&gt;заданиями типа i&lt;sub&gt;&amp;nbsp;&lt;/sub&gt;на приборе l&lt;/div&gt;" vertex="1">
+          <mxGeometry relative="1" x="-0.222" y="-4" as="geometry">
+            <mxPoint x="20" y="-24" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="JBajWROPyQuNEB8gRvLN-17" edge="1" parent="1" style="endArrow=classic;html=1;rounded=0;entryX=0.178;entryY=1.003;entryDx=0;entryDy=0;entryPerimeter=0;edgeStyle=orthogonalEdgeStyle;" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="496" y="489.15999999999997" as="sourcePoint" />
+            <mxPoint x="496.26" y="380" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="JBajWROPyQuNEB8gRvLN-22" connectable="0" parent="JBajWROPyQuNEB8gRvLN-17" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="&lt;div&gt;MILP-модель&amp;nbsp;&lt;/div&gt;&lt;div&gt;оптимизации&amp;nbsp;&lt;/div&gt;&lt;div&gt;пакетов задач&lt;/div&gt;" vertex="1">
+          <mxGeometry relative="1" x="-0.147" y="-2" as="geometry">
+            <mxPoint x="-12" y="-13" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="JBajWROPyQuNEB8gRvLN-18" edge="1" parent="1" source="JBajWROPyQuNEB8gRvLN-2" style="endArrow=classic;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;exitX=1.001;exitY=0.124;exitDx=0;exitDy=0;exitPerimeter=0;" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <Array as="points">
+              <mxPoint x="640" y="220" />
+            </Array>
+            <mxPoint x="510" y="240" as="sourcePoint" />
+            <mxPoint x="800" y="220" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="JBajWROPyQuNEB8gRvLN-42" connectable="0" parent="JBajWROPyQuNEB8gRvLN-18" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="&lt;div&gt;Оптимальное расписание&lt;/div&gt;&lt;div&gt;&amp;nbsp;выполнения задач&lt;/div&gt;" vertex="1">
+          <mxGeometry relative="1" x="-0.0256" y="-1" as="geometry">
+            <mxPoint x="13" y="-21" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="JBajWROPyQuNEB8gRvLN-20" edge="1" parent="1" style="endArrow=classic;html=1;rounded=0;exitX=0.997;exitY=0.343;exitDx=0;exitDy=0;exitPerimeter=0;edgeStyle=orthogonalEdgeStyle;" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="639.9959999999999" y="270.0000000000001" as="sourcePoint" />
+            <mxPoint x="800" y="270" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="JBajWROPyQuNEB8gRvLN-21" connectable="0" parent="JBajWROPyQuNEB8gRvLN-20" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="&lt;div&gt;Местоположение ПТО внутри&amp;nbsp;&lt;/div&gt;&lt;div&gt;&quot;окна доступности&quot;&amp;nbsp;и тип ПТО&lt;/div&gt;" vertex="1">
+          <mxGeometry relative="1" x="-0.0123" as="geometry">
+            <mxPoint x="6" y="-20" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="JBajWROPyQuNEB8gRvLN-23" edge="1" parent="1" style="endArrow=classic;html=1;rounded=0;entryX=0.75;entryY=1;entryDx=0;entryDy=0;edgeStyle=orthogonalEdgeStyle;" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <Array as="points">
+              <mxPoint x="386.5" y="420" />
+              <mxPoint x="386.5" y="400" />
+            </Array>
+            <mxPoint x="386.5" y="490" as="sourcePoint" />
+            <mxPoint x="386" y="380" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="JBajWROPyQuNEB8gRvLN-24" connectable="0" parent="JBajWROPyQuNEB8gRvLN-23" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="&lt;div&gt;система&lt;/div&gt;&lt;div&gt;оптимизации&amp;nbsp;&lt;/div&gt;&lt;div&gt;расписаний&lt;/div&gt;" vertex="1">
+          <mxGeometry relative="1" x="0.1429" y="-2" as="geometry">
+            <mxPoint x="4" y="3" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="JBajWROPyQuNEB8gRvLN-25" edge="1" parent="1" style="endArrow=classic;html=1;rounded=0;entryX=0.25;entryY=0;entryDx=0;entryDy=0;" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="630" y="40" as="sourcePoint" />
+            <mxPoint x="629.9999999999999" y="170.00000000000006" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="w0YOZ9_JrNI6oR3rnC4E-9" connectable="0" parent="JBajWROPyQuNEB8gRvLN-25" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="&lt;div&gt;&lt;span class=&quot;math-inline&quot; data-math=&quot;W_{start}&quot; data-index-in-node=&quot;0&quot;&gt;&lt;span class=&quot;katex&quot;&gt;&lt;span class=&quot;katex-html&quot; aria-hidden=&quot;true&quot;&gt;&lt;span class=&quot;base&quot;&gt;&lt;span class=&quot;mord&quot;&gt;&lt;span style=&quot;margin-right: 0.1389em;&quot; class=&quot;mord mathnormal&quot;&gt;W&lt;sup&gt;l&lt;/sup&gt;&lt;/span&gt;&lt;span class=&quot;msupsub&quot;&gt;&lt;span class=&quot;vlist-t vlist-t2&quot;&gt;&lt;span class=&quot;vlist-r&quot;&gt;&lt;span class=&quot;vlist&quot; style=&quot;height: 0.2806em;&quot;&gt;&lt;span class=&quot;&quot; style=&quot;top: -2.55em; margin-left: -0.1389em; margin-right: 0.05em;&quot;&gt;&lt;span class=&quot;pstrut&quot; style=&quot;height: 2.7em;&quot;&gt;&lt;/span&gt;&lt;sub&gt;&lt;span class=&quot;sizing reset-size6 size3 mtight&quot;&gt;&lt;span class=&quot;mord mtight&quot;&gt;&lt;span class=&quot;mord mathnormal mtight&quot;&gt;s&lt;/span&gt;&lt;span class=&quot;mord mathnormal mtight&quot;&gt;t&lt;/span&gt;&lt;span class=&quot;mord mathnormal mtight&quot;&gt;a&lt;/span&gt;&lt;span style=&quot;margin-right: 0.0278em;&quot; class=&quot;mord mathnormal mtight&quot;&gt;r&lt;/span&gt;&lt;span class=&quot;mord mathnormal mtight&quot;&gt;t&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/sub&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;vlist-s&quot;&gt;​&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;vlist-r&quot;&gt;&lt;span class=&quot;vlist&quot; style=&quot;height: 0.15em;&quot;&gt;&lt;span class=&quot;&quot;&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt; и&amp;nbsp;&lt;span class=&quot;math-inline&quot; data-math=&quot;W_{end}&quot; data-index-in-node=&quot;12&quot;&gt;&lt;span class=&quot;katex&quot;&gt;&lt;span class=&quot;katex-html&quot; aria-hidden=&quot;true&quot;&gt;&lt;span class=&quot;base&quot;&gt;&lt;span class=&quot;mord&quot;&gt;&lt;span style=&quot;margin-right: 0.1389em;&quot; class=&quot;mord mathnormal&quot;&gt;W&lt;sup&gt;l&lt;/sup&gt;&lt;/span&gt;&lt;span class=&quot;msupsub&quot;&gt;&lt;span class=&quot;vlist-t vlist-t2&quot;&gt;&lt;span class=&quot;vlist-r&quot;&gt;&lt;span class=&quot;vlist&quot; style=&quot;height: 0.3361em;&quot;&gt;&lt;span class=&quot;&quot; style=&quot;top: -2.55em; margin-left: -0.1389em; margin-right: 0.05em;&quot;&gt;&lt;span class=&quot;pstrut&quot; style=&quot;height: 2.7em;&quot;&gt;&lt;/span&gt;&lt;span class=&quot;sizing reset-size6 size3 mtight&quot;&gt;&lt;span class=&quot;mord mtight&quot;&gt;&lt;sub&gt;&lt;span class=&quot;mord mathnormal mtight&quot;&gt;e&lt;/span&gt;&lt;span class=&quot;mord mathnormal mtight&quot;&gt;n&lt;/span&gt;&lt;/sub&gt;&lt;span class=&quot;mord mathnormal mtight&quot;&gt;&lt;sub&gt;d&lt;/sub&gt; - моменты&amp;nbsp;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;span class=&quot;math-inline&quot; data-math=&quot;W_{end}&quot; data-index-in-node=&quot;12&quot;&gt;&lt;span class=&quot;katex&quot;&gt;&lt;span class=&quot;katex-html&quot; aria-hidden=&quot;true&quot;&gt;&lt;span class=&quot;base&quot;&gt;&lt;span class=&quot;mord&quot;&gt;&lt;span class=&quot;msupsub&quot;&gt;&lt;span class=&quot;vlist-t vlist-t2&quot;&gt;&lt;span class=&quot;vlist-r&quot;&gt;&lt;span class=&quot;vlist&quot; style=&quot;height: 0.3361em;&quot;&gt;&lt;span class=&quot;&quot; style=&quot;top: -2.55em; margin-left: -0.1389em; margin-right: 0.05em;&quot;&gt;&lt;span class=&quot;sizing reset-size6 size3 mtight&quot;&gt;&lt;span class=&quot;mord mtight&quot;&gt;&lt;span class=&quot;mord mathnormal mtight&quot;&gt;времени для окна&amp;nbsp;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;span class=&quot;math-inline&quot; data-math=&quot;W_{end}&quot; data-index-in-node=&quot;12&quot;&gt;&lt;span class=&quot;katex&quot;&gt;&lt;span class=&quot;katex-html&quot; aria-hidden=&quot;true&quot;&gt;&lt;span class=&quot;base&quot;&gt;&lt;span class=&quot;mord&quot;&gt;&lt;span class=&quot;msupsub&quot;&gt;&lt;span class=&quot;vlist-t vlist-t2&quot;&gt;&lt;span class=&quot;vlist-r&quot;&gt;&lt;span class=&quot;vlist&quot; style=&quot;height: 0.3361em;&quot;&gt;&lt;span class=&quot;&quot; style=&quot;top: -2.55em; margin-left: -0.1389em; margin-right: 0.05em;&quot;&gt;&lt;span class=&quot;sizing reset-size6 size3 mtight&quot;&gt;&lt;span class=&quot;mord mtight&quot;&gt;&lt;span class=&quot;mord mathnormal mtight&quot;&gt;досупности ПТО&amp;nbsp;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;span class=&quot;math-inline&quot; data-math=&quot;W_{end}&quot; data-index-in-node=&quot;12&quot;&gt;&lt;span class=&quot;katex&quot;&gt;&lt;span class=&quot;katex-html&quot; aria-hidden=&quot;true&quot;&gt;&lt;span class=&quot;base&quot;&gt;&lt;span class=&quot;mord&quot;&gt;&lt;span class=&quot;msupsub&quot;&gt;&lt;span class=&quot;vlist-t vlist-t2&quot;&gt;&lt;span class=&quot;vlist-r&quot;&gt;&lt;span class=&quot;vlist&quot; style=&quot;height: 0.3361em;&quot;&gt;&lt;span class=&quot;&quot; style=&quot;top: -2.55em; margin-left: -0.1389em; margin-right: 0.05em;&quot;&gt;&lt;span class=&quot;sizing reset-size6 size3 mtight&quot;&gt;&lt;span class=&quot;mord mtight&quot;&gt;&lt;span class=&quot;mord mathnormal mtight&quot;&gt;прибора l&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry relative="1" x="-0.1547" y="-2" as="geometry">
+            <mxPoint x="12" y="5" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="JBajWROPyQuNEB8gRvLN-30" edge="1" parent="1" style="endArrow=classic;html=1;rounded=0;entryX=0.25;entryY=0;entryDx=0;entryDy=0;" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="550" y="40" as="sourcePoint" />
+            <mxPoint x="550" y="170" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="w0YOZ9_JrNI6oR3rnC4E-10" connectable="0" parent="JBajWROPyQuNEB8gRvLN-30" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="&lt;div&gt;p&lt;sub&gt;l&lt;/sub&gt;&amp;nbsp;- стоимость&amp;nbsp;&lt;/div&gt;&lt;div&gt;простоев&amp;nbsp;&lt;/div&gt;&lt;div&gt;прибора l&lt;/div&gt;" vertex="1">
+          <mxGeometry relative="1" x="-0.0801" y="2" as="geometry">
+            <mxPoint x="-2" y="20" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="w0YOZ9_JrNI6oR3rnC4E-12" edge="1" parent="1" style="endArrow=classic;html=1;rounded=0;entryX=0.25;entryY=0;entryDx=0;entryDy=0;" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="475.75" y="40" as="sourcePoint" />
+            <mxPoint x="475.75" y="170" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="w0YOZ9_JrNI6oR3rnC4E-13" connectable="0" parent="w0YOZ9_JrNI6oR3rnC4E-12" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="&lt;div&gt;p&lt;sub&gt;lk&lt;/sub&gt; - стоимость ПТО&amp;nbsp;&lt;/div&gt;&lt;div&gt;типа k на&amp;nbsp;&lt;/div&gt;&lt;div&gt;приборе l&lt;/div&gt;" vertex="1">
+          <mxGeometry relative="1" x="-0.0801" y="2" as="geometry">
+            <mxPoint x="-2" y="-20" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="w0YOZ9_JrNI6oR3rnC4E-14" edge="1" parent="1" style="endArrow=classic;html=1;rounded=0;entryX=0.25;entryY=0;entryDx=0;entryDy=0;" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="320" y="40" as="sourcePoint" />
+            <mxPoint x="320" y="170" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="w0YOZ9_JrNI6oR3rnC4E-15" connectable="0" parent="w0YOZ9_JrNI6oR3rnC4E-14" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="&lt;div&gt;K - количество&amp;nbsp;&lt;/div&gt;&lt;div&gt;типов ПТО&lt;/div&gt;" vertex="1">
+          <mxGeometry relative="1" x="-0.0801" y="2" as="geometry">
+            <mxPoint x="-2" y="-20" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="w0YOZ9_JrNI6oR3rnC4E-18" edge="1" parent="1" style="endArrow=classic;html=1;rounded=0;entryX=0.25;entryY=0;entryDx=0;entryDy=0;" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="390" y="40" as="sourcePoint" />
+            <mxPoint x="390" y="170" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="w0YOZ9_JrNI6oR3rnC4E-19" connectable="0" parent="w0YOZ9_JrNI6oR3rnC4E-18" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="&lt;div&gt;t&lt;sub&gt;lk&lt;/sub&gt;&amp;nbsp;- длительность&amp;nbsp;&lt;/div&gt;&lt;div&gt;ПТО&amp;nbsp;типа k&amp;nbsp;&lt;/div&gt;&lt;div&gt;на приборе l&lt;/div&gt;" vertex="1">
+          <mxGeometry relative="1" x="-0.0801" y="2" as="geometry">
+            <mxPoint x="-2" y="20" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="w0YOZ9_JrNI6oR3rnC4E-20" edge="1" parent="1" style="endArrow=classic;html=1;rounded=0;entryX=0.178;entryY=1.003;entryDx=0;entryDy=0;entryPerimeter=0;edgeStyle=orthogonalEdgeStyle;" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="578" y="489.15999999999997" as="sourcePoint" />
+            <mxPoint x="578.26" y="380" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="w0YOZ9_JrNI6oR3rnC4E-21" connectable="0" parent="w0YOZ9_JrNI6oR3rnC4E-20" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="&lt;div&gt;пользователь/&lt;/div&gt;&lt;div&gt;оператор&lt;/div&gt;" vertex="1">
+          <mxGeometry relative="1" x="-0.147" y="-2" as="geometry">
+            <mxPoint y="-11" as="offset" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
