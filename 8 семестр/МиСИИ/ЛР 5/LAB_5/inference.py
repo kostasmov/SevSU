@@ -43,23 +43,44 @@ def constructBayesNet(gameState: hunters.GameState):
     
     """
     
-    # константы для использования
+    # имена узлов сети
     PAC = "Pacman"
     GHOST0 = "Ghost0"
     GHOST1 = "Ghost1"
     OBS0 = "Observation0"
     OBS1 = "Observation1"
-    X_RANGE = gameState.getWalls().width    #ширина поля игры
-    Y_RANGE = gameState.getWalls().height   #высота поля игры
+
+    # размеры игрового поля
+    X_RANGE = gameState.getWalls().width    # ширина
+    Y_RANGE = gameState.getWalls().height   # высота
+
+    # максимальная погрешность датчика (шум)
     MAX_NOISE = 7
-    
-    variables = []            # узлы сети
-    edges = []                # ребра
-    variableDomainsDict = {}  #возможные значения узлов
 
     "*** ВСТАВЬТЕ ВАШ КОД СЮДА ***"
     
-    raiseNotDefined()
+    # узлы сети
+    variables = [PAC, GHOST0, GHOST1, OBS0, OBS1]
+    
+    # рёбра сети
+    edges = [(PAC, OBS0), (GHOST0, OBS0), (PAC, OBS1), (GHOST1, OBS1)]
+
+    # возможные значения узлов
+    variableDomainsDict = {}
+
+    # все возможные позиции агентов
+    pos_domain = [(x, y) for x in range(X_RANGE) for y in range(Y_RANGE)]
+
+    variableDomainsDict[PAC] = pos_domain
+    variableDomainsDict[GHOST0] = pos_domain
+    variableDomainsDict[GHOST1] = pos_domain
+
+    # возможные наблюдения сенсора
+    max_dist = (X_RANGE - 1) + (Y_RANGE - 1)
+    obs_domain = list(range(0, max_dist + MAX_NOISE + 1))
+    
+    variableDomainsDict[OBS0] = obs_domain
+    variableDomainsDict[OBS1] = obs_domain
    
     "*** КОНЕЦ ВАШЕГО КОДА ***"
 
@@ -328,7 +349,8 @@ class DiscreteDistribution(dict):
         "*** ВСТАВЬТЕ ВАШ КОД СЮДА ***"
         
         raiseNotDefined()
-       "*** КОНЕЦ ВАШЕГО КОДА ***"
+
+        "*** КОНЕЦ ВАШЕГО КОДА ***"
 
     def sample(self):
         """
