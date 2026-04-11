@@ -61,19 +61,18 @@ joinFactorsByVariable = joinFactorsByVariableWithCallTracking()
 
 def joinFactors(factors: List[Factor]):
     """
-    
     Входные факторы factors — это список факторов. 
     Вам следует вычислить множество безусловных переменных и условных переменных
-    для объединения этих факторов. 
-    Верните новый фактор, который содержит объединенные переменные и таблица вероятностей которого
-    вычисляется как  произведение соответствующих вероятностей входных факторов.
+        для объединения этих факторов. 
+    Верните новый фактор, который содержит объединённые переменные и таблица вероятностей которого
+        вычисляется как  произведение соответствующих вероятностей входных факторов.
     Полагаем, что области значений variableDomainsDict для всех 
-    входных факторов  одинаковы, так как принадлежат  одной и той же BayesNet.
+        входных факторов  одинаковы, так как принадлежат  одной и той же BayesNet.
     joinFactors предполагает, что независимая переменная unconditionalVariables появляется
-    только в одном входном  факторе. 
+        только в одном входном  факторе. 
     Подсказка: методы класса Factor, которые принимают на вход assignmentDict 
-    (такие как getProbability и setProbability), могут обрабатывать assignmentDicts,
-    которые  содержат больше переменных, чем есть в этом факторе. 
+        (такие как getProbability и setProbability), могут обрабатывать assignmentDicts,
+        которые  содержат больше переменных, чем есть в этом факторе. 
 
     Полезные функции: 
     Factor.getAllPossibleAssignmentDicts
@@ -98,9 +97,39 @@ def joinFactors(factors: List[Factor]):
 
         
     "*** ВСТАВЬТЕ ВАШ КОД СЮДА ***"
-    
-    raiseNotDefined()
+
+    # список всех факторов
+    allFactors = [factor for factor in factors]
+
+    conditional = set([])   # условные переменные
+    unconditional = set([]) # безусловные переменные
+
+    # формирование множеств условных/безусловн. переменных
+    for factor in allFactors:
+        for f in factor.conditionedVariables():
+            conditional.add(f)
+        for f in factor.unconditionedVariables():
+            unconditional.add(f)
+
+    # условные переменные нового фактора
+    conditional -= unconditional
+
+    # список значений переменных
+    variableDomainsDict = allFactors[0].variableDomainsDict()
+
+    # новый объединённый фактор
+    newCPT = Factor(unconditional, conditional, variableDomainsDict)
+
+    # заполнение СРТ-таблицы
+    for assignment in newCPT.getAllPossibleAssignmentDicts():
+        probability = 1
+        for factor in allFactors:
+            probability *= factor.getProbability(assignment)
+        newCPT.setProbability(assignment, probability)
+
     "*** КОНЕЦ ВАШЕГО КОДА ***"
+
+    return newCPT
     
 
 ########### ########### ###########
