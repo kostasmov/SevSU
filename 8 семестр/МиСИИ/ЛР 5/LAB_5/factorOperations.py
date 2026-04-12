@@ -140,17 +140,15 @@ def eliminateWithCallTracking(callTrackingList=None):
 
     def eliminate(factor: Factor, eliminationVariable: str):
         """
-               
         Входной фактор — это один фактор.
         Входная переменная eliminationVariable — это переменная, которую следует исключить из фактора.
         eliminationVariable должна быть безусловной переменной в факторе.
 
-        Вы должны вычислить набор безусловных переменных и условных
-        переменных для фактора, полученного путем исключения переменной eliminationVariable.
-
+        Вы должны вычислить набор безусловных и условных переменных
+            для фактора, полученного путём исключения переменной eliminationVariable.
 
         Вернуть новый фактор, где все строки таблицы вероятностей, упоминающие
-        eliminationVariable, суммируются.
+            eliminationVariable, суммируются.
 
         Полезные функции:
         Factor.getAllPossibleAssignmentDicts
@@ -160,6 +158,7 @@ def eliminateWithCallTracking(callTrackingList=None):
         Factor.conditionedVariables
         Factor.variableDomainsDict
         """
+
         # autograder tracking -- не удалять
         if not (callTrackingList is None):
             callTrackingList.append(('eliminate', eliminationVariable))
@@ -179,11 +178,37 @@ def eliminateWithCallTracking(callTrackingList=None):
                     "eliminationVariable:" + str(eliminationVariable) + "\n" +\
                     "unconditionedVariables: " + str(factor.unconditionedVariables()))
 
-        
         "*** ВСТАВЬТЕ ВАШ КОД СЮДА ***"
-        
-        raiseNotDefined()
+
+        # новый список безусловных переменных
+        unconditioned = list(factor.unconditionedVariables())
+        unconditioned.remove(eliminationVariable)
+
+        # копирование списка условных переменных
+        conditioned = list(factor.conditionedVariables())
+
+        # область значений исключаемой переменной
+        domain = factor.variableDomainsDict()[eliminationVariable];
+
+        # создание нового фактора
+        new_factor = Factor(unconditioned, conditioned, factor.variableDomainsDict())
+
+        # для каждого возможного присваивания нового фактора:
+        for assignment in new_factor.getAllPossibleAssignmentDicts():
+            prob = 0.0
+
+            # для каждого значения исключаемой переменной:
+            for elim_val in domain:
+                old_assignment = assignment.copy()
+                old_assignment[eliminationVariable] = elim_val;
+                prob += factor.getProbability(old_assignment);
+
+            # запись в новую СРТ-таблицу значение вероятности
+            new_factor.setProbability(assignment, prob)
+
         "*** КОНЕЦ ВАШЕГО КОДА ***"
+
+        return new_factor
 
     return eliminate
 
