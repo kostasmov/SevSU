@@ -301,7 +301,6 @@ def sampleFromFactorRandomSource(randomSource=None):
 sampleFromFactor = sampleFromFactorRandomSource()
 
 class DiscreteDistribution(dict):
-       
     """
     Класс для работы с распределением, 
     представляемым в виде словаря c 
@@ -342,9 +341,9 @@ class DiscreteDistribution(dict):
     def normalize(self):
         """
         Нормализуйте распределение таким образом, чтобы суммарное значение
-        всех вероятностей ключей равнялось 1. Сотношение значений для всех
-        ключей должно остаться прежним. В случае, когда суммарное значение 
-        равно 0, ничего не делайте.
+            всех вероятностей ключей равнялось 1. Сотношение значений для всех
+            ключей должно остаться прежним. В случае, когда суммарное значение 
+            равно 0, ничего не делайте.
         
         Тесты:
             
@@ -364,17 +363,28 @@ class DiscreteDistribution(dict):
         >>> empty
         {}
         """
+
         "*** ВСТАВЬТЕ ВАШ КОД СЮДА ***"
         
-        raiseNotDefined()
+        # сумма значений распределения
+        summa = self.total()
+
+        # если все значения равны нулю - ничего не делать
+        if summa == 0:
+            return
+
+        # нормализация
+        for key in self:
+            self[key] /= summa
 
         "*** КОНЕЦ ВАШЕГО КОДА ***"
+
 
     def sample(self):
         """
         Формирует случайную выборку по распределению, представляемому
-        в виде словаря, и возвращает ключ,
-        соответствующий  случайной выборке.
+            в виде словаря, и возвращает ключ,
+            соответствующий  случайной выборке.
         
         Тесты:
             
@@ -394,9 +404,28 @@ class DiscreteDistribution(dict):
         >>> round(samples.count('d') * 1.0/N, 1)
         0.0
         """
+
         "*** ВСТАВЬТЕ ВАШ КОД СЮДА ***"
         
-        raiseNotDefined()
+        # сумма всех значений распределения
+        summa = self.total()
+        # if total_prob == 0:
+        #     return None
+
+        # генерация случайного числа на отрезке [0, summa]
+        rand_value = random.uniform(0, summa)
+
+        # накопление вероятности
+        prob_summa = 0.0
+
+        # перебор всех элементов распределения
+        for key, prob in self.items():
+            prob_summa += prob
+
+            # случайное число попало в интервал, соответствующий key
+            if rand_value <= prob_summa:
+                return key
+
         "*** КОНЕЦ ВАШЕГО КОДА ***"
 
 
@@ -405,6 +434,7 @@ class InferenceModule:
     Модуль вывода, отслеживающий распределенние степеней доверия 
     локаций призраков
     """
+
     ############################################
     # Полезные методы для всех модулей вывода  #
     ############################################
@@ -471,10 +501,21 @@ class InferenceModule:
         """
         Возвращает вероятность P(noisyDistance | pacmanPosition, ghostPosition).
         """
+
         "*** ВСТАВЬТЕ ВАШ КОД СЮДА ***"
         
-        raiseNotDefined()
-        "*** КОНЕЦ ВАШЕГО КОДА ***"
+        # ОСОБЫЙ СЛУЧАЙ: призрак уже в темнице сырой
+        if ghostPosition == jailPosition:
+            return 1.0 if noisyDistance is None else 0.0
+
+        # если призрак не в тюрьме, то расстояние до него должно быть
+        if noisyDistance is None:
+            return 0.0
+
+        # истинное расстояние между пакманом и призраком
+        trueDistance = manhattanDistance(pacmanPosition, ghostPosition)
+
+        return busters.getObservationProbability(noisyDistance, trueDistance)
 
     def setGhostPosition(self, gameState, ghostPosition, index):
         """
