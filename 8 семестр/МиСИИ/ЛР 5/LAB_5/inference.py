@@ -148,28 +148,28 @@ def inferenceByVariableEliminationWithCallTracking(callTrackingList=None):
     def inferenceByVariableElimination(bayesNet: bn, queryVariables: List[str], evidenceDict: Dict, eliminationOrder: List[str]):
         """
         Эта функция должна выполнять вероятностный выводной запрос, который
-        возвращает фактор:
+            возвращает фактор:
 
             P(queryVariables | evidenceDict)
 
-        Она должна выполнять вывод путем чередования объединения по переменной
-        и исключения этой переменной в порядке переменных в соответствии с 
-        exceptionOrder. См. inferenceByEnumeration для примера использования
-        этих функций.
+        Она должна выполнять вывод путём чередования объединения по переменной
+            и исключения этой переменной в порядке переменных в соответствии с 
+            exceptionOrder. См. inferenceByEnumeration для примера использования
+            этих функций.
 
         Вам нужно использовать joinFactorsByVariable для объединения всех факторов,
-        содержащих переменную, чтобы автооценщик распознал, что вы выполнили
-        правильное чередование объединений и исключений.
+            содержащих переменную, чтобы автооценщик распознал, что вы выполнили
+            правильное чередование объединений и исключений.
 
         Если фактор, из которого вы собираетесь исключить переменную, имеет
-        только одну безусловную переменную, вам не следует исключать ее
-        а вместо этого просто отбросить фактор. Это связано с тем, что
-        результат исключения будет 1 (вы исключаете все безусловные переменные),
-        но это не допустимый фактор. Поэтому это упрощает использование  
-        результата исключения.
+            только одну безусловную переменную, вам не следует исключать ее
+            а вместо этого просто отбросить фактор. Это связано с тем, что
+            результат исключения будет 1 (вы исключаете все безусловные переменные),
+            но это не допустимый фактор. Поэтому это упрощает использование  
+            результата исключения.
 
         Сумма вероятностей должна равняться единице (чтобы это была истинная 
-        условная вероятность, обусловленная свидетельствами).
+            условная вероятность, обусловленная свидетельствами).
 
         bayesNet:       Байесовская сеть, на основе по которой мы делаем запрос.
         queryVariables: Список безусловных переменных запроса.
@@ -180,8 +180,8 @@ def inferenceByVariableEliminationWithCallTracking(callTrackingList=None):
 
 
         Подсказка: BayesNet.getAllCPTsWithEvidence вернет все таблицы условных 
-        вероятностей, даже если для evidenceDict передан пустой словарь (или None).
-        В этом случае он не будет специализировать никакие домены переменных в CPT.
+            вероятностей, даже если для evidenceDict передан пустой словарь (или None).
+            В этом случае он не будет специализировать никакие домены переменных в CPT.
 
         Полезные функции:
         BayesNet.getAllCPTsWithEvidence
@@ -194,15 +194,33 @@ def inferenceByVariableEliminationWithCallTracking(callTrackingList=None):
         # необходимо для автооценивания -- не удалять!
         joinFactorsByVariable = joinFactorsByVariableWithCallTracking(callTrackingList)
         eliminate             = eliminateWithCallTracking(callTrackingList)
+
         if eliminationOrder is None: # установить произвольный порядок удаления, если задано None
             eliminationVariables = bayesNet.variablesSet() - set(queryVariables) -\
                                    set(evidenceDict.keys())
             eliminationOrder = sorted(list(eliminationVariables))
 
         "*** ВСТАВЬТЕ ВАШ КОД СЮДА ***"
-        
-        raiseNotDefined()
+
+        # список всех факторов (с учётом свидетельств)
+        factors = bayesNet.getAllCPTsWithEvidence(evidenceDict)
+
+        # перебор всех исключаемых переменных (var)
+        for var in eliminationOrder:
+            # перемножение факторов с исключаемой переменной
+            factors, joinedFactor = joinFactorsByVariable(factors, var)
+
+            # маргинализация по исклюаемой переменной и добавление в список
+            if len(joinedFactor.unconditionedVariables()) > 1:
+                factors.append(eliminate(joinedFactor, var))
+
+        # объединить список факторов
+        finalFactor = joinFactors(factors)
+
         "*** КОНЕЦ ВАШЕГО КОДА ***"
+
+        # возвращаем нормализованный фактор
+        return normalize(finalFactor)
 
     return inferenceByVariableElimination
 
