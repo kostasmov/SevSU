@@ -616,23 +616,38 @@ class ExactInference(InferenceModule):
     def observeUpdate(self, observation: int, gameState: busters.GameState):
         """
         Обновляет степени уверенности агента в отношении позиций призраков
-        на основе наблюдания observation и позиции Пакмана.
+            на основе наблюдания observation и позиции Пакмана.
         observation – это зашумленное манхеттенское расстояние до
-        отслеживаемого призрака.
+            отслеживаемого призрака.
 
-        self.allPositions  - список возможных позиций призрака, включающий 
-        позицию тюрьмы. Вам необходимо рассматривать только те позиции, 
-        которые есть в self.allPositions.
+        self.allPositions - список возможных позиций призрака, включающий 
+            позицию тюрьмы. Вам необходимо рассматривать только те позиции, 
+            которые есть в self.allPositions.
 
         Модель обновления не является полностью стационарной: она может 
-        зависисеть от текущей позиции Пакмана. Это не проблема, если текущая
-        позиция Пакмана известна
+            зависисеть от текущей позиции Пакмана. Это не проблема, если текущая
+            позиция Пакмана известна
         """
 
         "*** ВСТАВЬТЕ ВАШ КОД СЮДА ***"
-        
-        raiseNotDefined()
+
+        # текущие координаты Пакмана
+        pacmanPosition = gameState.getPacmanPosition()
+
+        # позиция тюрьмы
+        jailPosition = self.getJailPosition()
+
+        # перебор клеток где может быть призрак
+        for possibleGhostPos in self.allPositions:
+            # вероятность наблюдения
+            prob = self.getObservationProb(observation, pacmanPosition, possibleGhostPos, jailPosition)
+
+            # обновление вероятности позиции призрака
+            self.beliefs[possibleGhostPos] *= prob
+
         "*** КОНЕЦ ВАШЕГО КОДА ***"
+
+        # нормализация распределения вероятностей
         self.beliefs.normalize()
     
     ########### ########### ###########
