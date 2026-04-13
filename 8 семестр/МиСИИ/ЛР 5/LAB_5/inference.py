@@ -693,7 +693,6 @@ class ExactInference(InferenceModule):
 
 
 class ParticleFilter(InferenceModule):
-    
     """
     Фильтр частиц для приближенного отслеживания одного призрака
     """
@@ -710,28 +709,52 @@ class ParticleFilter(InferenceModule):
 
     def initializeUniformly(self, gameState: busters.GameState):
         """
-        Инициализирует список частиц self.particles .Частицы должны быть
-        равномерно (не случайно) распределены по допустимым позициям. 
+        Инициализирует список частиц self.particles. Частицы должны быть
+            равномерно (не случайно) распределены по допустимым позициям. 
         Использует self.numParticles для хранения числа частиц, 
-        а self.legalPositions для хранения допустимых позиций частиц. 
+            а self.legalPositions для хранения допустимых позиций частиц. 
         """
+
+        # список частиц
         self.particles = []
+
         "*** ВСТАВЬТЕ ВАШ КОД СЮДА ***"
         
-        raiseNotDefined()
+        # определение числа частиц
+        particle_num = self.numParticles
+
+        # определение допустимых позиций частиц
+        legal = self.legalPositions;
+
+        # расширение списка частиц
+        for i in range(int(particle_num / len(legal))):
+            self.particles.extend(legal)
+
         "*** КОНЕЦ ВАШЕГО КОДА ***"
         
 
     def getBeliefDistribution(self):
         """
         Метод преобразует список частиц в соответствующее 
-        распределение степеней уверенности. Метод должен возвращать 
-        нормализованное распределение типа DiscreteDistribution.
+            распределение степеней уверенности. Метод должен возвращать 
+            нормализованное распределение типа DiscreteDistribution.
         """
+
         "*** ВСТАВЬТЕ ВАШ КОД СЮДА ***"
         
-        raiseNotDefined()
+        # дискретное распределение
+        beliefDist = DiscreteDistribution()
+
+        # подсчёт числа частиц в каждой позиции
+        for pos in self.particles:
+            beliefDist[pos] = beliefDist[pos] + 1
+
+        # нормализация
+        beliefDist.normalize()
+
         "*** КОНЕЦ ВАШЕГО КОДА ***"
+
+        return beliefDist
         
     
     ########### ########### ###########
