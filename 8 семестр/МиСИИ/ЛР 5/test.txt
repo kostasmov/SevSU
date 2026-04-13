@@ -1,0 +1,11 @@
+python autograder.py -q q1
+python autograder.py -q q2
+python autograder.py -q q3
+python autograder.py -q q4
+
+pythom -m docktest -v inference.py
+python autograder.py -q q5
+
+python autograder.py -q q6 --no-graphics
+python autograder.py -q q7 --no-graphics
+python autograder.py -q q8 --no-graphics

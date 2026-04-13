@@ -142,17 +142,43 @@ class GreedyBustersAgent(BustersAgent):
         который еще не был пойман. Затем выбирает действие, перемещающее
         Пакмана к ближайшему призраку (в соответствии с mazeDistance).
         """
-        # определяем позицию Пакмана
+
+        # позиция Пакмана
         pacmanPosition = gameState.getPacmanPosition()
-        # формируем список допустимых действий Пакмана
+
+        # список допустимых действий Пакмана
         legal = [a for a in gameState.getLegalPacmanActions()]
-        # формируем список распределений степеней уверенностей  
-        # о положении каждого из еще непойманных призраков
+
+        # список распределений степеней уверенностей 
+        # о положении каждого из ещё непойманных призраков
         livingGhosts = gameState.getLivingGhosts()
         livingGhostPositionDistributions = [beliefs for i, beliefs in enumerate(self.ghostBeliefs) if livingGhosts[i+1]]
        
         "*** ВСТАВЬТЕ ВАШ КОД СЮДА***"
         
-        raiseNotDefined()
+        # наиболее вероятные позиции каждого непойманного призрака
+        ghostMaxProb = []
+        for beliefs in livingGhostPositionDistributions:
+            ghostMaxProb.append(beliefs.argMax())
+
+        minDist = []
+
+        # переьор доступных действий
+        for action in legal:
+            # позиция после действия
+            successorPosition = Actions.getSuccessor(pacmanPosition, action)
+
+            # наиболее вероятные позиции призраков
+            for ghostPos in ghostMaxProb:
+                minDist.append((action, self.distancer.getDistance(successorPosition, ghostPos)))
+
+        # минимальное расстояние до призрака
+        minGhostDist = min([d for act, d in minDist])
+
+        # действие, ведущее к ближайшему призраку
+        for act, d in minDist:
+            if d == minGhostDist:
+                return act
+
         "*** КОНЕЦ ВАШЕГО КОДА ***"
         
