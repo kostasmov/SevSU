@@ -2,13 +2,13 @@ from torch import no_grad, stack
 from torch.utils.data import DataLoader
 from torch.nn import Module
 
-
 """
 Функции, которые вам следует использовать.
 Пожалуйста, не импортируйте любые другие функции или модули Torch.
 Ваш код не пройдет проверку, если autograder обнаружит какое-либо измененение
 строк импорта
 """
+
 from torch.nn import Parameter, Linear
 from torch import optim, tensor, tensordot, empty, ones
 from torch.nn.functional import cross_entropy, relu, mse_loss
@@ -21,25 +21,26 @@ class PerceptronModel(Module):
         Инициализирует новый экземпляр класса PerceptronModel.
 
         Персептрон классифицирует точки данных как принадлежащие определенному
-        классу (+1) или нет (-1). `dimensions` — это размерность данных.
+            классу (+1) или нет (-1). `dimensions` — это размерность данных.
         Например, dimensions=2 будет означать, что персептрон должен классифицировать
-        2D-точки.
+            2D-точки.
 
         Чтобы автогрейдер (autograder) мог идентфицировать веса, инициализируйте
-        их как объект pytorch Parameter следующим образом:
+            их как объект pytorch Parameter следующим образом:
 
         Parameter(weight_vector),
 
         где weight_vector — это тензор pytorch размерности 'dimensions'.
 
         Подсказка: можно использовать ones(dim) для создания тензора размерности dim.
-        
         """
+
         super(PerceptronModel, self).__init__()
         
-        
         "*** ВСТАВЬТЕ ВАШ КОД СЮДА ***"
-      
+
+        # инициализация весов персептрона
+        self.w = Parameter(ones(1, dimensions))
 
     def get_weights(self):
         """
@@ -59,7 +60,9 @@ class PerceptronModel(Module):
         """
        
         "*** ВСТАВЬТЕ ВАШ КОД СЮДА ***"
-       
+        
+        # вычисление скалярного произведения вектора весов и вектора входа
+        return tensordot(x, self.w, dims=([1], [1]))
 
 
     def get_prediction(self, x):
@@ -70,25 +73,39 @@ class PerceptronModel(Module):
         """
         
         "*** ВСТАВЬТЕ ВАШ КОД СЮДА ***"
-       
-
-
+    
+        return 1 if self.run(x).item() >= 0 else -1 
 
     def train(self, dataset):
         """
         Обучение персептрона до сходимости.
         
         Выполняйте итерации по данным с помощью DataLoader, чтобы
-        извлекать порции данных, на которых нужно обучаться.
+            извлекать порции данных, на которых нужно обучаться.
 
         Каждая выборка  данных dataloader имеет вид {'x': features, 'label': label}, где 
-        label — истинная метка данных, которую  нужно предсказать на основе признаков x.
+            label — истинная метка данных, которую нужно предсказать на основе признаков x.
         """        
+
         with no_grad():
             dataloader = DataLoader(dataset, batch_size=1, shuffle=True)
             
             "*** ВСТАВЬТЕ ВАШ КОД СЮДА ***"
             
+            with no_grad():
+                converged = False       # флаг сходимости
+                while not converged:
+                    converged = True
+                    for batch in dataloader:    # перебор точек
+                        x, y = batch['x'], batch['label']
+
+                        # классификация точки x
+                        pred = self.get_prediction(x) 
+
+                        # сравнение с истиной
+                        if pred != y.item():
+                            self.w += x * y     # если предсказание неверное - корректируем веса
+                            converged = False   # обучение продолжается
              
 
 class RegressionModel(Module):
