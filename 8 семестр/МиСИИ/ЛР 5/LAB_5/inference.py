@@ -805,11 +805,25 @@ class ParticleFilter(InferenceModule):
     def elapseTime(self, gameState):
         """
         Выполняет выборку следующего состояния каждой частицы на основе
-        её текущего состояния и состояния игры
+            её текущего состояния и состояния игры
         """
+
         "*** ВСТАВЬТЕ ВАШ КОД СЮДА ***"
        
-        raiseNotDefined()
+        elapseDist = DiscreteDistribution()
+
+        # распределение новых позиций частиц
+        for pos in self.particles:
+            newPosDist = self.getPositionDistribution(gameState, pos)
+        
+            # сумма вероятностей нахождения частицы в каждой новой позиции
+            for newPos, prob in newPosDist.items():
+                elapseDist[newPos] += prob
+
+        # нормализация и формирование нового списка частиц
+        elapseDist.normalize()
+        self.particles = [elapseDist.sample() for _ in range(int(self.numParticles))]
+
         "*** КОНЕЦ ВАШЕГО КОДА ***"
         
 

@@ -9,3 +9,6 @@ python autograder.py -q q5
 python autograder.py -q q6 --no-graphics
 python autograder.py -q q7 --no-graphics
 python autograder.py -q q8 --no-graphics
+python autograder.py -q q9 --no-graphics
+python autograder.py -q q10 --no-graphics
+python autograder.py -q q11 --no-graphics
