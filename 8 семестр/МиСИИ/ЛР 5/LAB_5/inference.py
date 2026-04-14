@@ -765,14 +765,36 @@ class ParticleFilter(InferenceModule):
         """
         Обновление списка частиц с учетом весов наблюдений. 
         Наблюдение - это зашумленное манхеттенское расстояние
-        до отслеживаемого призрака.
+            до отслеживаемого призрака.
         Имеется специальный случай, который необходимо учесть. Когда все 
-        частицы получают нулевой вес, список частиц слудует повторно
-        инициализировать, вызвав initializeUniformly.
+            частицы получают нулевой вес, список частиц слудует повторно
+            инициализировать, вызвав initializeUniformly.
         """
+
         "*** ВСТАВЬТЕ ВАШ КОД СЮДА ***"
         
-        raiseNotDefined()
+        # позиции Пакмана и тюрьмы
+        pacmanPosition = gameState.getPacmanPosition()
+        jailPosition = self.getJailPosition()
+
+        # дискретное распределение
+        weightsDist = DiscreteDistribution()
+
+        # поиск суммы весов для каждой позиции
+        for pos in self.particles:
+            observationProb = self.getObservationProb(observation, pacmanPosition, pos, jailPosition)
+            weightsDist[pos] += observationProb
+
+        # ОСОБЫЙ СЛУЧАЙ - у всех частиц нулевой вес
+        if weightsDist.total() == 0:
+            # повторная инициализация
+            self.initializeUniformly(gameState)
+            return
+
+        # нормализация и сохранение
+        weightsDist.normalize()
+        self.particles = [weightsDist.sample() for _ in range(int(self.numParticles))]
+
         "*** КОНЕЦ ВАШЕГО КОДА ***"
         
     
