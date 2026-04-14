@@ -3,7 +3,7 @@ python autograder.py -q q2
 python autograder.py -q q3
 python autograder.py -q q4
 
-pythom -m docktest -v inference.py
+python -m doctest -v inference.py
 python autograder.py -q q5
 
 python autograder.py -q q6 --no-graphics

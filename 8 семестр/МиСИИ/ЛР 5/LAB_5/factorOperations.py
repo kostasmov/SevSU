@@ -18,7 +18,6 @@ from util import raiseNotDefined
 
 def joinFactorsByVariableWithCallTracking(callTrackingList=None):
 
-
     def joinFactorsByVariable(factors: List[Factor], joinVariable: str):
         """
         Input factors is a list of factors.
@@ -65,14 +64,14 @@ def joinFactors(factors: List[Factor]):
     Вам следует вычислить множество безусловных переменных и условных переменных
         для объединения этих факторов. 
     Верните новый фактор, который содержит объединённые переменные и таблица вероятностей которого
-        вычисляется как  произведение соответствующих вероятностей входных факторов.
+        вычисляется как произведение соответствующих вероятностей входных факторов.
     Полагаем, что области значений variableDomainsDict для всех 
-        входных факторов  одинаковы, так как принадлежат  одной и той же BayesNet.
+        входных факторов одинаковы, так как принадлежат одной и той же BayesNet.
     joinFactors предполагает, что независимая переменная unconditionalVariables появляется
-        только в одном входном  факторе. 
+        только в одном входном факторе. 
     Подсказка: методы класса Factor, которые принимают на вход assignmentDict 
         (такие как getProbability и setProbability), могут обрабатывать assignmentDicts,
-        которые  содержат больше переменных, чем есть в этом факторе. 
+        которые содержат больше переменных, чем есть в этом факторе. 
 
     Полезные функции: 
     Factor.getAllPossibleAssignmentDicts
@@ -95,7 +94,6 @@ def joinFactors(factors: List[Factor]):
                     "Input factors: \n" +
                     "\n".join(map(str, factors)))
 
-        
     "*** ВСТАВЬТЕ ВАШ КОД СЮДА ***"
 
     # список всех факторов
@@ -111,7 +109,7 @@ def joinFactors(factors: List[Factor]):
         for f in factor.unconditionedVariables():
             unconditional.add(f)
 
-    # условные переменные нового фактора
+    # условные переменные нового фактора (ПРАВИЛО ПРОИЗВЕДЕНИЯ)
     conditional -= unconditional
 
     # список значений переменных
