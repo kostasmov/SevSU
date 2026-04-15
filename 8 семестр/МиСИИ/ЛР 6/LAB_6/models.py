@@ -111,18 +111,21 @@ class PerceptronModel(Module):
 class RegressionModel(Module):
     """
     Модель нейронной сети для аппроксимации функции, которая отображает 
-    действительные числа в действительные числа. Сеть должна быть достаточно
-    большой, чтобы иметь возможность аппроксимировать sin(x) на интервале
-    [-2pi, 2pi] с разумной точностью.
+        действительные числа в действительные числа. Сеть должна быть достаточно
+        большой, чтобы иметь возможность аппроксимировать sin(x) на интервале
+        [-2pi, 2pi] с разумной точностью.
     """
    
     def __init__(self):
-        
         # Здесь инициализируйте параметры вашей модели нейросети
        
         super(RegressionModel,self).__init__()
         
         "*** ВСТАВЬТЕ ВАШ КОД СЮДА ***"
+
+        self.fc1 = Linear(1, 200)
+        self.fc2 = Linear(200, 200)
+        self.fc3 = Linear(200, 1)
         
 
 
@@ -138,6 +141,10 @@ class RegressionModel(Module):
                
         "*** ВСТАВЬТЕ ВАШ КОД СЮДА ***"
         
+        x = relu(self.fc1(x))
+        x = relu(self.fc2(x))
+
+        return self.fc3(x)
 
     
     def get_loss(self, x, y):
@@ -153,6 +160,7 @@ class RegressionModel(Module):
         
         "*** ВСТАВЬТЕ ВАШ КОД СЮДА ***"
         
+        return mse_loss(self.forward(x), y)
   
 
     def train(self, dataset):
@@ -166,12 +174,21 @@ class RegressionModel(Module):
         — это истинное значение (метка), которое должна предсказать модель нейросети.
 
         Входные данные:
-            dataset:  набор данных PyTorch, содержащий данные для обучения
-            
+            dataset:  набор данных PyTorch, содержащий данные для обучения 
         """
        
         "*** ВСТАВЬТЕ ВАШ КОД СЮДА ***"
        
+        dataloader = DataLoader(dataset, batch_size=10, shuffle=True)
+        optimizer = optim.Adam(self.parameters(), lr=0.01)
+
+        for epoch in range(100):
+            for batch in dataloader:
+                x, y = batch['x'], batch['label']
+                optimizer.zero_grad()
+                loss = self.get_loss(x, y)
+                loss.backward()
+                optimizer.step()
         
 
    
