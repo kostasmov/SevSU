@@ -143,7 +143,6 @@ class RegressionModel(Module):
         
         x = relu(self.fc1(x))
         x = relu(self.fc2(x))
-
         return self.fc3(x)
 
     
@@ -197,9 +196,9 @@ class DigitClassificationModel(Module):
     Модель классификации рукописных цифр с использованием набора данных MNIST.
 
     Каждая рукописная цифра представляет собой изображение в оттенках серого 
-    размером 28x28 пикселей, которое преобразовано в 784-мерный вектор для целей 
-    этой модели нейросети. Каждый элемент вектора представляет собой число с
-    плавающей точкой от 0 до 1.
+     размером 28x28 пикселей, которое преобразовано в 784-мерный вектор для целей 
+     этой модели нейросети. Каждый элемент вектора представляет собой число с
+     плавающей точкой от 0 до 1.
 
     Цель состоит в том, чтобы отнести каждую цифру к одному из 10 классов (число от 0 до 9).
 
@@ -209,16 +208,17 @@ class DigitClassificationModel(Module):
     """
     
     def __init__(self):
-      
         # Здесь инициализируйте параметры вашей модели нейросети
         super().__init__()
         input_size = 28 * 28
         output_size = 10
         
         "*** ВСТАВЬТЕ ВАШ КОД СЮДА ***"
-        
-        
 
+        self.fc1 = Linear(input_size, 256)
+        self.fc2 = Linear(256, 128)
+        self.fc3 = Linear(128, output_size)
+    
 
     def run(self, x):
         """
@@ -238,6 +238,10 @@ class DigitClassificationModel(Module):
        
         "*** ВСТАВЬТЕ ВАШ КОД СЮДА ***"
         
+        x = relu(self.fc1(x))
+        x = relu(self.fc2(x))
+        return self.fc3(x)
+    
     
     def get_loss(self, x, y):
         """
@@ -254,8 +258,9 @@ class DigitClassificationModel(Module):
        
         "*** ВСТАВЬТЕ ВАШ КОД СЮДА ***"
         
+        logits = self.run(x)
+        return cross_entropy(logits, y)
        
-        
 
     def train(self, dataset):
         """
@@ -264,7 +269,16 @@ class DigitClassificationModel(Module):
        
         "*** ВСТАВЬТЕ ВАШ КОД СЮДА ***"
 
-        
+        dataloader = DataLoader(dataset, batch_size=64, shuffle=True)
+        optimizer = optim.Adam(self.parameters(), lr=0.001)
+
+        for epoch in range(10):
+            for batch in dataloader:
+                x, y = batch['x'], batch['label']
+                optimizer.zero_grad()
+                loss = self.get_loss(x, y)
+                loss.backward()
+                optimizer.step()
 
 
 
@@ -288,6 +302,7 @@ class LanguageIDModel(Module):
         super(LanguageIDModel, self).__init__()
         
         "*** ВСТАВЬТЕ ВАШ КОД СЮДА ***"
+        
         
         
         "*** КОНЕЦ ВАШЕГО КОДА ***"
