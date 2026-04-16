@@ -42,11 +42,13 @@ class PerceptronModel(Module):
         # инициализация весов персептрона
         self.w = Parameter(ones(1, dimensions))
 
+
     def get_weights(self):
         """
         Возвращает экземпляр Parameter с текущими весами персептрона.
         """
         return self.w
+
 
     def run(self, x):
         """
@@ -76,16 +78,17 @@ class PerceptronModel(Module):
     
         return 1 if self.run(x).item() >= 0 else -1 
 
+
     def train(self, dataset):
         """
         Обучение персептрона до сходимости.
         
         Выполняйте итерации по данным с помощью DataLoader, чтобы
-            извлекать порции данных, на которых нужно обучаться.
+         извлекать порции данных, на которых нужно обучаться.
 
         Каждая выборка  данных dataloader имеет вид {'x': features, 'label': label}, где 
-            label — истинная метка данных, которую нужно предсказать на основе признаков x.
-        """        
+         label — истинная метка данных, которую нужно предсказать на основе признаков x.
+        """
 
         with no_grad():
             dataloader = DataLoader(dataset, batch_size=1, shuffle=True)
@@ -93,9 +96,9 @@ class PerceptronModel(Module):
             "*** ВСТАВЬТЕ ВАШ КОД СЮДА ***"
             
             with no_grad():
-                converged = False       # флаг сходимости
-                while not converged:
-                    converged = True
+                finished = False       # флаг
+                while not finished:
+                    finished = True
                     for batch in dataloader:    # перебор точек
                         x, y = batch['x'], batch['label']
 
@@ -105,7 +108,7 @@ class PerceptronModel(Module):
                         # сравнение с истиной
                         if pred != y.item():
                             self.w += x * y     # если предсказание неверное - корректируем веса
-                            converged = False   # обучение продолжается
+                            finished = False   # обучение продолжается
              
 
 class RegressionModel(Module):
@@ -126,8 +129,6 @@ class RegressionModel(Module):
         self.fc1 = Linear(1, 200)
         self.fc2 = Linear(200, 200)
         self.fc3 = Linear(200, 1)
-        
-
 
     def forward(self, x):
         """
@@ -145,7 +146,6 @@ class RegressionModel(Module):
         x = relu(self.fc2(x))
         return self.fc3(x)
 
-    
     def get_loss(self, x, y):
         """
         Вычисляет среднеквадратические потери для блока входных данных.
@@ -161,7 +161,6 @@ class RegressionModel(Module):
         
         return mse_loss(self.forward(x), y)
   
-
     def train(self, dataset):
         """
         Обучение модели.
@@ -175,9 +174,9 @@ class RegressionModel(Module):
         Входные данные:
             dataset:  набор данных PyTorch, содержащий данные для обучения 
         """
-       
+        
         "*** ВСТАВЬТЕ ВАШ КОД СЮДА ***"
-       
+        
         dataloader = DataLoader(dataset, batch_size=10, shuffle=True)
         optimizer = optim.Adam(self.parameters(), lr=0.01)
 
@@ -282,20 +281,139 @@ class DigitClassificationModel(Module):
 
 
 
-ы
+class LanguageIDModel(Module):
+    """
+    Модель для идентификации языка с гранулярностью в одно слово.
+
+    (См. RegressionModel для получения дополнительной информации об API различных
+     методов, используемых здесь. Мы рекомендуем вам реализовать RegressionModel перед
+     работой над этой частью проекта.)
+    """
+
+    def __init__(self):
+        # Наш набор данных содержит слова из пяти разных языков, а
+        # объединенные алфавиты пяти языков содержат в общей сложности 47 уникальных
+        # символов.
+        # Вы можете ссылаться на self.num_chars или len(self.languages) в своем коде
+   
+        self.num_chars = 47
+        self.languages = ["English", "Spanish", "Finnish", "Dutch", "Polish"]
+        super(LanguageIDModel, self).__init__()
+        
+        "*** ВСТАВЬТЕ ВАШ КОД СЮДА ***"
+        
+        self.hidden_size = 128
+        self.lin_layer1 = Linear(self.num_chars, self.hidden_size)
+        self.lin_layer2 = Linear(self.hidden_size, self.hidden_size)
+        self.output_layer = Linear(self.hidden_size, 5)
+        
+        "*** КОНЕЦ ВАШЕГО КОДА ***"
+         
+         
+    def run(self, xs):
+        """
+        Запускает модель для блока (batch) входных данных.
+
+        Хотя слова имеют разную длину, наша пред.обработка данных гарантирует,
+        что в пределах бэтча все слова будут иметь одинаковую длину (L).
+                
+        Здесь `xs` список длины L. Каждый элемент `xs` это
+        тензор с формой (batch_size x self.num_chars), где каждая строка 
+        является векторным кодом символа. Например, если у нас
+        есть бэтч из 8 трехбуквенных слов, где последнее слово «cat», то
+        xs[1] будет тензором, содержащим 1 в позиции (7, 0). Здесь индекс
+        7 отражает тот факт, что «cat» является последним словом в бэтче, а
+        индекс 0 отражает тот факт, что буква «a» является начальной (0-й)
+        буквой нашего объединенного алфавита..
+
+        Ваша модель должна реализовать рекуррентную нейронную сеть, преобразующую 
+        список `xs` в тензор скрытого состояния формы (batch_size x hidden_size), 
+        где hidden_size размерность скрытого состояния. Затем она должна вычислить 
+        тензор формы (batch_size x 5), содержащий оценки вероятности языка, где 
+        более высокие значения соответствуют большей вероятности слова из 
+        определенного языка .
+
+        Входы:
+            xs: список из L элементов (по одному на символ), где каждый элемент
+                имеет форму (batch_size x self.num_chars)
+        Возвращает:
+            Тензор формы (batch_size x 5), содержащий предсказанные рейтинги языка
+                (также называемые логитами - logits)
+        """
+       
+        "*** ВСТАВЬТЕ ВАШ КОД СЮДА ***"
+        
+        h = relu(self.lin_layer1(xs[0]))
+
+        for x in xs[1:]:
+            if x.sum() == 0:
+                continue
+            h = relu(self.lin_layer1(x) + self.lin_layer2(h))
+
+        return self.output_layer(h)
+        
+        
+    def get_loss(self, xs, y):
+        """ 
+        Вычисляет потери в пределах мини-блока примеров.
+
+        Правильные метки `y` представлены тензором с формой (batch_size x 5).
+        Каждая строка тензора — это "one-hot" вектор, кодирующий  язык.
+
+        Входные данные:
+        xs: список из L элементов (по одному на символ), где каждый элемент
+        - это тензор формы (batch_size x self.num_chars)
+        y: правильные метки в виде тензора с формой (batch_size x 5)
+        Возвращает: потери
+               
+        """
+       
+        "*** ВСТАВЬТЕ ВАШ КОД СЮДА ***"
+        
+        return cross_entropy(self.run(xs), y.argmax(dim=1))
+    
+
+    def train(self, dataset):
+        """
+        Обучение модели.
+        
+        Обратите внимание, что при использовании dataloader будет возвращаться тензор в форме
+        (batch_size x length of word x self.num_chars). В тоже время  get_loss() и run() ожидают,
+        что на входе тензор будет в форме (length of word x batch_size x self.num_chars).
+        Это означает, что вам нужно поменять местами первые два измерения входного тензора.
+        Это можно сделать с помощью функции movedim() следующим образом:    
+
+        movedim(input_vector, initial_dimension_position, final_dimension_position)
+
+        Детальнее см. документацию по torch.movedim()
+        """
+       
+        "*** ВСТАВЬТЕ ВАШ КОД СЮДА ***"
+        
+        dataloader = DataLoader(dataset, batch_size=32, shuffle=True)
+        optimizer = optim.Adam(self.parameters(), lr=0.001)
+
+        for epoch in range(20):
+            for batch in dataloader:
+                x, y = batch['x'], batch['label']
+                x = movedim(x, 0, 1)
+                optimizer.zero_grad()
+                loss = self.get_loss(x, y)
+                loss.backward()
+                optimizer.step()
 
         
         
         
 def Convolve(input: tensor, weight: tensor):
     """
-    Реализуйте двумерную свертку с заданными входами и весами.
-    НЕ импортируйте никакие методы pytorch, которые напрямую реализуют свертку.
-    Ваша реализация свертка должна быть выполнена только с помощью  уже 
-    импортированных функций.
+    Реализуйте двумерную свёртку с заданными входами и весами.
+    НЕ импортируйте никакие методы pytorch, которые напрямую реализуют свёртку.
+    Ваша реализация свёртка должна быть выполнена только с помощью  уже 
+     импортированных функций.
 
-    Есть несколько способов реализовать свертку. Одним из возможных решений 
-    является использование  'tensordot'.
+    Есть несколько способов реализовать свёртку. Одним из возможных решений 
+     является использование  'tensordot'.
     Если вы хотите индексировать тензор, вы можете сделать это следующим образом:
 
         tensor[y:y+height, x:x+width]
@@ -303,16 +421,36 @@ def Convolve(input: tensor, weight: tensor):
     Это вызов возвращает подтензор, первый элемент которого — tensor[y,x] 
     Подтензор имеет высоту 'height, и ширину 'width'
     """
-    input_tensor_dimensions = input.shape
-    weight_dimensions = weight.shape
+
+    #input_tensor_dimensions = input.shape
+    #weight_dimensions = weight.shape
+
+    H, W = input.shape      # высота и ширина входных данных
+    HH, WW = weight.shape   # высота и ширина окна свёртки
+
     Output_Tensor = tensor(())
    
     "*** ВСТАВЬТЕ ВАШ КОД СЮДА ***"
 
-    
-    
-    "*** КОНЕЦ ВАШЕГО КОДА ***"
-    return Output_Tensor
+    pad = 0     # число добавленных нулевых строк
+    stride = 1  # шаг смещения окна свёртки
+
+    # размеры изображения на выходе
+    Ht = 1 + (H + 2 * pad - HH) // stride
+    Wt = 1 + (W + 2 * pad - WW) // stride
+
+    # сборка выходной матрицы
+    rows = []
+    for i in range(Ht):
+        cols = []
+        for j in range(Wt):
+            x_slice = input[i:(i + HH), j:(j + WW)]     # вырезание подматрицы
+            val = tensordot(x_slice, weight, dims=2)    # вычисление свёртки
+            cols.append(val)
+        rows.append(stack(cols))
+
+    y = stack(rows)   # итоговая выходная матрица
+    return y
 
 
 
@@ -322,14 +460,11 @@ class DigitConvolutionalModel(Module):
 
     Этот класс представляет собой  модель нейросети со сверточным слоем.
     Если Convolve() реализована правильно, эта модель должна быстро достичь  
-    заданной точности на наборе данных MNIST .
-
+     заданной точности на наборе данных MNIST .
     """
-    
 
     def __init__(self):
-        
-        # Здесь инициализируйте параметры вашей модели нейросети
+        # Инициализация параметров модели нейросети
         super().__init__()
         output_size = 10
 
@@ -337,25 +472,29 @@ class DigitConvolutionalModel(Module):
         
         "*** ВСТАВЬТЕ ВАШ КОД СЮДА ***"
 
+        self.fc1 = Linear(26 * 26, 128)
+        self.fc2 = Linear(128, output_size)
+
 
     def run(self, x):
         """
-       
-        Вызов сверточного слоя и преобразование его выхода  в "плоский "вектор 
-        уже реализованы.
-        Здесь вам следует рассматривать выход сверточного слоя x как обычный блок данных, 
-        размером bz x 676, который далее обрабатывается полносвязными слоями, аналогичеыми
-        классу DigitClassificationModel.
-             
+        Вызов сверточного слоя и преобразование его выхода в "плоский "вектор 
+         уже реализованы.
+        Здесь вам следует рассматривать выход свёрточного слоя x как обычный блок данных, 
+         размером bz x 676, который далее обрабатывается полносвязными слоями, аналогичными
+         классу DigitClassificationModel.
         """
+
         x = x.reshape(len(x), 28, 28)
         x = stack(list(map(lambda sample: Convolve(sample, self.convolution_weights), x)))
         x = x.flatten(start_dim=1)
        
         "*** ВСТАВЬТЕ ВАШ КОД СЮДА ***"
 
- 
+        x = relu(self.fc1(x))
+        return self.fc2(x)
 
+ 
     def get_loss(self, x, y):
         """
         Вычисляет потери для блока входных данных.
@@ -371,7 +510,8 @@ class DigitConvolutionalModel(Module):
         """
         
         "*** ВСТАВЬТЕ ВАШ КОД СЮДА ***"
-
+        
+        return cross_entropy(self.run(x), y.argmax(dim=1))
         
 
     def train(self, dataset):
@@ -380,4 +520,15 @@ class DigitConvolutionalModel(Module):
         """
        
         "*** ВСТАВЬТЕ ВАШ КОД СЮДА ***"
- 
+        
+        dataloader = DataLoader(dataset, batch_size=32, shuffle=True)
+        optimizer = optim.Adam(self.parameters(), lr=0.01)
+
+        for epoch in range(10):
+            for batch in dataloader:
+                x, y = batch['x'], batch['label']
+                optimizer.zero_grad()
+                loss = self.get_loss(x, y)
+                loss.backward()
+                optimizer.step()
+
