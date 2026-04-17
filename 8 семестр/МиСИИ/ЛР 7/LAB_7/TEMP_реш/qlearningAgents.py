@@ -40,7 +40,6 @@ class QLearningAgent(ReinforcementAgent):
         - getAction
         - update
 
-      
       Переменные, к которым у вас есть доступ
         - self.epsilon (вероятность исследования)
         - self.alpha (скорость обучения)
@@ -49,8 +48,8 @@ class QLearningAgent(ReinforcementAgent):
        Фукнции, которые Вам следует использовать
         - self.getLegalActions(state)
           возвращает допустимые действия в состоянии state
-          
     """
+
     def __init__(self, **args):
         "Инициализация  Q-ценностей"
         ReinforcementAgent.__init__(self, **args)
@@ -58,6 +57,7 @@ class QLearningAgent(ReinforcementAgent):
         "*** ВСТАВЬТЕ ВАШ КОД СЮДА ***"
         self.values = util.Counter() # Counter - словарь q ценностей, по умолчанию содержит 0
         "*** КОНЕЦ ВАШЕГО КОДА ***"
+
         self.qVals = {}
         self.eval = False
 
@@ -67,35 +67,34 @@ class QLearningAgent(ReinforcementAgent):
           Должен вернуть 0.0, если состояние никогда не встречалось
           или  Q-ценность  в ином случае
         """
+
         "*** ВСТАВЬТЕ ВАШ КОД СЮДА ***"
         return self.values[(state, action)]
-        #util.raiseNotDefined()
-
 
     def computeValueFromQValues(self, state):
         """
           Возвращает ценность состояния state путем вычисления
-          max_action Q(state,action), где  
-          максимум ищется по всем допустимым действиям.
+           max_action Q(state,action), где  
+           максимум ищется по всем допустимым действиям.
           Если нет допустимых действий,
-          что имеет место в терминальных состояних,
-          метод должен вернуть значение 0.0
-          
+           что имеет место в терминальных состояних,
+           метод должен вернуть значение 0.0
         """
+
         "*** ВСТАВЬТЕ ВАШ КОД СЮДА ***"
         # если состояние не имеет допустимых действий, возвращаем 0
         if len(self.getLegalActions(state)) == 0:
             return 0
 
         Qvalue_state = []
+
         # для всех допустимых действий
         for action in self.getLegalActions(state):
             # извлекаем q-ценности состояний и добавляем их в список
             Qvalue_state.append(self.getQValue(state, action))
+
         # возвращаем ценность состояния state
         return max(Qvalue_state)
-        
-        #util.raiseNotDefined()
 
     def computeActionFromQValues(self, state):
         """
@@ -105,20 +104,22 @@ class QLearningAgent(ReinforcementAgent):
         """
        
         "*** ВСТАВЬТЕ ВАШ КОД СЮДА ***"
-          # если состояние не имеет допустимых действий, возвращаем None
+        # если состояние не имеет допустимых действий, возвращаем None
         if len(self.getLegalActions(state)) == 0:
             return None
+        
         # вычисляем максимальную q-ценность для state
         bestQ = self.computeValueFromQValues(state)
         bestActions = []
+
         # для всех допустимых действий 
         for action in self.getLegalActions(state):
-            #находим лучшие действия и помещаем их в список bestActions
+            # находим лучшие действия и помещаем их в список bestActions
             if bestQ == self.getQValue(state, action):
                 bestActions.append(action)
+
         # выбираем случайное действие среди лучших из bestActions
         return random.choice(bestActions)
-        #util.raiseNotDefined()
 
     def getAction(self, state):
         """
@@ -131,8 +132,8 @@ class QLearningAgent(ReinforcementAgent):
 
            ПОДСКАЗКА: вы можете использовать util.flipCoin(prob)
            ПОДСКАЗКА: для случайного выбора из списка используйте random.choice (list) 
-          
         """
+
         # Получаем список допустимых действий
         legalActions = self.getLegalActions(state)
         action = None
@@ -147,28 +148,22 @@ class QLearningAgent(ReinforcementAgent):
             # иначе выбираем лучшее действие
             action = self.computeActionFromQValues(state)
         
-        #util.raiseNotDefined()
-
         return action
 
-   
     def update(self, state, action, nextState, reward: float):    
-        """
-                   
+        """      
           Выполняет шаг обновления q-ценностей
           в соответствии с алгоритмом q-обучения при 
           переходе:
           state => action => nextState =>reward.
           
           ПРИМЕЧАНИЕ: вы никогда не должны вызывать этот метод 
-        
         """
       
         "*** ВСТАВЬТЕ ВАШ КОД СЮДА ***"
         # q-обучение q(s,a)=(1-alpha)*q(s,a)+alpha*(r+gamma*max_a'(q(s',a'))
         self.values[(state, action)] = (1 - self.alpha)* self.values[(state,action)]\
                                        + self.alpha*(reward + self.discount * self.getValue(nextState))
-        #util.raiseNotDefined()
 
     def getPolicy(self, state):
         return self.computeActionFromQValues(state)
