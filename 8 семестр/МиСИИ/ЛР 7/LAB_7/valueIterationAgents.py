@@ -35,11 +35,10 @@ class ValueIterationAgent(ValueEstimationAgent):
     """
         * Пожалуйста, просмотрите предварительно learningAgents.py *
 
-         ValueIterationAgent принимает марковский процесс принятия решений
+        ValueIterationAgent принимает марковский процесс принятия решений
          (см. mdp.py) при инициализации и выполняет итерацию по значениям
          для заданного количества итераций с использованием 
          коэффициента дисконтирования.
-        
     """
    
     def __init__(self, mdp: mdp.MarkovDecisionProcess, discount = 0.9, iterations = 100):
@@ -55,6 +54,7 @@ class ValueIterationAgent(ValueEstimationAgent):
               mdp.getReward(state, action, nextState) - вовращает награду R(s,a,s')
               mdp.isTerminal(state)- проверяет, является ли состояние терминальным
         """
+        
         self.mdp = mdp
         self.discount = discount
         self.iterations = iterations
@@ -63,29 +63,35 @@ class ValueIterationAgent(ValueEstimationAgent):
 
     def runValueIteration(self):
         # Напишите код, реализующий итерации по значениям 
+
         "*** ВСТАВЬТЕ ВАШ КОД СЮДА ***"
-        #для заданного числа итераций
+
+        # для заданного числа итераций
         for i in range(self.iterations):
-            #создать копию словаря с ценностями состояний
+            # создать копию словаря с ценностями состояний
             updatedValues = self.values.copy()
-            #для всех состояний mdp
+
+            # для всех состояний mdp
             for state in self.mdp.getStates():
-                #если состояние является терминальным, то переходим к следующему состоянию
+                # если состояние является терминальным, то переходим к следующему состоянию
                 if self.mdp.isTerminal(state):
                     continue
                 else:
-                    #для нетерминальных состояний
-                    #создаем временный список q-ценностей
+                    # для нетерминальных состояний
+                    # создаем временный список q-ценностей
                     q_state = []
-                    #для всех возможных действий в состоянии state
+
+                    # для всех возможных действий в состоянии state
                     for action in self.mdp.getPossibleActions(state):
-                        #вычисляем q-ценность пары (state, action)
-                        #и добавляем её в список q-state
+                        # вычисляем q-ценность пары (state, action)
+                        # и добавляем её в список q-state
                         q_state.append(self.getQValue(state, action))
-                    #находим максимальную q-ценность, т.е. ценность состояния state
-                    #и запоминаем ценность состояния state в словаре 
+
+                    # находим максимальную q-ценность, т.е. ценность состояния state
+                    # и запоминаем ценность состояния state в словаре 
                     updatedValues[state] = max(q_state)
-            #Обновляем значения ценностей состояний объекта на итерации i     
+            
+            # Обновляем значения ценностей состояний объекта на итерации i     
             self.values = updatedValues
 
     def getValue(self, state):
@@ -94,21 +100,22 @@ class ValueIterationAgent(ValueEstimationAgent):
         """
         return self.values[state]
 
-
     def computeQValueFromValues(self, state, action):
         """
           Вычисляет Q-ценность в состоянии по
           значению ценности состояния, сохраненному в self.values.
         """
+
         "*** ВСТАВЬТЕ ВАШ КОД СЮДА ***"
+
         Qvalue = 0
-        #для пары (state, action) извлекаем из MDP  следующие состояния s' и вероятности перехода prob=T(s,a,s')
+
+        # для пары (state, action) извлекаем из MDP следующие состояния s' и вероятности перехода prob=T(s,a,s')
         for nextstate, prob in self.mdp.getTransitionStatesAndProbs(state, action):
             # вычисляем q-ценность (s,a) с учетом уравнения Беллмана по ценностям всех следующих состояний V(s')
-            Qvalue+= prob*(self.mdp.getReward(state, action, nextstate)+self.discount*self.getValue(nextstate))
-        return Qvalue
+            Qvalue += prob*(self.mdp.getReward(state, action, nextstate) + self.discount * self.getValue(nextstate))
         
-        #util.raiseNotDefined()
+        return Qvalue
 
     def computeActionFromValues(self, state):
         """
@@ -118,23 +125,26 @@ class ValueIterationAgent(ValueEstimationAgent):
           Обратите внимание, что если нет никаких допустимых действий,
           как в случае  терминального состояния, необходимо вернуть None.
         """
+
         "*** ВСТАВЬТЕ ВАШ КОД СЮДА ***"
-        #создаем словарь политик
+
+        # создаем словарь политик
         policy = util.Counter()
         
-        #извлекаем действия доступные в состоянии
-        temp=self.mdp.getPossibleActions(state)
+        # извлекаем действия доступные в состоянии
+        temp = self.mdp.getPossibleActions(state)
+        
         # если доступных действий нет, то выход
-        if len(temp)==0:
+        if len(temp) == 0:
             return None
-        #для всех доступных действий в состоянии
+        
+        # для всех доступных действий в состоянии
         for action in temp:
-            #вычислить q-ценность и запомнить в элементе словаря с ключем action
+            # вычислить q-ценность и запомнить в элементе словаря с ключем action
             policy[action] = self.getQValue(state, action)
-        #вернуть действие, обеспечивающие максимум q-ценности,т.е. политику
+        
+        # вернуть действие, обеспечивающие максимум q-ценности,т.е. политику
         return policy.argMax()
-     
-        #util.raiseNotDefined()
 
     def getPolicy(self, state):
         return self.computeActionFromValues(state)
@@ -145,6 +155,7 @@ class ValueIterationAgent(ValueEstimationAgent):
 
     def getQValue(self, state, action):
         return self.computeQValueFromValues(state, action)
+
 
 class AsynchronousValueIterationAgent(ValueIterationAgent):
     """
