@@ -23,9 +23,9 @@ def question2a():
     """
       Предпочитает близкий выход (+1), перемещаясь вдоль обрыва (-10)
     """
-    answerDiscount = None
-    answerNoise = None
-    answerLivingReward = None
+    answerDiscount = 0.4
+    answerNoise = 0.0
+    answerLivingReward = -2.0
     return answerDiscount, answerNoise, answerLivingReward
     # If not possible, return 'NOT POSSIBLE'
 
@@ -33,9 +33,9 @@ def question2b():
     """
       Предпочитает близкий выход (+1), избегая обрыва (-10)
     """
-    answerDiscount = None
-    answerNoise = None
-    answerLivingReward = None
+    answerDiscount = 0.5
+    answerNoise = 0.3
+    answerLivingReward = -1.0
     return answerDiscount, answerNoise, answerLivingReward
     # If not possible, return 'NOT POSSIBLE'
 
@@ -43,9 +43,9 @@ def question2c():
     """
       Предпочитает дальний выход (+10), перемещаясь вдоль обрыва (-10)
     """
-    answerDiscount = None
-    answerNoise = None
-    answerLivingReward = None
+    answerDiscount = 0.9
+    answerNoise = 0.1
+    answerLivingReward = -2.0
     return answerDiscount, answerNoise, answerLivingReward
     # If not possible, return 'NOT POSSIBLE'
 
@@ -53,9 +53,9 @@ def question2d():
     """
       Предпочитает дальний (+10), избегая обрыва (-10)
     """
-    answerDiscount = None
-    answerNoise = None
-    answerLivingReward = None
+    answerDiscount = 0.9
+    answerNoise = 0.3
+    answerLivingReward = -1.0
     return answerDiscount, answerNoise, answerLivingReward
     # If not possible, return 'NOT POSSIBLE'
 
@@ -63,9 +63,9 @@ def question2e():
     """
       Избегает оба выхода и обрыва (так что эпизод никогда не заканчивается)
     """
-    answerDiscount = None
-    answerNoise = None
-    answerLivingReward = None
+    answerDiscount = 1.0
+    answerNoise = 0.0
+    answerLivingReward = 2.0
     return answerDiscount, answerNoise, answerLivingReward
     # If not possible, return 'NOT POSSIBLE'
 
