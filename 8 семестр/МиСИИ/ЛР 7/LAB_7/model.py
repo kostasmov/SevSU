@@ -32,32 +32,30 @@ class DeepQNetwork(Module):
         
         "*** ВСТАВЬТЕ ВАШ КОД СЮДА ***"
         
-        self.learning_rate = 0.000025
-        self.numTrainingGames = 2100
-        self.batch_size =25 
+        self.learning_rate = 0.001
+        self.numTrainingGames = 2500
+        self.batch_size = 64 
         
         # кол-во нейронов скрытых слоев
-        H1=414
-        H2=250
-        H3=40
-        # слои нейросети
-        self.layer1=Linear(self.state_size,H1)
-        self.layer2=Linear(H1,H2)
-        self.layer3=Linear(H2,H3)
-        self.layer4=Linear(H3,self.num_actions)
+        H1 = 512
+        H2 = 256
+        #H3 = 128
+
+        self.layer1 = Linear(self.state_size, H1)
+        self.layer2 = Linear(H1, H2)
+        self.layer3 = Linear(H2, self.num_actions)
+
         # оптимизатор
-        #self.optimizer=optim.SGD(self.parameters(),lr=self.learning_rate)
-        self.optimizer = optim.Adam(self.parameters(),lr=self.learning_rate)
-       
-        "*КОНЕЦ ВАШЕГО КОДА"""
+        self.optimizer = optim.Adam(self.parameters(), lr=self.learning_rate)
+
         self.double()
  
     def forward(self, states):
         """
         Метод реализует прямое распространение состояний по сети.
         Сеть принимает состояния states и возвращает для каждого
-        состояния Q-значения для всех num_actions действий,которые
-        могут быть выполнены.
+         состояния Q-значения для всех num_actions действий,которые
+         могут быть выполнены.
         
         Входные данные:
             states- тензор состояний размером (batch_size x state_dim) 
@@ -65,11 +63,12 @@ class DeepQNetwork(Module):
             Тензор оценок Q-значений  размером (batch_size x num_actions)        
         """
         
-        "*** ВСТАВЬТЕ ВАШ КОД СЮДА ***"
-        x=relu(self.layer1(states))
-        x=relu(self.layer2(x))
-        x=relu(self.layer3(x))
-        x=self.layer4(x)
+        #"*** ВСТАВЬТЕ ВАШ КОД СЮДА ***"
+
+        x = relu(self.layer1(states))
+        x = relu(self.layer2(x))
+        x = self.layer3(x)
+        
         return x
     
     def run(self, states):
@@ -87,11 +86,13 @@ class DeepQNetwork(Module):
         Выходные данные:
             Средний квадрат ошибок между предсказаниями Q и Q_target
         """
-        "*** ВСТАВЬТЕ ВАШ КОД СЮДА ***"
-        q_pred=self.forward(states)
-        mse= mse_loss(q_pred,Q_target)
-        #print('mse=', mse.detach().numpy())
+
+        #"*** ВСТАВЬТЕ ВАШ КОД СЮДА ***"
+
+        q_pred = self.forward(states)
+        mse = mse_loss(q_pred, Q_target)
         return mse
+    
 
     def gradient_update(self, states, Q_target):
         """
@@ -108,14 +109,13 @@ class DeepQNetwork(Module):
         Выходные данные:
             None
         """
-       
-        "*** ВСТАВЬТЕ ВАШ КОД СЮДА ***"
-   
-        loss=self.get_loss(states, Q_target)
-        self.optimizer.zero_grad
+        
+        #"*** ВСТАВЬТЕ ВАШ КОД СЮДА ***"
+        
+        loss = self.get_loss(states, Q_target)
+        self.optimizer.zero_grad()
         loss.backward()
         self.optimizer.step()
-       
         
         
         

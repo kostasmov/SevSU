@@ -210,10 +210,6 @@ class AsynchronousValueIterationAgent(ValueIterationAgent):
                 self.values[state] = max_val
         
         
-        
-        
-        
-
 class PrioritizedSweepingValueIterationAgent(AsynchronousValueIterationAgent):
     """
         
