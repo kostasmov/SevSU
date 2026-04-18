@@ -216,6 +216,7 @@ class ApproximateQAgent(PacmanQAgent):
        такие параметры как: alpha, epsilon, gamma,
        число эпизодов обучения.
     """
+
     def __init__(self, extractor='IdentityExtractor', **args):
         self.featExtractor = util.lookup(extractor, globals())()
         PacmanQAgent.__init__(self, **args)
@@ -231,17 +232,18 @@ class ApproximateQAgent(PacmanQAgent):
         """
         
         "*** ВСТАВЬТЕ ВАШ КОД СЮДА ***"
+
         # извлекаем признаки q-состояния
         self.features = self.featExtractor.getFeatures(state, action)
         total = 0
+
         # для каждого из признаков
         for i in self.features:
             # суммируем взвешенные  признаки 
             total += self.features[i] * self.weights[i]
+
         # возращаем сумму признаков взвешенных с весами weights
         return total
-        #util.raiseNotDefined()
-
   
     def update(self, state, action, nextState, reward: float):
         """
@@ -249,16 +251,18 @@ class ApproximateQAgent(PacmanQAgent):
         """
         
         "*** ВСТАВЬТЕ ВАШ КОД СЮДА ***"
+
         # diff=(r+gamma*V(s'))-q(s,a))
         diff = (reward + self.discount * self.getValue(nextState)) - self.getQValue(state, action)
+
         # извлекаем признаки q-состояния
         features = self.featExtractor.getFeatures(state, action)
+
         # для каждого из признаков fi(s,a)
         for i in features:
             # обновляем его вес
             # w <-- w + alpha*diff*fi(s,a)
             self.weights[i] = self.weights[i] + self.alpha * diff * features[i]
-        #util.raiseNotDefined()
 
     def final(self, state):
         "Вызывается в конце игры"
@@ -271,12 +275,14 @@ class ApproximateQAgent(PacmanQAgent):
             # здесь, если захотите, вы можете распечатать веса при отладке
            
             "*** ВСТАВЬТЕ ВАШ КОД СЮДА ***"
+
             print("Итоги Q-обучения с аппроксимацией")
             print("Скорость обучения(alpha) : {0}".format(self.alpha))
             print("Дисконтирование(gamma) : {0}".format(self.discount))
             print("Вероятность исследования (epsilon) : {0}".format(self.epsilon))
             print("Эпизодов обучения : {0}".format(self.numTraining))
             print("=======Веса признаков=======")
+
             for i in self.features:
                 print("{0} : {1}".format(i, self.weights[i]))
             
