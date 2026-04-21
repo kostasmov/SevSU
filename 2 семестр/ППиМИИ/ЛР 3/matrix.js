@@ -3,8 +3,22 @@ class NumberMatrix {
         this.matrix = values;
     }
 
-    getPositive() {
-        return this.matrix.filter(row => !row.some(x => x < 0))
+    getOnlyPositive() {
+        // return this.matrix.filter(row => !row.some(x => x < 0))
+        return this.matrix.filter(row => !this.hasNegative(row))
+    }
+
+    hasNegative(row) {
+        var hasNegative = false;
+
+        for (var i = 0; i < row.length; i++) {
+            if (row[i] < 0) {
+                hasNegative = true;
+                break;
+            }
+        }
+
+        return hasNegative;
     }
 }
 
@@ -16,4 +30,4 @@ let matrix = new NumberMatrix([
 ]);
 
 console.log("Матрица без строк с отрицательными элементами: ");
-console.log(matrix.getPositive());
+console.log(matrix.getOnlyPositive());
