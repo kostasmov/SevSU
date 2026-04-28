@@ -32083,9 +32083,9 @@
 											},
 											"font": "Arial;13;0",
 											"parentStyle": false,
-											"left": 431,
+											"left": 476,
 											"top": 263,
-											"width": 234.7109375,
+											"width": 145,
 											"height": 13,
 											"alpha": -4.369365673448293,
 											"distance": 14.866068747318506,
@@ -41507,6 +41507,7 @@
 								"$ref": "AAAAAAGH5vizxW7RT9c="
 							},
 							"name": "ActivityDiagram1",
+							"documentation": "Диаграмма деятельности (пополнение счёта)",
 							"ownedViews": [
 								{
 									"_type": "UMLSwimlaneView",
@@ -46789,6 +46790,7 @@
 								"$ref": "AAAAAAGH5vizxW7RT9c="
 							},
 							"name": "ActivityDiagram2",
+							"documentation": "Диаграмма деятельности (идентификация карты)",
 							"ownedViews": [
 								{
 									"_type": "UMLSwimlaneView",
@@ -50325,6 +50327,7 @@
 								"$ref": "AAAAAAGH5vizxW7RT9c="
 							},
 							"name": "ActivityDiagram3",
+							"documentation": "Диаграмма деятельности (снятие наличных)",
 							"ownedViews": [
 								{
 									"_type": "UMLSwimlaneView",
