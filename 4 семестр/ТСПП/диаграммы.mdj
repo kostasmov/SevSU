@@ -1799,7 +1799,7 @@
 									"parentStyle": true,
 									"left": 894.5,
 									"top": 185.5,
-									"width": 107.74609375,
+									"width": 107,
 									"height": 48,
 									"stereotypeLabel": {
 										"$ref": "AAAAAAGG1SliROiyUgw="
@@ -2398,9 +2398,9 @@
 											"font": "Arial;12;1",
 											"parentStyle": true,
 											"left": 698.5,
-											"top": 424.5,
+											"top": 430.5,
 											"width": 92,
-											"height": 36,
+											"height": 24,
 											"text": "Вывести деньги со счёта",
 											"wordWrap": true
 										},
@@ -2437,9 +2437,9 @@
 									"font": "Arial;12;0",
 									"parentStyle": true,
 									"left": 693.5,
-									"top": 417.5,
+									"top": 423.5,
 									"width": 102,
-									"height": 48,
+									"height": 36,
 									"stereotypeLabel": {
 										"$ref": "AAAAAAGG1VrcgaRwcM4="
 									},
@@ -12057,7 +12057,7 @@
 									"parentStyle": true,
 									"left": 424,
 									"top": 132,
-									"width": 113.46484375,
+									"width": 113,
 									"height": 60,
 									"stereotypeLabel": {
 										"$ref": "AAAAAAGG1movrkXVcLs="
@@ -41805,7 +41805,7 @@
 													"left": 261,
 													"top": 295,
 													"width": 112,
-													"height": 39,
+													"height": 26,
 													"text": "Вызвать операцию оплаты",
 													"wordWrap": true
 												},
@@ -41844,7 +41844,7 @@
 											"left": 256,
 											"top": 288,
 											"width": 122,
-											"height": 51,
+											"height": 38,
 											"stereotypeLabel": {
 												"$ref": "AAAAAAGH5/DHT2+vkOU="
 											},
@@ -41976,7 +41976,7 @@
 													"left": 549,
 													"top": 271,
 													"width": 120,
-													"height": 26,
+													"height": 13,
 													"text": "Открыть валидатор",
 													"wordWrap": true
 												},
@@ -42015,7 +42015,7 @@
 											"left": 544,
 											"top": 264,
 											"width": 130,
-											"height": 38,
+											"height": 25,
 											"stereotypeLabel": {
 												"$ref": "AAAAAAGH5/v4u3D+7IA="
 											},
@@ -42315,7 +42315,7 @@
 													"left": 549,
 													"top": 535,
 													"width": 120,
-													"height": 39,
+													"height": 26,
 													"text": "Проверить подлинность купюр",
 													"wordWrap": true
 												},
@@ -42354,7 +42354,7 @@
 											"left": 544,
 											"top": 528,
 											"width": 130,
-											"height": 51,
+											"height": 38,
 											"stereotypeLabel": {
 												"$ref": "AAAAAAGH6Cik3nPvQgo="
 											},
@@ -42652,7 +42652,7 @@
 													"left": 549,
 													"top": 695,
 													"width": 120,
-													"height": 26,
+													"height": 13,
 													"text": "Вернуть наличные",
 													"wordWrap": true
 												},
@@ -42691,7 +42691,7 @@
 											"left": 544,
 											"top": 688,
 											"width": 130,
-											"height": 38,
+											"height": 25,
 											"stereotypeLabel": {
 												"$ref": "AAAAAAGH6CTcgXM1EB8="
 											},
@@ -42989,7 +42989,7 @@
 													"left": 261,
 													"top": 607,
 													"width": 112,
-													"height": 26,
+													"height": 13,
 													"text": "Забрать наличные",
 													"wordWrap": true
 												},
@@ -43028,7 +43028,7 @@
 											"left": 256,
 											"top": 600,
 											"width": 122,
-											"height": 38,
+											"height": 25,
 											"stereotypeLabel": {
 												"$ref": "AAAAAAGH6C3WVXTBIoU="
 											},
@@ -43122,7 +43122,7 @@
 													"left": 845,
 													"top": 423,
 													"width": 120,
-													"height": 26,
+													"height": 13,
 													"text": "Наличные [в кассе]",
 													"wordWrap": true
 												},
@@ -43161,7 +43161,7 @@
 											"left": 840,
 											"top": 416,
 											"width": 130,
-											"height": 38,
+											"height": 25,
 											"stereotypeLabel": {
 												"$ref": "AAAAAAGH67jvnVxsB9g="
 											},
@@ -47835,7 +47835,7 @@
 													"left": 253,
 													"top": 591,
 													"width": 104,
-													"height": 26,
+													"height": 13,
 													"text": "Проверить карту",
 													"wordWrap": true
 												},
@@ -47874,7 +47874,7 @@
 											"left": 248,
 											"top": 584,
 											"width": 114,
-											"height": 38,
+											"height": 25,
 											"stereotypeLabel": {
 												"$ref": "AAAAAAGH7/TVY8O9Ruc="
 											},
@@ -50646,7 +50646,7 @@
 													"left": 165,
 													"top": 287,
 													"width": 104,
-													"height": 52,
+													"height": 39,
 													"text": "Вызвать операцию снятия наличных",
 													"wordWrap": true
 												},
@@ -50685,7 +50685,7 @@
 											"left": 160,
 											"top": 280,
 											"width": 114,
-											"height": 64,
+											"height": 51,
 											"stereotypeLabel": {
 												"$ref": "AAAAAAGH66C0p/U2Ktg="
 											},
@@ -56178,7 +56178,7 @@
 					]
 				}
 			],
-			"documentation": "ЛР 4 - Диаграммы видов деятельности"
+			"documentation": "ЛР 4 - Диаграммы деятельности"
 		},
 		{
 			"_type": "UMLModel",
@@ -61745,7 +61745,7 @@
 					]
 				}
 			],
-			"documentation": "ЛР 5 - Диаграмма последовательностей"
+			"documentation": "ЛР 5 - Диаграмма последовательности"
 		}
 	]
 }
