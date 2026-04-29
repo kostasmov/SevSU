@@ -47837,7 +47837,7 @@
 													"left": 253,
 													"top": 591,
 													"width": 104,
-													"height": 13,
+													"height": 26,
 													"text": "Проверить карту",
 													"wordWrap": true
 												},
@@ -47876,7 +47876,7 @@
 											"left": 248,
 											"top": 584,
 											"width": 114,
-											"height": 25,
+											"height": 38,
 											"stereotypeLabel": {
 												"$ref": "AAAAAAGH7/TVY8O9Ruc="
 											},
@@ -50649,7 +50649,7 @@
 													"left": 165,
 													"top": 287,
 													"width": 104,
-													"height": 39,
+													"height": 52,
 													"text": "Вызвать операцию снятия наличных",
 													"wordWrap": true
 												},
@@ -50688,7 +50688,7 @@
 											"left": 160,
 											"top": 280,
 											"width": 114,
-											"height": 51,
+											"height": 64,
 											"stereotypeLabel": {
 												"$ref": "AAAAAAGH66C0p/U2Ktg="
 											},
