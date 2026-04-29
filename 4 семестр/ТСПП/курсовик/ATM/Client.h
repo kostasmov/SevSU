@@ -1,15 +1,18 @@
 #pragma once
-#include "Person.h"
 
+#include "Person.h"
+#include <vector>
 class BankCard;
 
-class Client : 
+class Client :
     public Person
 {
 public:
-    void addCard(BankCard card);
+    Client(string name) : Person(name) {}
+
+    void addCard(BankCard* card);
+    vector<BankCard*> getCards();
 
 protected:
-    //BankCard cards;
+    vector<BankCard*> cards;
 };
-

@@ -1,5 +1,12 @@
 #include "ATM.h"
 
+//ATM::ATM(string bank) {
+//	this->bank = bank;
+//
+//	/*this->cardReader = CardReader();
+//	this->billAcceptor = billAcceptor();*/
+//}
+
 void ATM::getBank() {
 
 }

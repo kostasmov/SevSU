@@ -1,12 +1,127 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "C:\\Users\\kosta\\Documents\\\u0423\u0447\u0451\u0431\u0430\\4 \u0441\u0435\u043C\u0435\u0441\u0442\u0440\\\u0422\u0421\u041F\u041F\\\u043A\u0443\u0440\u0441\u043E\u0432\u0438\u043A\\ATM\\",
-  "Documents": [],
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{3779E56B-ED98-444D-84E7-7A3F0B894AA2}|ATM.vcxproj|C:\\Users\\kosta\\Documents\\\u0423\u0447\u0451\u0431\u0430\\4 \u0441\u0435\u043C\u0435\u0441\u0442\u0440\\\u0422\u0421\u041F\u041F\\\u043A\u0443\u0440\u0441\u043E\u0432\u0438\u043A\\ATM\\ATM.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{3779E56B-ED98-444D-84E7-7A3F0B894AA2}|ATM.vcxproj|solutionrelative:ATM.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3779E56B-ED98-444D-84E7-7A3F0B894AA2}|ATM.vcxproj|C:\\Users\\kosta\\Documents\\\u0423\u0447\u0451\u0431\u0430\\4 \u0441\u0435\u043C\u0435\u0441\u0442\u0440\\\u0422\u0421\u041F\u041F\\\u043A\u0443\u0440\u0441\u043E\u0432\u0438\u043A\\ATM\\ATM.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{3779E56B-ED98-444D-84E7-7A3F0B894AA2}|ATM.vcxproj|solutionrelative:ATM.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3779E56B-ED98-444D-84E7-7A3F0B894AA2}|ATM.vcxproj|C:\\Users\\kosta\\Documents\\\u0423\u0447\u0451\u0431\u0430\\4 \u0441\u0435\u043C\u0435\u0441\u0442\u0440\\\u0422\u0421\u041F\u041F\\\u043A\u0443\u0440\u0441\u043E\u0432\u0438\u043A\\ATM\\CashHandler.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{3779E56B-ED98-444D-84E7-7A3F0B894AA2}|ATM.vcxproj|solutionrelative:CashHandler.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3779E56B-ED98-444D-84E7-7A3F0B894AA2}|ATM.vcxproj|C:\\Users\\kosta\\Documents\\\u0423\u0447\u0451\u0431\u0430\\4 \u0441\u0435\u043C\u0435\u0441\u0442\u0440\\\u0422\u0421\u041F\u041F\\\u043A\u0443\u0440\u0441\u043E\u0432\u0438\u043A\\ATM\\BillAcceptor.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{3779E56B-ED98-444D-84E7-7A3F0B894AA2}|ATM.vcxproj|solutionrelative:BillAcceptor.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3779E56B-ED98-444D-84E7-7A3F0B894AA2}|ATM.vcxproj|C:\\Users\\kosta\\Documents\\\u0423\u0447\u0451\u0431\u0430\\4 \u0441\u0435\u043C\u0435\u0441\u0442\u0440\\\u0422\u0421\u041F\u041F\\\u043A\u0443\u0440\u0441\u043E\u0432\u0438\u043A\\ATM\\Person.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{3779E56B-ED98-444D-84E7-7A3F0B894AA2}|ATM.vcxproj|solutionrelative:Person.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3779E56B-ED98-444D-84E7-7A3F0B894AA2}|ATM.vcxproj|C:\\Users\\kosta\\Documents\\\u0423\u0447\u0451\u0431\u0430\\4 \u0441\u0435\u043C\u0435\u0441\u0442\u0440\\\u0422\u0421\u041F\u041F\\\u043A\u0443\u0440\u0441\u043E\u0432\u0438\u043A\\ATM\\main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{3779E56B-ED98-444D-84E7-7A3F0B894AA2}|ATM.vcxproj|solutionrelative:main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    }
+  ],
   "DocumentGroupContainers": [
     {
-      "Orientation": 0,
+      "Orientation": 1,
       "VerticalTabListWidth": 256,
-      "DocumentGroups": []
+      "DocumentGroups": [
+        {
+          "DockedHeight": 200,
+          "SelectedChildIndex": 6,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "main.cpp",
+              "DocumentMoniker": "C:\\Users\\kosta\\Documents\\\u0423\u0447\u0451\u0431\u0430\\4 \u0441\u0435\u043C\u0435\u0441\u0442\u0440\\\u0422\u0421\u041F\u041F\\\u043A\u0443\u0440\u0441\u043E\u0432\u0438\u043A\\ATM\\main.cpp",
+              "RelativeDocumentMoniker": "main.cpp",
+              "ToolTip": "C:\\Users\\kosta\\Documents\\\u0423\u0447\u0451\u0431\u0430\\4 \u0441\u0435\u043C\u0435\u0441\u0442\u0440\\\u0422\u0421\u041F\u041F\\\u043A\u0443\u0440\u0441\u043E\u0432\u0438\u043A\\ATM\\main.cpp",
+              "RelativeToolTip": "main.cpp",
+              "ViewState": "AgIAABIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2026-04-29T14:56:07.138Z",
+              "IsPinned": true,
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{d78612c7-9962-4b83-95d9-268046dad23a}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "CashHandler.h",
+              "DocumentMoniker": "C:\\Users\\kosta\\Documents\\\u0423\u0447\u0451\u0431\u0430\\4 \u0441\u0435\u043C\u0435\u0441\u0442\u0440\\\u0422\u0421\u041F\u041F\\\u043A\u0443\u0440\u0441\u043E\u0432\u0438\u043A\\ATM\\CashHandler.h",
+              "RelativeDocumentMoniker": "CashHandler.h",
+              "ToolTip": "C:\\Users\\kosta\\Documents\\\u0423\u0447\u0451\u0431\u0430\\4 \u0441\u0435\u043C\u0435\u0441\u0442\u0440\\\u0422\u0421\u041F\u041F\\\u043A\u0443\u0440\u0441\u043E\u0432\u0438\u043A\\ATM\\CashHandler.h",
+              "RelativeToolTip": "CashHandler.h",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2026-04-29T15:20:38.196Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Person.cpp",
+              "DocumentMoniker": "C:\\Users\\kosta\\Documents\\\u0423\u0447\u0451\u0431\u0430\\4 \u0441\u0435\u043C\u0435\u0441\u0442\u0440\\\u0422\u0421\u041F\u041F\\\u043A\u0443\u0440\u0441\u043E\u0432\u0438\u043A\\ATM\\Person.cpp",
+              "RelativeDocumentMoniker": "Person.cpp",
+              "ToolTip": "C:\\Users\\kosta\\Documents\\\u0423\u0447\u0451\u0431\u0430\\4 \u0441\u0435\u043C\u0435\u0441\u0442\u0440\\\u0422\u0421\u041F\u041F\\\u043A\u0443\u0440\u0441\u043E\u0432\u0438\u043A\\ATM\\Person.cpp",
+              "RelativeToolTip": "Person.cpp",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2026-04-29T15:18:52.359Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "BillAcceptor.h",
+              "DocumentMoniker": "C:\\Users\\kosta\\Documents\\\u0423\u0447\u0451\u0431\u0430\\4 \u0441\u0435\u043C\u0435\u0441\u0442\u0440\\\u0422\u0421\u041F\u041F\\\u043A\u0443\u0440\u0441\u043E\u0432\u0438\u043A\\ATM\\BillAcceptor.h",
+              "RelativeDocumentMoniker": "BillAcceptor.h",
+              "ToolTip": "C:\\Users\\kosta\\Documents\\\u0423\u0447\u0451\u0431\u0430\\4 \u0441\u0435\u043C\u0435\u0441\u0442\u0440\\\u0422\u0421\u041F\u041F\\\u043A\u0443\u0440\u0441\u043E\u0432\u0438\u043A\\ATM\\BillAcceptor.h",
+              "RelativeToolTip": "BillAcceptor.h",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAAAAkAAAAOAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2026-04-29T15:17:34.079Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "ATM.h",
+              "DocumentMoniker": "C:\\Users\\kosta\\Documents\\\u0423\u0447\u0451\u0431\u0430\\4 \u0441\u0435\u043C\u0435\u0441\u0442\u0440\\\u0422\u0421\u041F\u041F\\\u043A\u0443\u0440\u0441\u043E\u0432\u0438\u043A\\ATM\\ATM.h",
+              "RelativeDocumentMoniker": "ATM.h",
+              "ToolTip": "C:\\Users\\kosta\\Documents\\\u0423\u0447\u0451\u0431\u0430\\4 \u0441\u0435\u043C\u0435\u0441\u0442\u0440\\\u0422\u0421\u041F\u041F\\\u043A\u0443\u0440\u0441\u043E\u0432\u0438\u043A\\ATM\\ATM.h",
+              "RelativeToolTip": "ATM.h",
+              "ViewState": "AgIAAAsAAAAAAAAAAAAkwBgAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2026-04-29T14:46:04.031Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "ATM.cpp",
+              "DocumentMoniker": "C:\\Users\\kosta\\Documents\\\u0423\u0447\u0451\u0431\u0430\\4 \u0441\u0435\u043C\u0435\u0441\u0442\u0440\\\u0422\u0421\u041F\u041F\\\u043A\u0443\u0440\u0441\u043E\u0432\u0438\u043A\\ATM\\ATM.cpp",
+              "RelativeDocumentMoniker": "ATM.cpp",
+              "ToolTip": "C:\\Users\\kosta\\Documents\\\u0423\u0447\u0451\u0431\u0430\\4 \u0441\u0435\u043C\u0435\u0441\u0442\u0440\\\u0422\u0421\u041F\u041F\\\u043A\u0443\u0440\u0441\u043E\u0432\u0438\u043A\\ATM\\ATM.cpp",
+              "RelativeToolTip": "ATM.cpp",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAAhAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2026-04-29T14:45:57.513Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
     }
   ]
 }

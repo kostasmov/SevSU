@@ -1,22 +1,28 @@
 #pragma once
 
-#include <string>
 #include "Client.h"
+#include <string>
 using namespace std;
 
 class BankCard
 {
 public:
-    void getBlockCheck();
-    void getNumber();
-    void checkPIN();
+    BankCard(int num, string bank, Client* owner, int PIN);
+
+    int getNumber();
+    string getBank();
+
+    bool getBlockState();
+    
+    //void checkPIN();
     //void setBlockState(void state);
 
 protected:
-    long int number;
-    string validity;
-    int PIN;
+    int number;
     string bank;
-    Client owner;
-    bool blockState = 1;
+    Client* owner;
+
+    int PIN;
+    bool isBlocked;
+    //string validity;
 };

@@ -12,7 +12,7 @@ using namespace std;
 class ATM
 {
 public:
-    string address;
+    ATM(string bank);
 
     void getBank();
     void startSession();

@@ -4,12 +4,11 @@
 class CardReader
 {
 public:
+    CardReader();
+
     void putCard(BankCard card);
-
     void getbackCard();
-
     //void isCardPresent();
-
     void getCardInfo();
 
 protected:

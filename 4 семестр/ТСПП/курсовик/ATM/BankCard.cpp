@@ -1,17 +1,29 @@
 #include "BankCard.h"
 
-void BankCard::getBlockCheck() {
-
+BankCard::BankCard(int n, string bank, Client* owner, int PIN) {
+	this->number = n;
+	this->bank = bank;
+	this->owner = owner;
+	this->isBlocked = false;
+	this->PIN = PIN;
 }
 
-void BankCard::getNumber() {
-
+bool BankCard::getBlockState() {
+	return this->isBlocked;
 }
 
-void BankCard::checkPIN() {
-
+int BankCard::getNumber() {
+	return this->number;
 }
 
-//void BankCard::setBlockState(void state) {
-//
-//}
+string BankCard::getBank() {
+	return this->bank;
+}
+
+/*void BankCard::checkPIN() {
+
+}*/
+
+/*void BankCard::setBlockState(void state) {
+
+}*/

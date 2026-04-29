@@ -13,15 +13,30 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Файлы заголовков\Actors">
+    <Filter Include="Файлы заголовков\Акторы">
       <UniqueIdentifier>{7c14fe59-53ef-455b-bc10-12404653c106}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Файлы заголовков\Machine">
+    <Filter Include="Файлы заголовков\Аппарат">
       <UniqueIdentifier>{5895eb1e-cd12-405a-bba5-0cb579345a67}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="Recipient.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="BankCard.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="BankOfficer.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="Collector.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="Client.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
     <ClCompile Include="Person.cpp">
@@ -30,37 +45,22 @@
     <ClCompile Include="Worker.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="Client.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
-    <ClCompile Include="Collector.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
-    <ClCompile Include="BankOfficer.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
     <ClCompile Include="ATM.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
-    <ClCompile Include="CardReader.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
-    <ClCompile Include="TransferService.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
-    <ClCompile Include="Recipient.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
-    <ClCompile Include="PINHandler.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
-    <ClCompile Include="CashHandler.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
     <ClCompile Include="BillAcceptor.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="BankCard.cpp">
+    <ClCompile Include="CardReader.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="CashHandler.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="PINHandler.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="TransferService.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
   </ItemGroup>
@@ -69,37 +69,37 @@
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
     <ClInclude Include="Person.h">
-      <Filter>Файлы заголовков\Actors</Filter>
+      <Filter>Файлы заголовков\Акторы</Filter>
     </ClInclude>
     <ClInclude Include="Client.h">
-      <Filter>Файлы заголовков\Actors</Filter>
+      <Filter>Файлы заголовков\Акторы</Filter>
     </ClInclude>
     <ClInclude Include="Worker.h">
-      <Filter>Файлы заголовков\Actors</Filter>
+      <Filter>Файлы заголовков\Акторы</Filter>
     </ClInclude>
     <ClInclude Include="Collector.h">
-      <Filter>Файлы заголовков\Actors</Filter>
+      <Filter>Файлы заголовков\Акторы</Filter>
     </ClInclude>
     <ClInclude Include="BankOfficer.h">
-      <Filter>Файлы заголовков\Actors</Filter>
+      <Filter>Файлы заголовков\Акторы</Filter>
     </ClInclude>
     <ClInclude Include="ATM.h">
-      <Filter>Файлы заголовков\Machine</Filter>
+      <Filter>Файлы заголовков\Аппарат</Filter>
     </ClInclude>
     <ClInclude Include="BillAcceptor.h">
-      <Filter>Файлы заголовков\Machine</Filter>
+      <Filter>Файлы заголовков\Аппарат</Filter>
     </ClInclude>
     <ClInclude Include="CardReader.h">
-      <Filter>Файлы заголовков\Machine</Filter>
+      <Filter>Файлы заголовков\Аппарат</Filter>
     </ClInclude>
     <ClInclude Include="CashHandler.h">
-      <Filter>Файлы заголовков\Machine</Filter>
+      <Filter>Файлы заголовков\Аппарат</Filter>
     </ClInclude>
     <ClInclude Include="PINHandler.h">
-      <Filter>Файлы заголовков\Machine</Filter>
+      <Filter>Файлы заголовков\Аппарат</Filter>
     </ClInclude>
     <ClInclude Include="TransferService.h">
-      <Filter>Файлы заголовков\Machine</Filter>
+      <Filter>Файлы заголовков\Аппарат</Filter>
     </ClInclude>
     <ClInclude Include="BankCard.h">
       <Filter>Файлы заголовков</Filter>

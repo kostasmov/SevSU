@@ -3,6 +3,8 @@
 class CashHandler
 {
 public:
+    CashHandler();
+
     void cashIn(int sum, int bills);
     void cashOut(int sum);
 
