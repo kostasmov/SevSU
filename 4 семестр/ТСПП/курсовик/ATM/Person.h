@@ -6,9 +6,8 @@ using namespace std;
 class Person
 {
 public:
-    Person(string name);
-    //void startWorkWithATM(ATM atm);
-    string getName();
+    Person(string name) { this->name = name; };
+    string getName() { return this->name; };
 
 protected:
     string name;

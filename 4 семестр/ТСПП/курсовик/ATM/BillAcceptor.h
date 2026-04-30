@@ -10,10 +10,10 @@ public:
     void getCash(int cash);
 
 protected:
-    int cash;
-    int banknotes;
+    //int cash;
+    //int banknotes;
 
-    void checkBanknotes();
+    bool checkBanknotes();  // проверка что банкноты нормальные
 
     void setSum();
 };

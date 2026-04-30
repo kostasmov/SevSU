@@ -4,33 +4,38 @@
 #include "CashHandler.h"
 #include "BillAcceptor.h"
 #include "TransferService.h"
+#include "InputModule.h"
 
 #include <string>
+#include <iostream>
+
 using namespace std;
+
+// МОДЕЛИРОВАНИЕ БАНКОМАТА
 
 class ATM
 {
 public:
-    ATM(string bank);
-    string getBank();   // узнать банк
+    ATM(string bank) { this->bank = bank; };
+    string getBank() { return this->bank; };
 
-    void startSession(BankCard* card);
-    
-    bool putCard(BankCard* card);
-    void getbackCard();
+    void startSession(Client* client);  // Начать сеанс обслуживания клиента
 
-    void tranferMoney();
+    //void tranferMoney();
 
 protected:
     string bank;
 
-    CardReader cardReader;
-    CashHandler cashHandler;
-    BillAcceptor billAcceptor;
-    TransferService transfer;
+    CardReader cardReader;      // Картоприёмник
+    CashHandler cashHandler;    // Касса
+    BillAcceptor billAcceptor;  // Деньгоприёмник
+    //TransferService transfer;   // 
+    const InputModule keypad;   // Блок ввода (кнопки)
+
+    bool setCardInReader(BankCard* card); 
+    void returnCardToUser();
 
     bool validateCard();    // проверка безопасности
-    int enterPIN();         // ввод PIN-кода
 
     void getCardInfo();     // вывод информации о карте
     void getCardBalance();  // вывод баланса на карте

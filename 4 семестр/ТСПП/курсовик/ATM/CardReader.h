@@ -5,13 +5,14 @@ class CardReader
 {
 public:
     BankCard* card;
+
     CardReader() { card = NULL; };
 
-    bool setCard(BankCard* card);
-    bool getbackCard();     // возврат карты
+    bool getCard(BankCard* card);   // ридер принимает карту
+    bool returnCard();              // ридер отдаёт карту
 
-    bool isCardPresent();   // проверка наличия карты
-    void getCardInfo();     // вывод информации о карте (надо бы перенести в ATM)
+    bool isCardPresent() const; // проверка наличия карты
+    void getCardInfo();         // возрат информации о карте (НЕ РАБОТАЕТ)
 
 protected:
     //void sendAlert();

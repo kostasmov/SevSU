@@ -10,13 +10,22 @@ BankCard::BankCard(int n, string bank, Client* owner, int PIN) {
 	this->money = 0;
 }
 
+// доступ к параметрам (гетры)
+int BankCard::getNumber() { return this->number; }				// номер карты
+string BankCard::getBank() { return this->bank; }				// банк
+string BankCard::getOwner() { return this->owner->getName(); }	// имя владельца
+
+bool BankCard::getBlockState() { return this->isBlocked; }		// заблокирована ли?
+double BankCard::getBalance() { return this->money; }			// баланс
+
+
 // пополнение баланса
 bool BankCard::deposit(double amount) {
 	this->money += amount;
 	return 1;
 }
 
-// транжирим денюшшки(((
+// снятие денег со счёта
 bool BankCard::withdraw(double amount) {
 	if (this->money >= amount) {
 		this->money -= amount;
@@ -26,28 +35,14 @@ bool BankCard::withdraw(double amount) {
 	return 0;
 }
 
-/*bool BankCard::getBlockState() {
-	return this->isBlocked;
-}
-
-int BankCard::getNumber() {
-	return this->number;
-}
-
-string BankCard::getBank() {
-	return this->bank;
-}
-
-double BankCard::getBalance() {
-	return this->money;
-}*/
-
+// сверить введённый PIN с реальным
 bool BankCard::checkPIN(int enteredPIN) {
 	if (this->isBlocked) return false;
 
 	return (this->PIN == enteredPIN) ? true : false;
 }
 
+// заблокировать карту
 void BankCard::setBlocked() {
 	this->isBlocked = true;
 }

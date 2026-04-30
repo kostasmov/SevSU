@@ -1,66 +1,63 @@
 #include "ATM.h"
-#include <iostream>
-#include <conio.h>  // _getch()
 
-ATM::ATM(string bank) {
-	this->bank = bank;
-}
-
-string ATM::getBank() {
-	return this->bank;
-}
-
-// СЕССИЯ (студе--) КЛИЕНТА
-void ATM::startSession(BankCard* card) {
+// СЕССИЯ КЛИЕНТА (и студента(((
+void ATM::startSession(Client* client) {
 	cout << endl;
 	cout << "--------------- " << this->bank << " ---------------";
 	cout << endl << endl;
 
-	if (not this->putCard(card)) {
+	BankCard* card = client->getCards()[0];	// НАДО НАПИСАТЬ ВЫБОР КАРТЫ?
+
+	if (not this->setCardInReader(card)) {
 		return;
 	}
 
 	this->getCardInfo();
 
 	if (not this->validateCard()) {
-		this->getbackCard();
+		this->returnCardToUser();
 		return;
 	}
 
 	this->getCardBalance();
-	
+
+	//this->deposit();
+
+	this->returnCardToUser();
+	cout << "BYE BUY !!!!!!!!!" << "\n\n";
 }
 
-// установить карту в ридер
-bool ATM::putCard(BankCard* card) {
-	if (this->cardReader.isCardPresent()) {
+// Установить карту в ридер
+bool ATM::setCardInReader(BankCard* card) {
+	cout << "Put your card in reader";
+	cin.get();
+	
+	if (not this->cardReader.getCard(card)) {
 		cout << "There's already card in reader!";
 		cin.get();
 		return 0;
 	}
-
-	cout << "Put your card in reader";
-	cin.get();
-
-	this->cardReader.setCard(card);
+	
 	cout << "Card is in reader" << "\n\n";
 	return 1;
 }
 
-// возврат карты из ридера
-void ATM::getbackCard() {
-	if (not this->cardReader.getbackCard())
-		cout << "Can't return card - there's no card in reader";
-	else
+// Вернуть карту из ридера
+void ATM::returnCardToUser() {
+	if (this->cardReader.returnCard())
 		cout << "Get your card back";
+	else
+		cout << "Can't return card - there's no card in reader";
 	cin.get();
 }
+
 
 /*void ATM::tranferMoney() {
 
 }*/
 
-// валидация (проверка) карты
+
+// Валидация (проверка) карты
 bool ATM::validateCard() {
 	if (this->cardReader.card->getBlockState()) {
 		cout << "Sorry, card is blocked" << "\n\n";
@@ -68,8 +65,7 @@ bool ATM::validateCard() {
 	}
 
 	for (int tries = 0; tries < 3; tries++) {
-		
-		int enteredPIN = this->enterPIN();
+		int enteredPIN = this->keypad.enterPIN();
 
 		if (this->cardReader.card->checkPIN(enteredPIN)) {
 			cout << "Right! Cart validated" << "\n\n";
@@ -85,47 +81,23 @@ bool ATM::validateCard() {
 	return false;
 }
 
-// ввод PIN-кода
-int ATM::enterPIN() {
-	string PIN;
-	char ch;
 
-	cout << "Enter PIN-code: ";
-
-	// чтение посимвольно
-	while (PIN.size() < 4) {
-		ch = _getch();
-
-		if (isdigit(ch)) {	// если цифра - считаем как часть PIN
-			cout << '*';
-			PIN += ch;   
-		}
-
-		// разрешить Backspace (код 8)
-		else if (ch == 8 && PIN.length() > 0) {
-			cout << "\b \b";	// стирание символа из консоли
-			PIN.pop_back();	
-		}
-	}
-
-	cout << endl;
-	return stoi(PIN);
-}
-
-// вывод информации о карте
+// Вывод информации о карте
 void ATM::getCardInfo() {
+	// Идёт через прямое обращение к карте, ну и ладно
 	cout << "Bank: " << this->cardReader.card->getBank() << endl;
 	cout << "Number: " << this->cardReader.card->getNumber() << endl;
 	cout << "Is card blocked: " << (this->cardReader.card->getBlockState() ? "YES" : "NO");
 	cout << endl << endl;
 }
 
-// вывод баланса на счёте клиента
+// Вывод баланса на счёте клиента
 void ATM::getCardBalance() {
 	cout << "Balance: " << this->cardReader.card->getBalance();
 	cin.get();
 	cout << endl << endl;
 }
+
 
 /*void ATM::pickCommand(int code) {
 
@@ -134,3 +106,14 @@ void ATM::getCardBalance() {
 void ATM::pickTransferOperation(int code) {
 
 }*/
+
+
+// внесение наличных
+bool ATM::deposit() {
+	return 0;
+}
+
+// снятие наличных
+bool ATM::withdraw() {
+	return 0;
+}

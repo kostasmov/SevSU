@@ -9,11 +9,12 @@ class BankCard
 public:
     BankCard(int num, string bank, Client* owner, int PIN);
 
-    // геттеры
-    int getNumber() { return this->number; };
-    string getBank() { return this->bank; };
-    bool getBlockState() { return this->isBlocked; };
-    double getBalance() { return this->money; };
+    int getNumber();                // геттеры
+    string getBank();
+    string getOwner();
+
+    bool getBlockState();
+    double getBalance();
     
     bool checkPIN(int enteredPIN);  // проверить PIN-код
     void setBlocked();              // заблокировать карту

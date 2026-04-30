@@ -28,5 +28,5 @@ int main()
 
     ATM* atm = new ATM("NovaBank");
 
-    atm->startSession(man->getCards()[0]);
+    atm->startSession(man);
 }
