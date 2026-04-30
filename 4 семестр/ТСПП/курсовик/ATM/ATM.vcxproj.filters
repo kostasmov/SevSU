@@ -57,9 +57,6 @@
     <ClCompile Include="CashHandler.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="PINHandler.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
     <ClCompile Include="TransferService.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
@@ -93,9 +90,6 @@
       <Filter>Файлы заголовков\Аппарат</Filter>
     </ClInclude>
     <ClInclude Include="CashHandler.h">
-      <Filter>Файлы заголовков\Аппарат</Filter>
-    </ClInclude>
-    <ClInclude Include="PINHandler.h">
       <Filter>Файлы заголовков\Аппарат</Filter>
     </ClInclude>
     <ClInclude Include="TransferService.h">

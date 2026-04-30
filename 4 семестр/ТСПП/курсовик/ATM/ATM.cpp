@@ -10,15 +10,13 @@ string ATM::getBank() {
 	return this->bank;
 }
 
-// СЕССИЯ КЛИЕНТА
+// СЕССИЯ (студе--) КЛИЕНТА
 void ATM::startSession(BankCard* card) {
 	cout << endl;
 	cout << "--------------- " << this->bank << " ---------------";
 	cout << endl << endl;
 
 	if (not this->putCard(card)) {
-		cout << "There's already card in reader!";
-		cin.get();
 		return;
 	}
 
@@ -29,13 +27,18 @@ void ATM::startSession(BankCard* card) {
 		return;
 	}
 
+	this->getCardBalance();
+	
 }
 
 // установить карту в ридер
 bool ATM::putCard(BankCard* card) {
-	if (this->cardReader.isCardPresent())
+	if (this->cardReader.isCardPresent()) {
+		cout << "There's already card in reader!";
+		cin.get();
 		return 0;
-	
+	}
+
 	cout << "Put your card in reader";
 	cin.get();
 
@@ -57,9 +60,12 @@ void ATM::getbackCard() {
 
 }*/
 
-// проверка PIN-кода карты
+// валидация (проверка) карты
 bool ATM::validateCard() {
-	if (this->cardReader.card->getBlockState()) return 0;
+	if (this->cardReader.card->getBlockState()) {
+		cout << "Sorry, card is blocked" << "\n\n";
+		return 0;
+	}
 
 	for (int tries = 0; tries < 3; tries++) {
 		
@@ -74,12 +80,12 @@ bool ATM::validateCard() {
 	}
 
 	cout << "Sorry, attempts ended. Card was blocked" << "\n\n";
-	cardReader.card->setBlocked();
+	this->cardReader.card->setBlocked();
 
 	return false;
 }
 
-// вывод информации о карте
+// ввод PIN-кода
 int ATM::enterPIN() {
 	string PIN;
 	char ch;
@@ -115,12 +121,11 @@ void ATM::getCardInfo() {
 }
 
 // вывод баланса на счёте клиента
-/*void ATM::getCardInfo() {
-	cout << "Bank: " << this->cardReader.card->getBank() << endl;
-	cout << "Number: " << this->cardReader.card->getNumber() << endl;
-	cout << "Is card blocked: " << (this->cardReader.card->getBlockState() ? "YES" : "NO");
+void ATM::getCardBalance() {
+	cout << "Balance: " << this->cardReader.card->getBalance();
+	cin.get();
 	cout << endl << endl;
-}*/
+}
 
 /*void ATM::pickCommand(int code) {
 

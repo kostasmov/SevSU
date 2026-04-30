@@ -138,7 +138,6 @@
     <ClCompile Include="Client.cpp" />
     <ClCompile Include="Collector.cpp" />
     <ClCompile Include="Person.cpp" />
-    <ClCompile Include="PINHandler.cpp" />
     <ClCompile Include="Recipient.cpp" />
     <ClCompile Include="TransferService.cpp" />
     <ClCompile Include="Worker.cpp" />
@@ -153,7 +152,6 @@
     <ClInclude Include="Client.h" />
     <ClInclude Include="Collector.h" />
     <ClInclude Include="Person.h" />
-    <ClInclude Include="PINHandler.h" />
     <ClInclude Include="Recipient.h" />
     <ClInclude Include="TransferService.h" />
     <ClInclude Include="Worker.h" />

@@ -9,20 +9,25 @@ class BankCard
 public:
     BankCard(int num, string bank, Client* owner, int PIN);
 
-    int getNumber();
-    string getBank();
-    bool getBlockState();
+    // геттеры
+    int getNumber() { return this->number; };
+    string getBank() { return this->bank; };
+    bool getBlockState() { return this->isBlocked; };
+    double getBalance() { return this->money; };
     
-    bool checkPIN(int enteredPIN);
-    void setBlocked();
+    bool checkPIN(int enteredPIN);  // проверить PIN-код
+    void setBlocked();              // заблокировать карту
+
+    bool deposit(double amount);    // пополнение
+    bool withdraw(double amount);   // снятие
 
 protected:
-    int number;
-    string bank;
-    Client* owner;
+    int number;     // номер карты
+    string bank;    // банк
+    Client* owner;  // клиент-владелец
 
-    double money;  // деньги на счёте клиента
+    double money;   // деньги на счёте клиента
 
-    int PIN;
-    bool isBlocked;
+    int PIN;        // пин-код
+    bool isBlocked; // заблокирована ли?
 };
