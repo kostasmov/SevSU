@@ -16,8 +16,6 @@ void ATM::startSession(BankCard* card) {
 	cout << "--------------- " << this->bank << " ---------------";
 	cout << endl << endl;
 
-	this->cardReader.card = card;
-
 	if (not this->putCard(card)) {
 		cout << "There's already card in reader!";
 		cin.get();
@@ -61,19 +59,21 @@ void ATM::getbackCard() {
 
 // проверка PIN-кода карты
 bool ATM::validateCard() {
+	if (this->cardReader.card->getBlockState()) return 0;
+
 	for (int tries = 0; tries < 3; tries++) {
 		
 		int enteredPIN = this->enterPIN();
 
-		if (cardReader.card->checkPIN(enteredPIN)) {
+		if (this->cardReader.card->checkPIN(enteredPIN)) {
 			cout << "Right! Cart validated" << "\n\n";
-			return true;
+			return 1;
 		}
 
 		cout << "WRONG PIN" << endl;
 	}
 
-	cout << "Sorry, attemts ended. Card was blocked" << "\n\n";
+	cout << "Sorry, attempts ended. Card was blocked" << "\n\n";
 	cardReader.card->setBlocked();
 
 	return false;
