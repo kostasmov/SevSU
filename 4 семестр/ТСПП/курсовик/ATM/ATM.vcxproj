@@ -24,6 +24,7 @@
     <ProjectGuid>{3779e56b-ed98-444d-84e7-7a3f0b894aa2}</ProjectGuid>
     <RootNamespace>ATM</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <ProjectName>ATM_Project</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">

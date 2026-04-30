@@ -13,23 +13,31 @@ class ATM
 {
 public:
     ATM(string bank);
+    string getBank();   // узнать банк
 
-    void getBank();
-    void startSession();
-    void putCard();
+    void startSession(BankCard* card);
+
+    bool putCard(BankCard* card);
     void getbackCard();
+
+    void getCardInfo(); // вывод информации о карте 
+
+    int enterPIN();     // ввод PIN-кода
+
     void tranferMoney();
 
 protected:
     string bank;
 
     CardReader cardReader;
-    CashHandler cashRegister;
+    CashHandler cashHandler;
     BillAcceptor billAcceptor;
     TransferService transfer;
-    PINHandler PINhandler;
+    //PINHandler PINhandler;
 
-    void pickCommand(int code);
-    void pickTransferOperation(int code);
+    bool validateCard();
+
+    //void pickCommand(int code);
+    //void pickTransferOperation(int code);
 };
 

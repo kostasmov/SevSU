@@ -3,7 +3,7 @@
 class BillAcceptor
 {
 public:
-    //BillAcceptor();
+    BillAcceptor() {};
 
     void putCash(int cash, int bills);
     void getbackCash();

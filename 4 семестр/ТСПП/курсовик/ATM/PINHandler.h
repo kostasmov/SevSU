@@ -4,10 +4,11 @@
 class PINHandler
 {
 public:
-    void verifyPIN(BankCard card);
+    PINHandler() {};
+    void verifyPIN();
 
 protected:
-    void enterPIN();
+    //void enterPIN();
     void blockCard();
     void sendAlert();
 };

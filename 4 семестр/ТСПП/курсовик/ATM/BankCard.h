@@ -11,18 +11,18 @@ public:
 
     int getNumber();
     string getBank();
-
     bool getBlockState();
     
-    //void checkPIN();
-    //void setBlockState(void state);
+    bool checkPIN(int enteredPIN);
+    void setBlocked();
 
 protected:
     int number;
     string bank;
     Client* owner;
 
+    double money;  // деньги на счёте клиента
+
     int PIN;
     bool isBlocked;
-    //string validity;
 };

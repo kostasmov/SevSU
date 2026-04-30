@@ -4,17 +4,16 @@
 class CardReader
 {
 public:
-    CardReader();
+    BankCard* card;
+    CardReader() { card = NULL; };
 
-    void putCard(BankCard card);
-    void getbackCard();
-    //void isCardPresent();
-    void getCardInfo();
+    bool setCard(BankCard* card);
+    bool getbackCard();     // возврат карты
+
+    bool isCardPresent();   // проверка наличия карты
+    void getCardInfo();     // вывод информации о карте (надо бы перенести в ATM)
 
 protected:
-    //bool isCardPresent = 0;
-    BankCard card;
-
-    void sendAlert();
+    //void sendAlert();
 };
 

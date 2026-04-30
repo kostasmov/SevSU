@@ -22192,8 +22192,8 @@
 									"visible": false,
 									"font": "Arial;13;0",
 									"parentStyle": false,
-									"left": 1559,
-									"top": 1001,
+									"left": 823,
+									"top": 1025,
 									"height": 13,
 									"alpha": 1.5707963267948966,
 									"distance": 15,
@@ -22214,8 +22214,8 @@
 									"visible": null,
 									"font": "Arial;13;0",
 									"parentStyle": false,
-									"left": 1559,
-									"top": 1016,
+									"left": 823,
+									"top": 1040,
 									"height": 13,
 									"alpha": 1.5707963267948966,
 									"distance": 30,
@@ -22236,8 +22236,8 @@
 									"visible": false,
 									"font": "Arial;13;0",
 									"parentStyle": false,
-									"left": 1560,
-									"top": 971,
+									"left": 824,
+									"top": 995,
 									"height": 13,
 									"alpha": -1.5707963267948966,
 									"distance": 15,
@@ -22255,7 +22255,7 @@
 							"tail": {
 								"$ref": "AAAAAAGHuZ01ZR3lk+I="
 							},
-							"points": "1265:713;1560:713;1560:992;440:992;440:818",
+							"points": "1192:748;1192:1016;456:1016;456:818",
 							"showVisibility": true,
 							"nameLabel": {
 								"$ref": "AAAAAAGHvTdcAh/mc6U="
@@ -22289,8 +22289,8 @@
 									"visible": false,
 									"font": "Arial;13;0",
 									"parentStyle": false,
-									"left": 699,
-									"top": 1001,
+									"left": 715,
+									"top": 993,
 									"height": 13,
 									"alpha": 1.5707963267948966,
 									"distance": 15,
@@ -22311,8 +22311,8 @@
 									"visible": null,
 									"font": "Arial;13;0",
 									"parentStyle": false,
-									"left": 699,
-									"top": 1016,
+									"left": 715,
+									"top": 1008,
 									"height": 13,
 									"alpha": 1.5707963267948966,
 									"distance": 30,
@@ -22333,8 +22333,8 @@
 									"visible": false,
 									"font": "Arial;13;0",
 									"parentStyle": false,
-									"left": 700,
-									"top": 971,
+									"left": 716,
+									"top": 963,
 									"height": 13,
 									"alpha": -1.5707963267948966,
 									"distance": 15,
@@ -22352,7 +22352,7 @@
 							"tail": {
 								"$ref": "AAAAAAGHug15h66Jujc="
 							},
-							"points": "960:939;960:992;440:992;440:818",
+							"points": "920:939;920:984;512:984;512:818",
 							"showVisibility": true,
 							"nameLabel": {
 								"$ref": "AAAAAAGHvThZd2W5ARQ="
@@ -23268,8 +23268,8 @@
 									"visible": false,
 									"font": "Arial;13;0",
 									"parentStyle": false,
-									"left": 1559,
-									"top": 1001,
+									"left": 1599,
+									"top": 1057,
 									"height": 13,
 									"alpha": 1.5707963267948966,
 									"distance": 15,
@@ -23290,8 +23290,8 @@
 									"visible": null,
 									"font": "Arial;13;0",
 									"parentStyle": false,
-									"left": 1559,
-									"top": 1016,
+									"left": 1599,
+									"top": 1072,
 									"height": 13,
 									"alpha": 1.5707963267948966,
 									"distance": 30,
@@ -23312,8 +23312,8 @@
 									"visible": false,
 									"font": "Arial;13;0",
 									"parentStyle": false,
-									"left": 1560,
-									"top": 971,
+									"left": 1600,
+									"top": 1027,
 									"height": 13,
 									"alpha": -1.5707963267948966,
 									"distance": 15,
@@ -23331,7 +23331,7 @@
 							"tail": {
 								"$ref": "AAAAAAGHukW75/GKG04="
 							},
-							"points": "1519:408;1560:408;1560:992;440:992;440:818",
+							"points": "1519:408;1600:408;1600:1048;392:1048;392:818",
 							"showVisibility": true,
 							"nameLabel": {
 								"$ref": "AAAAAAGHvd/w7uMPeAQ="
@@ -47837,7 +47837,7 @@
 													"left": 253,
 													"top": 591,
 													"width": 104,
-													"height": 26,
+													"height": 13,
 													"text": "Проверить карту",
 													"wordWrap": true
 												},
@@ -47876,7 +47876,7 @@
 											"left": 248,
 											"top": 584,
 											"width": 114,
-											"height": 38,
+											"height": 25,
 											"stereotypeLabel": {
 												"$ref": "AAAAAAGH7/TVY8O9Ruc="
 											},
@@ -50649,7 +50649,7 @@
 													"left": 165,
 													"top": 287,
 													"width": 104,
-													"height": 52,
+													"height": 39,
 													"text": "Вызвать операцию снятия наличных",
 													"wordWrap": true
 												},
@@ -50688,7 +50688,7 @@
 											"left": 160,
 											"top": 280,
 											"width": 114,
-											"height": 64,
+											"height": 51,
 											"stereotypeLabel": {
 												"$ref": "AAAAAAGH66C0p/U2Ktg="
 											},
@@ -56233,9 +56233,9 @@
 													},
 													"font": "Arial;13;0",
 													"parentStyle": true,
-													"left": 32.72998046875,
+													"left": 30.55908203125,
 													"top": 13,
-													"width": 67.9326171875,
+													"width": 62.8037109375,
 													"height": 13,
 													"text": "Interaction1"
 												},
@@ -56249,7 +56249,7 @@
 													"parentStyle": true,
 													"left": 13,
 													"top": 13,
-													"width": 13.72998046875,
+													"width": 11.55908203125,
 													"height": 13,
 													"text": "sd"
 												}
@@ -58354,9 +58354,9 @@
 													"font": "Arial;13;0",
 													"parentStyle": false,
 													"left": 91,
-													"top": 447,
+													"top": 454,
 													"width": 139.92138671875,
-													"height": 26,
+													"height": 13,
 													"alpha": 1.2793390736014962,
 													"distance": 20.8806130178211,
 													"hostEdge": {
@@ -58968,7 +58968,7 @@
 													"visible": false,
 													"font": "Arial;13;0",
 													"parentStyle": true,
-													"left": 64.72998046875,
+													"left": 63.99365234375,
 													"top": 677,
 													"height": 13
 												},
@@ -58982,7 +58982,7 @@
 													"parentStyle": true,
 													"left": 45,
 													"top": 677,
-													"width": 13.72998046875,
+													"width": 12.99365234375,
 													"height": 13,
 													"text": "alt"
 												},
@@ -60443,7 +60443,7 @@
 													"visible": false,
 													"font": "Arial;13;0",
 													"parentStyle": true,
-													"left": 208.72998046875,
+													"left": 207.99365234375,
 													"top": 189,
 													"height": 13
 												},
@@ -60457,7 +60457,7 @@
 													"parentStyle": true,
 													"left": 189,
 													"top": 189,
-													"width": 13.72998046875,
+													"width": 12.99365234375,
 													"height": 13,
 													"text": "alt"
 												},
@@ -60935,9 +60935,9 @@
 													"font": "Arial;13;0",
 													"parentStyle": false,
 													"left": 281,
-													"top": 959,
+													"top": 965,
 													"width": 114,
-													"height": 39,
+													"height": 26,
 													"alpha": -4.617437745952067,
 													"distance": 21.095023109728988,
 													"hostEdge": {

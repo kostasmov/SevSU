@@ -26,4 +26,7 @@ int main()
         cout << "   Card" << i + 1 << ": " << man->getCards()[i]->getBank() << endl;
     }
 
+    ATM* atm = new ATM("NovaBank");
+
+    atm->startSession(man->getCards()[0]);
 }

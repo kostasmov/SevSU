@@ -4,8 +4,10 @@ BankCard::BankCard(int n, string bank, Client* owner, int PIN) {
 	this->number = n;
 	this->bank = bank;
 	this->owner = owner;
-	this->isBlocked = false;
 	this->PIN = PIN;
+
+	this->isBlocked = false;
+	this->money = 0;
 }
 
 bool BankCard::getBlockState() {
@@ -20,10 +22,12 @@ string BankCard::getBank() {
 	return this->bank;
 }
 
-/*void BankCard::checkPIN() {
+bool BankCard::checkPIN(int enteredPIN) {
+	if (this->isBlocked) return false;
 
-}*/
+	return (this->PIN == enteredPIN) ? true : false;
+}
 
-/*void BankCard::setBlockState(void state) {
-
-}*/
+void BankCard::setBlocked() {
+	this->isBlocked = true;
+}
