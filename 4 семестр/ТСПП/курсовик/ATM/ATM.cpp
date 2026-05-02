@@ -30,7 +30,7 @@ void ATM::startSession(Client* client) {
 	this->getCardBalance();
 
 	// пополнение счёта (внесение наличных)
-	this->deposit();
+	this->makeDeposit();
 
 	// вернуть карту
 	this->returnCardToUser();
@@ -55,7 +55,7 @@ bool ATM::setCardInReader(BankCard* card) {
 // Вернуть карту из ридера
 void ATM::returnCardToUser() {
 	if (this->cardReader.returnCard())
-		this->ui.showInstruction("Get your card back");
+		this->ui.showInstruction("Get your card back!");
 	else
 		this->ui.showMessage("Can't return card - there's no card in reader!");
 }
@@ -118,7 +118,7 @@ void ATM::pickTransferOperation(int code) {
 
 
 // Внесение наличных
-bool ATM::deposit() {
+bool ATM::makeDeposit() {
 	// проверить помещается ли в банкомат хоть что-то
 	if (!this->cashHandler.canAcceptBanknotes(5)) {
 		this->ui.showMessage("Sorry, cashbox is FULL of money");
@@ -146,23 +146,42 @@ bool ATM::deposit() {
 
 	case 1:
 		this->ui.showMessage("Cash accepted successfully", false);
-		this->ui.showMessage("Total sum - " + to_string(this->billAcceptor.calculateCash()), false);
-		this->ui.showMessage("Operation completed!", false);
-		return 1;
+		if (this->depositTransaction()) return 1;
+		break;
 
 	default:
 		this->ui.showMessage("Unknown error while accepting cash", false);
 		break;
 	}
 
-	this->ui.showInstruction("Get your cash back and check it!");
+	this->ui.showInstruction("Get your cash back!");
 	return 0;
+}
+bool ATM::depositTransaction() {
+	int cashSum = this->billAcceptor.calculateCash();
+	int banknotesAmount = this->billAcceptor.countBanknotes();
+
+	this->ui.showMessage("Money put into - " + to_string(cashSum), false);
+	this->ui.showInstruction("CONTINUE (you can no refuse)");
+
+	// --------- ТРАНЗАКЦИЯ ---------
+	bool done = this->cashHandler.cashIn(this->billAcceptor.cash, banknotesAmount);
+	if (!done) {
+		this->ui.showMessage("Sorry, there's no place in cashbox");
+		return 0;
+	}
+
+	this->cardReader.card->deposit(cashSum);
+	this->billAcceptor.takeCashInHandler();
+
+	this->ui.showMessage("Operation completed!", false);
+	this->ui.showInstruction("Take your CHECK paper");
+
+	return 1;
 }
 
 
-
-
-// снятие наличных
+// Снятие наличных
 bool ATM::withdraw() {
 	return 0;
 }

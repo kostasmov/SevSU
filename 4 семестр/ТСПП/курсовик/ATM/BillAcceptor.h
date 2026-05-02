@@ -11,14 +11,14 @@ public:
 
     int getCash(map<int, int>* cash);
     void returnCash();
-    //void takeCashInHandler();
+    void takeCashInHandler();
 
     int calculateCash();    // Подсчитать внесённую наличку
+    int countBanknotes();   // Подсчитать число банкнот
 
 protected:
     const int max_banknotes = 100;  // Максимальное число банкнот за раз
 
     bool validateBanknotes();   // Проверка что банкноты нормальные
-    int countBanknotes();       // Подсчитать число банкнот
 };
 

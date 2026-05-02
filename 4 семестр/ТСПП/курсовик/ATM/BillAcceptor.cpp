@@ -25,11 +25,10 @@ void BillAcceptor::returnCash() {
 	// заглушка
 }
 
-
-/*void takeCashInHandler() {
-
-}*/
-
+void BillAcceptor::takeCashInHandler() {
+    this->cash = NULL;
+    // заглушка
+}
 
 // Проверить корректность купюр
 bool BillAcceptor::validateBanknotes() {

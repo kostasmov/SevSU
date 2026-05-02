@@ -40,7 +40,9 @@ protected:
     void getCardInfo();     // вывод информации о карте
     void getCardBalance();  // вывод баланса на карте
 
-    bool deposit();     // пополнить карту
+    bool makeDeposit();         // пополнить карту
+    bool depositTransaction();  // перевод средств + пополнение кассы
+
     bool withdraw();    // снять кэш
 
     //void pickCommand(int code);
