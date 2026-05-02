@@ -4,7 +4,7 @@
 #include "CashHandler.h"
 #include "BillAcceptor.h"
 #include "TransferService.h"
-#include "InputModule.h"
+#include "ATM_UI.h"
 
 #include <string>
 #include <iostream>
@@ -30,7 +30,7 @@ protected:
     CashHandler cashHandler;    // Касса
     BillAcceptor billAcceptor;  // Деньгоприёмник
     //TransferService transfer;   // 
-    const InputModule keypad;   // Блок ввода (кнопки)
+    const ATM_UI ui;            // Блок ввода/вывода
 
     bool setCardInReader(BankCard* card); 
     void returnCardToUser();

@@ -133,7 +133,7 @@
     <ClCompile Include="BillAcceptor.cpp" />
     <ClCompile Include="CardReader.cpp" />
     <ClCompile Include="CashHandler.cpp" />
-    <ClCompile Include="InputModule.cpp" />
+    <ClCompile Include="ATM_UI.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="BankOfficer.cpp" />
     <ClCompile Include="Client.cpp" />
@@ -151,7 +151,7 @@
     <ClInclude Include="CashHandler.h" />
     <ClInclude Include="Client.h" />
     <ClInclude Include="Collector.h" />
-    <ClInclude Include="InputModule.h" />
+    <ClInclude Include="ATM_UI.h" />
     <ClInclude Include="Person.h" />
     <ClInclude Include="Recipient.h" />
     <ClInclude Include="TransferService.h" />

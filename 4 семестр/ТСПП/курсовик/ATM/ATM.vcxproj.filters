@@ -57,7 +57,7 @@
     <ClCompile Include="TransferService.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="InputModule.cpp">
+    <ClCompile Include="ATM_UI.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
   </ItemGroup>
@@ -98,7 +98,7 @@
     <ClInclude Include="BankCard.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="InputModule.h">
+    <ClInclude Include="ATM_UI.h">
       <Filter>Файлы заголовков\Аппарат</Filter>
     </ClInclude>
   </ItemGroup>

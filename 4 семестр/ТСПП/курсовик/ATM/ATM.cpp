@@ -2,53 +2,62 @@
 
 // СЕССИЯ КЛИЕНТА (и студента(((
 void ATM::startSession(Client* client) {
-	cout << endl;
-	cout << "--------------- " << this->bank << " ---------------";
-	cout << endl << endl;
+	this->ui.showHello(this->bank);
 
-	BankCard* card = client->getCards()[0];	// НАДО НАПИСАТЬ ВЫБОР КАРТЫ?
+	// -----------------
+	BankCard* card = client->getCards()[0];
+	// -----------------
 
+	// проверить вставляется ли карта в ридер
 	if (not this->setCardInReader(card)) {
 		return;
 	}
 
-	this->getCardInfo();
+	// вывести информацию о карте
+	this->getCardInfo();	
 
+	// валидация карты (ввод PIN-кода)
 	if (not this->validateCard()) {
 		this->returnCardToUser();
 		return;
 	}
 
+	// -----------------
+	// КЛИЕНТ ДОЛЖЕН ВЫБИРАТЬ ОПЕРАЦИЮ
+	// -----------------
+
+	// вывод баланса на счёте клиента
 	this->getCardBalance();
 
-	//this->deposit();
+	// пополнение счёта (внесение наличных)
+	this->deposit();
 
+	// вернуть карту
 	this->returnCardToUser();
-	cout << "BYE BUY !!!!!!!!!" << "\n\n";
+
+	this->ui.showGoodbye();
 }
 
 // Установить карту в ридер
 bool ATM::setCardInReader(BankCard* card) {
-	cout << "Put your card in reader";
-	cin.get();
+	this->ui.showInstruction("Put your card in reader");
 	
+	// проверить не занят ли ридер
 	if (not this->cardReader.getCard(card)) {
-		cout << "There's already card in reader!";
-		cin.get();
+		this->ui.showMessage("There's already card in reader!");
 		return 0;
 	}
 	
-	cout << "Card is in reader" << "\n\n";
+	this->ui.showMessage("Card read successfully!");
 	return 1;
 }
 
 // Вернуть карту из ридера
 void ATM::returnCardToUser() {
 	if (this->cardReader.returnCard())
-		cout << "Get your card back";
+		this->ui.showInstruction("Get your card back");
 	else
-		cout << "Can't return card - there's no card in reader";
-	cin.get();
+		this->ui.showMessage("Can't return card - there's no card in reader!");
 }
 
 
@@ -59,23 +68,25 @@ void ATM::returnCardToUser() {
 
 // Валидация (проверка) карты
 bool ATM::validateCard() {
+	// проверить не заблокирована ли карта
 	if (this->cardReader.card->getBlockState()) {
-		cout << "Sorry, card is blocked" << "\n\n";
+		this->ui.showMessage("Sorry, card is blocked");
 		return 0;
 	}
 
+	// три попытки на ввод
 	for (int tries = 0; tries < 3; tries++) {
-		int enteredPIN = this->keypad.enterPIN();
+		int enteredPIN = this->ui.enterPIN();
 
 		if (this->cardReader.card->checkPIN(enteredPIN)) {
-			cout << "Right! Cart validated" << "\n\n";
+			this->ui.showMessage("Right! Cart validated");
 			return 1;
 		}
 
-		cout << "WRONG PIN" << endl;
+		this->ui.showMessage("WRONG PIN", false);
 	}
 
-	cout << "Sorry, attempts ended. Card was blocked" << "\n\n";
+	this->ui.showMessage("Sorry, attempts ended. Card was blocked");
 	this->cardReader.card->setBlocked();
 
 	return false;
@@ -84,18 +95,16 @@ bool ATM::validateCard() {
 
 // Вывод информации о карте
 void ATM::getCardInfo() {
-	// Идёт через прямое обращение к карте, ну и ладно
-	cout << "Bank: " << this->cardReader.card->getBank() << endl;
-	cout << "Number: " << this->cardReader.card->getNumber() << endl;
-	cout << "Is card blocked: " << (this->cardReader.card->getBlockState() ? "YES" : "NO");
-	cout << endl << endl;
+	// ...идёт через прямое обращение к карте, ну и ладно
+	this->ui.showCardInfo(this->cardReader.card->getBank(),
+		this->cardReader.card->getNumber(),
+		this->cardReader.card->getBlockState());
 }
+
 
 // Вывод баланса на счёте клиента
 void ATM::getCardBalance() {
-	cout << "Balance: " << this->cardReader.card->getBalance();
-	cin.get();
-	cout << endl << endl;
+	this->ui.showCardBalance(this->cardReader.card->getBalance());
 }
 
 
@@ -108,10 +117,50 @@ void ATM::pickTransferOperation(int code) {
 }*/
 
 
-// внесение наличных
+// Внесение наличных
 bool ATM::deposit() {
+	// проверить помещается ли в банкомат хоть что-то
+	if (!this->cashHandler.canAcceptBanknotes(5)) {
+		this->ui.showMessage("Sorry, cashbox is FULL of money");
+		return 0;
+	}
+
+	this->ui.showInstruction("Put money in bill acceptor");
+
+	// -----------------
+	map<int, int> cash;
+	cash[100] = 5;
+	cash[500] = 3;
+	cash[1000] = 1;
+	// -----------------
+
+	// попытка передать нал и обработка результата
+	switch (this->billAcceptor.getCash(&cash)) {
+	case 404:
+		this->ui.showMessage("Error: Too many banknotes inserted (404)", false);
+		break;
+
+	case 405:
+		this->ui.showMessage("Error: Validation failed (405)", false);
+		break;
+
+	case 1:
+		this->ui.showMessage("Cash accepted successfully", false);
+		this->ui.showMessage("Total sum - " + to_string(this->billAcceptor.calculateCash()), false);
+		this->ui.showMessage("Operation completed!", false);
+		return 1;
+
+	default:
+		this->ui.showMessage("Unknown error while accepting cash", false);
+		break;
+	}
+
+	this->ui.showInstruction("Get your cash back and check it!");
 	return 0;
 }
+
+
+
 
 // снятие наличных
 bool ATM::withdraw() {
