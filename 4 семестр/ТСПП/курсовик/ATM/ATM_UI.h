@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include <string>
+#include <cctype>
 #include <conio.h>  // _getch()
 
 using namespace std;
@@ -21,6 +22,8 @@ public:
     static void showCardBalance(const double balance);
 
     static int enterPIN();
+    static int enterAmount();
+    static bool enterTrueFalse(string msg="");
 
 protected:
     static void waitForEnter();

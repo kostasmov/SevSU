@@ -3,7 +3,7 @@
 void ATM_UI::showHello(const string& bank_name) {
 	cout << endl;
 	cout << "--------------- " << bank_name << " ---------------";
-	cout << endl << endl;
+	cout << endl;
 }
 void ATM_UI::showGoodbye() {
 	cout << endl;
@@ -20,10 +20,12 @@ void ATM_UI::showMessage(const string& msg, bool waitInput) {
 
 // Вывод инструкции (дополнительные ~~~)
 void ATM_UI::showInstruction(const string& text) {
-	cout << "~~~" << text << "~~~";
+	cout << endl << "~~~" << text << "~~~";
 	ATM_UI::waitForEnter();
 }
 
+
+// ======================= ОПЕРАЦИИ ВЫВОДА =======================
 
 // Вывод информации о карте
 void ATM_UI::showCardInfo(string bank, int num, bool blockState) {
@@ -31,7 +33,7 @@ void ATM_UI::showCardInfo(string bank, int num, bool blockState) {
 	cout << "Bank: " << bank << endl;
 	cout << "Number: " << num << endl;
 	cout << "Is card blocked: " << (blockState ? "YES" : "NO");
-	cout << endl << endl;
+	cout << endl;
 }
 
 // Вывод баланса на карте (счёте)
@@ -39,16 +41,17 @@ void ATM_UI::showCardBalance(const double balance) {
 	cout << endl;
 	cout << "Balance: " << balance;
 	ATM_UI::waitForEnter();
-	cout << endl;
+	//cout << endl;
 }
 
+// ======================= ОПЕРАЦИИ ВВОДА =======================
 
 // Ввод PIN-кода
 int ATM_UI::enterPIN() {
 	string PIN;
 	char ch;
 
-	cout << "Enter PIN-code: ";
+	cout << endl << "Enter PIN-code: ";
 
 	// чтение посимвольно
 	while (PIN.size() < 4) {
@@ -70,6 +73,62 @@ int ATM_UI::enterPIN() {
 	return stoi(PIN);
 }
 
+// Ввод числа (деньги)
+int ATM_UI::enterAmount() {
+	string input;
+	char ch;
+
+	cout << endl << "Enter money amount - ";
+
+	while (true) {
+		ch = _getch();
+
+		if (ch == '\r' && input.size() > 0) {	// Enter - конец ввода
+			cout << endl;
+			break;
+		}
+		else if (ch == '\b') {	// Backspace
+			if (!input.empty()) {
+				input.pop_back();
+				cout << "\b \b";	// удаляем символ с экрана
+			}
+		}
+		else if (isdigit(ch) and input.size() < 7) {
+			input.push_back(ch);
+			cout << ch;
+		}
+	}
+
+
+	return stoi(input);
+}
+
+// Ввод true/false (подтверждение операции)
+bool ATM_UI::enterTrueFalse(string msg) {
+	cout << endl;
+	if (!msg.empty()) cout << msg << endl;
+	cout << "Enter t/f: ";
+
+	char ch;
+;
+	while (true) {
+		ch = _getch();
+
+		/*if (ch == '\r') {
+			continue;
+		}
+		else if (ch == '\b') {
+			continue;
+		}
+		else {*/
+		ch = tolower(ch);	// приводим к нижнему регистру
+		if (ch == 't' || ch == 'f') {
+			cout << ch << endl;
+			return ch == 't';
+		}
+		//}
+	}
+}
 
 // Ожидание отклика пользователя (ENTER)
 void ATM_UI::waitForEnter() {

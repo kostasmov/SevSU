@@ -43,7 +43,7 @@ protected:
     bool makeDeposit();         // пополнить карту
     bool depositTransaction();  // перевод средств + пополнение кассы
 
-    bool withdraw();    // снять кэш
+    bool makeWithdraw();    // снять кэш
 
     //void pickCommand(int code);
     //void pickTransferOperation(int code);

@@ -32,6 +32,9 @@ void ATM::startSession(Client* client) {
 	// пополнение счёта (внесение наличных)
 	this->makeDeposit();
 
+	// пополнение счёта (внесение наличных)
+	this->makeWithdraw();
+
 	// вернуть карту
 	this->returnCardToUser();
 
@@ -43,7 +46,7 @@ bool ATM::setCardInReader(BankCard* card) {
 	this->ui.showInstruction("Put your card in reader");
 	
 	// проверить не занят ли ридер
-	if (not this->cardReader.getCard(card)) {
+	if (!this->cardReader.getCard(card)) {
 		this->ui.showMessage("There's already card in reader!");
 		return 0;
 	}
@@ -144,7 +147,7 @@ bool ATM::makeDeposit() {
 		this->ui.showMessage("Error: Validation failed (405)", false);
 		break;
 
-	case 1:
+	case 1:	// транзакцию можно провести
 		this->ui.showMessage("Cash accepted successfully", false);
 		if (this->depositTransaction()) return 1;
 		break;
@@ -162,7 +165,7 @@ bool ATM::depositTransaction() {
 	int banknotesAmount = this->billAcceptor.countBanknotes();
 
 	this->ui.showMessage("Money put into - " + to_string(cashSum), false);
-	this->ui.showInstruction("CONTINUE (you can no refuse)");
+	if (!this->ui.enterTrueFalse("Continue operation?")) return 0;
 
 	// --------- ТРАНЗАКЦИЯ ---------
 	bool done = this->cashHandler.cashIn(this->billAcceptor.cash, banknotesAmount);
@@ -182,6 +185,34 @@ bool ATM::depositTransaction() {
 
 
 // Снятие наличных
-bool ATM::withdraw() {
+bool ATM::makeWithdraw() {
+	// проверить не пустая ли касса
+	if (!this->cashHandler.canDispenseAmount(100)) {
+		this->ui.showMessage("Sorry, no money((");
+		return 0;
+	}
+
+	int amount;
+
+	while (true) {
+		amount = this->ui.enterAmount();
+
+		if (this->cashHandler.canDispenseAmount(amount)) {
+			this->ui.showMessage("Correct amount", false);
+			
+			if (this->ui.enterTrueFalse("Contrinue operation?")) {
+				// ТРАНЗАКЦИЯ
+
+				this->ui.showMessage("Transaction done!");
+				return 1;
+			}
+			
+			return 0;
+		}
+
+		this->ui.showMessage("Sorry, can't dispense this money amount!");
+		if (!this->ui.enterTrueFalse("Try another number?")) break;
+	}
+	
 	return 0;
 }

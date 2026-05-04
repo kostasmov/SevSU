@@ -21,14 +21,16 @@ int BillAcceptor::getCash(map<int, int>* cash) {
     return 1;
 }
 
+
+// Операции-ЗАГЛУШКИ
 void BillAcceptor::returnCash() {
 	// заглушка
 }
-
 void BillAcceptor::takeCashInHandler() {
     this->cash = NULL;
     // заглушка
 }
+
 
 // Проверить корректность купюр
 bool BillAcceptor::validateBanknotes() {
