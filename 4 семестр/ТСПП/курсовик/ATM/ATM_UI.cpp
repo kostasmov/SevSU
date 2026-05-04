@@ -93,12 +93,11 @@ int ATM_UI::enterAmount() {
 				cout << "\b \b";	// удаляем символ с экрана
 			}
 		}
-		else if (isdigit(ch) and input.size() < 7) {
+		else if (isdigit(ch) && input.size() < 6) {
 			input.push_back(ch);
 			cout << ch;
 		}
 	}
-
 
 	return stoi(input);
 }
