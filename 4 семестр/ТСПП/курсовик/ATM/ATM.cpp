@@ -192,27 +192,33 @@ bool ATM::makeWithdraw() {
 		return 0;
 	}
 
-	int amount;
-
 	while (true) {
-		amount = this->ui.enterAmount();
+		int amount = this->ui.enterAmount();
 
-		if (this->cashHandler.canDispenseAmount(amount)) {
-			this->ui.showMessage("Correct amount", false);
-			
-			if (this->ui.enterTrueFalse("Contrinue operation?")) {
-				// ТРАНЗАКЦИЯ
+		if (!this->cashHandler.canDispenseAmount(amount)) {
+			this->ui.showMessage("Sorry, can't dispense this money amount!");
+			if (!this->ui.enterTrueFalse("Try another number?"))
+				return 0;
+			continue;
+		}
 
-				this->ui.showMessage("Transaction done!");
-				return 1;
-			}
-			
+		this->ui.showMessage("Correct amount", false);
+
+		if (!this->ui.enterTrueFalse("Continue operation?"))
+			return 0;
+
+		// -------- СНЯТИЕ НАЛИЧНЫХ --------
+		if (!this->cardReader.card->withdraw(amount)) {	// проверка баланса
+			this->ui.showMessage("Sorry, you have no money");
 			return 0;
 		}
 
-		this->ui.showMessage("Sorry, can't dispense this money amount!");
-		if (!this->ui.enterTrueFalse("Try another number?")) break;
+		auto cash = this->cashHandler.cashOut(amount);
+		this->billAcceptor.returnCash();
+
+		this->ui.showMessage("Operation done!");
+		this->ui.showInstruction("Take your money away NOW");
+
+		return 1;
 	}
-	
-	return 0;
 }

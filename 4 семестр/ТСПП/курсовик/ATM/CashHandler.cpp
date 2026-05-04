@@ -19,7 +19,7 @@ bool CashHandler::canDispenseAmount(int amount) {
     // проверяем от больших номиналов к меньшим - сколько купюр можем выдать
     for (int d : denominations) {
         int need = remaining / d;
-        int canGive = min(need, bills[d]);
+        int canGive = min(need, this->bills[d]);
         remaining -= canGive * d;
     }
 
@@ -40,9 +40,25 @@ bool CashHandler::cashIn(map<int, int>* bills, int amount) {
 	return 1;
 }
 
-/*void CashHandler::cashOut(int sum) {
+map<int, int> CashHandler::cashOut(int amount) {
+    if (!this->canDispenseAmount(amount)) return {};
+    
+    map<int, int> cash = {};
+    int remaining = amount;
 
-}*/
+    // выдаём от больших номиналов к меньшим
+    for (int d : denominations) {
+        int need = remaining / d;
+        int canGive = min(need, this->bills[d]);
+
+        remaining -= canGive * d;
+
+        this->bills[d] -= canGive;
+        cash[d] = canGive;
+    }
+
+    return cash;
+}
 
 //void CashHandler::sendAlert() {
 //

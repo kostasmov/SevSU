@@ -13,7 +13,7 @@ public:
     bool canDispenseAmount(int amount); // проверка наличия нала для выдачи
 
     bool cashIn(map<int, int>* bills, int amount);
-    //void cashOut() { cout << bills[500] << endl; };
+    map<int, int> cashOut(int amount);
 
 protected:
     const vector<int> denominations = { 5000, 2000, 1000, 500, 200, 100, 50 };
