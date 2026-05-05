@@ -10,6 +10,10 @@ void ATM_UI::showGoodbye() {
 	cout << "--------------- " << "BYE-BYE!" << " ---------------";
 	cout << endl << endl;
 }
+void ATM_UI::showLine() {
+	cout << "----------------------------------------";
+	cout << endl;
+}
 
 // Вывод сообщения
 void ATM_UI::showMessage(const string& msg, bool waitInput) {
@@ -20,7 +24,8 @@ void ATM_UI::showMessage(const string& msg, bool waitInput) {
 
 // Вывод инструкции (дополнительные ~~~)
 void ATM_UI::showInstruction(const string& text) {
-	cout << endl << "~~~" << text << "~~~";
+	cout << endl;
+	cout << "~~~" << text << "~~~";
 	ATM_UI::waitForEnter();
 }
 
@@ -43,6 +48,7 @@ void ATM_UI::showCardBalance(const double balance) {
 	ATM_UI::waitForEnter();
 	//cout << endl;
 }
+
 
 // ======================= ОПЕРАЦИИ ВВОДА =======================
 
@@ -73,12 +79,12 @@ int ATM_UI::enterPIN() {
 	return stoi(PIN);
 }
 
-// Ввод числа (деньги)
-int ATM_UI::enterAmount() {
+// Ввод числа (деньги или код операции)
+int ATM_UI::enterNumber(int max, string msg) {
 	string input;
 	char ch;
 
-	cout << endl << "Enter money amount - ";
+	if (!msg.empty()) cout << endl << msg << " - ";
 
 	while (true) {
 		ch = _getch();
@@ -93,7 +99,7 @@ int ATM_UI::enterAmount() {
 				cout << "\b \b";	// удаляем символ с экрана
 			}
 		}
-		else if (isdigit(ch) && input.size() < 6) {
+		else if (isdigit(ch) && input.size() < max) {
 			input.push_back(ch);
 			cout << ch;
 		}

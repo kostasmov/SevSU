@@ -29,7 +29,6 @@ protected:
     CardReader cardReader;      // Картоприёмник
     CashHandler cashHandler;    // Касса
     BillAcceptor billAcceptor;  // Деньгоприёмник
-    //TransferService transfer;   // 
     const ATM_UI ui;            // Блок ввода/вывода
 
     bool setCardInReader(BankCard* card); 
@@ -45,7 +44,7 @@ protected:
 
     bool makeWithdraw();    // снять кэш
 
-    //void pickCommand(int code);
+    int pickCommand();
     //void pickTransferOperation(int code);
 };
 

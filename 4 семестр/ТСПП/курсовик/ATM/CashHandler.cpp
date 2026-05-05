@@ -40,6 +40,7 @@ bool CashHandler::cashIn(map<int, int>* bills, int amount) {
 	return 1;
 }
 
+// Выдача купюр клиенту
 map<int, int> CashHandler::cashOut(int amount) {
     if (!this->canDispenseAmount(amount)) return {};
     
@@ -59,7 +60,3 @@ map<int, int> CashHandler::cashOut(int amount) {
 
     return cash;
 }
-
-//void CashHandler::sendAlert() {
-//
-//}

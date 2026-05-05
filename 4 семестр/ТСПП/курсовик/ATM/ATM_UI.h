@@ -14,6 +14,9 @@ public:
 
     static void showHello(const string& bank_name);
     static void showGoodbye();
+    static void showLine();
+
+    static void nextBlock() { cout << endl; };    // разграничение операций
 
     static void showMessage(const string& msg, bool wait=true);
     static void showInstruction(const string& msg);
@@ -22,9 +25,12 @@ public:
     static void showCardBalance(const double balance);
 
     static int enterPIN();
-    static int enterAmount();
+    static int enterNumber(int max, string msg = "");
     static bool enterTrueFalse(string msg="");
+
+    //static int chooseOperation();
 
 protected:
     static void waitForEnter();
+    //static int enterNumber();
 };

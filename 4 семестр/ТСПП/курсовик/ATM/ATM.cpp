@@ -1,6 +1,6 @@
 #include "ATM.h"
 
-// СЕССИЯ КЛИЕНТА (и студента(((
+// ================== ИНТЕРФЕЙС / СИСТЕМА ==================
 void ATM::startSession(Client* client) {
 	this->ui.showHello(this->bank);
 
@@ -9,7 +9,7 @@ void ATM::startSession(Client* client) {
 	// -----------------
 
 	// проверить вставляется ли карта в ридер
-	if (not this->setCardInReader(card)) {
+	if (!this->setCardInReader(card)) {
 		return;
 	}
 
@@ -17,29 +17,63 @@ void ATM::startSession(Client* client) {
 	this->getCardInfo();	
 
 	// валидация карты (ввод PIN-кода)
-	if (not this->validateCard()) {
+	if (!this->validateCard()) {
 		this->returnCardToUser();
 		return;
 	}
 
 	// -----------------
 	// КЛИЕНТ ДОЛЖЕН ВЫБИРАТЬ ОПЕРАЦИЮ
+	while (this->pickCommand()) {};
 	// -----------------
 
-	// вывод баланса на счёте клиента
-	this->getCardBalance();
+	//// вывод баланса на счёте клиента
+	//this->getCardBalance();
 
-	// пополнение счёта (внесение наличных)
-	this->makeDeposit();
+	//// пополнение счёта (внесение наличных)
+	//this->makeDeposit();
 
-	// пополнение счёта (внесение наличных)
-	this->makeWithdraw();
+	//// пополнение счёта (внесение наличных)
+	//this->makeWithdraw();
 
 	// вернуть карту
 	this->returnCardToUser();
 
 	this->ui.showGoodbye();
 }
+
+int ATM::pickCommand() {
+
+	this->ui.nextBlock();
+
+	this->ui.showLine();
+	this->ui.showMessage("Show card balance - 1", 0);
+	this->ui.showMessage("Make dispence - 2", 0);
+	this->ui.showMessage("Make withdraw - 3", 0);
+	this->ui.showMessage("Exit the system - 0", 0);
+	this->ui.showLine();
+
+	int operCode = this->ui.enterNumber(2, "Enter operation code");
+
+	switch (operCode) {
+	case (0):
+		cout << "0000000000000000000\n";
+		return 0;
+	case (1):
+		cout << "1111111111111111\n";
+		break;
+	case (2):
+		cout << "2222222222222222\n";
+		break;
+	default:
+		cout << "YOU ARE FUCKING MORON\n";
+	}
+
+	return 1;
+}
+
+
+// ================== ДЕЙСТВИЯ С КАРТОЙ ==================
 
 // Установить карту в ридер
 bool ATM::setCardInReader(BankCard* card) {
@@ -62,12 +96,6 @@ void ATM::returnCardToUser() {
 	else
 		this->ui.showMessage("Can't return card - there's no card in reader!");
 }
-
-
-/*void ATM::tranferMoney() {
-
-}*/
-
 
 // Валидация (проверка) карты
 bool ATM::validateCard() {
@@ -96,29 +124,22 @@ bool ATM::validateCard() {
 }
 
 
+// ================== ОПЕРАЦИИ С ДЕНЬГАМИ И СЧЁТОМ ==================
+
 // Вывод информации о карте
 void ATM::getCardInfo() {
 	// ...идёт через прямое обращение к карте, ну и ладно
 	this->ui.showCardInfo(this->cardReader.card->getBank(),
 		this->cardReader.card->getNumber(),
 		this->cardReader.card->getBlockState());
-}
 
+	ATM_UI::showInstruction("Continue");
+}
 
 // Вывод баланса на счёте клиента
 void ATM::getCardBalance() {
 	this->ui.showCardBalance(this->cardReader.card->getBalance());
 }
-
-
-/*void ATM::pickCommand(int code) {
-
-}
-
-void ATM::pickTransferOperation(int code) {
-
-}*/
-
 
 // Внесение наличных
 bool ATM::makeDeposit() {
@@ -183,7 +204,6 @@ bool ATM::depositTransaction() {
 	return 1;
 }
 
-
 // Снятие наличных
 bool ATM::makeWithdraw() {
 	// проверить не пустая ли касса
@@ -193,8 +213,9 @@ bool ATM::makeWithdraw() {
 	}
 
 	while (true) {
-		int amount = this->ui.enterAmount();
+		int amount = this->ui.enterNumber(6, "Enter money amount");
 
+		// проверить есть ли в кассе достаточно нала
 		if (!this->cashHandler.canDispenseAmount(amount)) {
 			this->ui.showMessage("Sorry, can't dispense this money amount!");
 			if (!this->ui.enterTrueFalse("Try another number?"))
@@ -203,7 +224,6 @@ bool ATM::makeWithdraw() {
 		}
 
 		this->ui.showMessage("Correct amount", false);
-
 		if (!this->ui.enterTrueFalse("Continue operation?"))
 			return 0;
 
@@ -217,8 +237,9 @@ bool ATM::makeWithdraw() {
 		this->billAcceptor.returnCash();
 
 		this->ui.showMessage("Operation done!");
-		this->ui.showInstruction("Take your money away NOW");
+		// ---------------------------------
 
+		this->ui.showInstruction("Take your money away NOW");
 		return 1;
 	}
 }
