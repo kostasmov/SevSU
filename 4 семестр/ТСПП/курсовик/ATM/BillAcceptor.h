@@ -17,7 +17,7 @@ public:
     int countBanknotes();   // Подсчитать число банкнот
 
 protected:
-    const int max_banknotes = 100;  // Максимальное число банкнот за раз
+    static const int max_banknotes = 8000;  // Максимальное число банкнот за раз
 
     bool validateBanknotes();   // Проверка что банкноты нормальные
 };

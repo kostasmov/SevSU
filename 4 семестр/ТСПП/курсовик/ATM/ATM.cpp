@@ -24,22 +24,35 @@ void ATM::startSession(Client* client) {
 
 	// -----------------
 	// КЛИЕНТ ДОЛЖЕН ВЫБИРАТЬ ОПЕРАЦИЮ
-	while (this->pickCommand()) {};
+	while (true) {
+		switch (this->pickCommand()) {
+		case(0):
+			// завершение работы
+			this->returnCardToUser();
+
+			this->ui.showGoodbye();
+			return;
+
+		case (1):
+			// вывод баланса на счёте клиента
+			this->getCardBalance();
+			break;
+
+		case (2):
+			// пополнение счёта (внесение наличных)
+			this->makeDeposit();
+			break;
+
+		case (3):
+			// снятие со счёта (выдача наличных)
+			this->makeWithdraw();
+			break;
+
+		default:
+			this->ui.showMessage("Wrong operation code, try again");
+		};
+	}
 	// -----------------
-
-	//// вывод баланса на счёте клиента
-	//this->getCardBalance();
-
-	//// пополнение счёта (внесение наличных)
-	//this->makeDeposit();
-
-	//// пополнение счёта (внесение наличных)
-	//this->makeWithdraw();
-
-	// вернуть карту
-	this->returnCardToUser();
-
-	this->ui.showGoodbye();
 }
 
 int ATM::pickCommand() {
@@ -54,22 +67,7 @@ int ATM::pickCommand() {
 	this->ui.showLine();
 
 	int operCode = this->ui.enterNumber(2, "Enter operation code");
-
-	switch (operCode) {
-	case (0):
-		cout << "0000000000000000000\n";
-		return 0;
-	case (1):
-		cout << "1111111111111111\n";
-		break;
-	case (2):
-		cout << "2222222222222222\n";
-		break;
-	default:
-		cout << "YOU ARE FUCKING MORON\n";
-	}
-
-	return 1;
+	return operCode;
 }
 
 

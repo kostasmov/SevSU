@@ -7,8 +7,6 @@
 #include "ATM_UI.h"
 
 #include <string>
-#include <iostream>
-
 using namespace std;
 
 // МОДЕЛИРОВАНИЕ БАНКОМАТА
@@ -45,6 +43,5 @@ protected:
     bool makeWithdraw();    // снять кэш
 
     int pickCommand();
-    //void pickTransferOperation(int code);
 };
 
