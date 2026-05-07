@@ -16,6 +16,7 @@ public:
     static void showGoodbye();
     static void showLine();
 
+    static void waitForEnter();
     static void nextBlock() { cout << endl; };    // разграничение операций
 
     static void showMessage(const string& msg, bool wait=true);
@@ -29,6 +30,5 @@ public:
     static bool enterTrueFalse(string msg="");
 
 protected:
-    static void waitForEnter();
     static string formatCardNumber(const string& n);
 };

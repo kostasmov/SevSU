@@ -5,6 +5,9 @@ class Collector :
     public Worker
 {
 public:
-    //void startWorkWithATM(insideATM atm);
+    Collector(string name, int id) : Worker(name, id) {}
+    ~Collector() {}
+
+    string getRole() const override { return "collector"; }
 };
 

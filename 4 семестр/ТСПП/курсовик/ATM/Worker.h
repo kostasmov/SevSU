@@ -4,10 +4,12 @@
 class Worker : public Person
 {
 public:
-    int getID();
-    //void getMessage(string text);
+    Worker(string name, int id) : Person(name) { this->id = id; }
+    virtual ~Worker() {};
+
+    int getID() const { return this->id; };
 
 protected:
-    int id;
+    int id; // идентификатор
 };
 

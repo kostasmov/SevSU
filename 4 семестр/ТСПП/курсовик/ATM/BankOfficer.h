@@ -5,6 +5,8 @@ class BankOfficer :
     public Worker
 {
 public:
-    void sendMessage(Worker reciever);
-};
+    BankOfficer(string name, int id) : Worker(name, id) {}
+    ~BankOfficer() {}
 
+    string getRole() const override { return "officer"; }
+};

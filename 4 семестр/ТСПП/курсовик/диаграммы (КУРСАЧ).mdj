@@ -15829,7 +15829,7 @@
 											"top": 222,
 											"width": 164.64892578125,
 											"height": 13,
-											"text": "#number: long int",
+											"text": "#number: string",
 											"horizontalAlignment": 0
 										},
 										{
@@ -21452,7 +21452,7 @@
 							},
 							"name": "number",
 							"visibility": "protected",
-							"type": "long int"
+							"type": "string"
 						},
 						{
 							"_type": "UMLAttribute",
@@ -23246,7 +23246,7 @@
 								"$ref": "AAAAAAGH3B3nV8II99w="
 							},
 							"name": "StatechartDiagram1",
-							"documentation": "Диаграмма состояний банкомата (работа с клиентом)",
+							"documentation": "Диаграмма состояний банковской карты",
 							"ownedViews": [
 								{
 									"_type": "UMLStateView",
@@ -25474,7 +25474,7 @@
 								"$ref": "AAAAAAGH3B3nV8II99w="
 							},
 							"name": "StatechartDiagram2",
-							"documentation": "Диаграмма состояний банкомата (работа инкассатора)",
+							"documentation": "Диаграмма состояний банкомата (работа с клиентом)",
 							"ownedViews": [
 								{
 									"_type": "UMLStateView",
@@ -31013,7 +31013,7 @@
 								"$ref": "AAAAAAGH3B3nV8II99w="
 							},
 							"name": "StatechartDiagram3",
-							"documentation": "Диаграмма состояний банковской карты",
+							"documentation": "Диаграмма состояний кассы банкомата",
 							"ownedViews": [
 								{
 									"_type": "UMLPseudostateView",
@@ -34604,7 +34604,7 @@
 								"$ref": "AAAAAAGH3B3nV8II99w="
 							},
 							"name": "StatechartDiagram4",
-							"documentation": "Диаграмма состояний кассы банкомата",
+							"documentation": "Диаграмма состояний банкомата (работа инкассатора)",
 							"ownedViews": [
 								{
 									"_type": "UMLPseudostateView",

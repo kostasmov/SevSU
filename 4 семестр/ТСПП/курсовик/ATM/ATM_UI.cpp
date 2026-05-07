@@ -8,7 +8,7 @@ void ATM_UI::showHello(const string& bank_name) {
 void ATM_UI::showGoodbye() {
 	cout << endl;
 	cout << "--------------- " << "BYE-BYE!" << " ---------------";
-	cout << endl << endl;
+	cout << endl;
 }
 void ATM_UI::showLine() {
 	cout << "----------------------------------------";
