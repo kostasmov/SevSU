@@ -1,12 +1,8 @@
 #include "ATM.h"
 
 // ================== ИНТЕРФЕЙС / СИСТЕМА ==================
-void ATM::startSession(Client* client) {
+void ATM::startSession(Client* client, BankCard* card) {
 	this->ui.showHello(this->bank);
-
-	// -----------------
-	BankCard* card = client->getCards()[0];
-	// -----------------
 
 	// проверить вставляется ли карта в ридер
 	if (!this->setCardInReader(card)) {
@@ -19,17 +15,16 @@ void ATM::startSession(Client* client) {
 	// валидация карты (ввод PIN-кода)
 	if (!this->validateCard()) {
 		this->returnCardToUser();
+		this->ui.showGoodbye();
 		return;
 	}
 
 	// -----------------
-	// КЛИЕНТ ДОЛЖЕН ВЫБИРАТЬ ОПЕРАЦИЮ
 	while (true) {
 		switch (this->pickCommand()) {
 		case(0):
 			// завершение работы
 			this->returnCardToUser();
-
 			this->ui.showGoodbye();
 			return;
 

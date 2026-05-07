@@ -17,7 +17,7 @@ public:
     ATM(string bank) { this->bank = bank; };
     string getBank() { return this->bank; };
 
-    void startSession(Client* client);  // Начать сеанс обслуживания клиента
+    void startSession(Client* client, BankCard* card);  // Начать сеанс обслуживания клиента
 
     //void tranferMoney();
 

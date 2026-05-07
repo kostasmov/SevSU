@@ -32,11 +32,23 @@ void ATM_UI::showInstruction(const string& text) {
 
 // ======================= ОПЕРАЦИИ ВЫВОДА =======================
 
+// Преобразование номера карты (ДЛЯ ВЫВОДА)
+string ATM_UI::formatCardNumber(const string& num) {
+	string result;
+	for (int i = 0; i < num.size(); i++) {
+		result += num[i];
+		if ((i + 1) % 4 == 0 && i + 1 != num.size()) {
+			result += ' ';
+		}
+	}
+	return result;
+}
+
 // Вывод информации о карте
-void ATM_UI::showCardInfo(string bank, int num, bool blockState) {
+void ATM_UI::showCardInfo(string bank, string num, bool blockState) {
 	cout << endl;
 	cout << "Bank: " << bank << endl;
-	cout << "Number: " << num << endl;
+	cout << "Number: " << formatCardNumber(num) << endl;
 	cout << "Is card blocked: " << (blockState ? "YES" : "NO");
 	cout << endl;
 }

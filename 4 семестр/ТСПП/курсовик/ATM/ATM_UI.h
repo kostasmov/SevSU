@@ -21,16 +21,14 @@ public:
     static void showMessage(const string& msg, bool wait=true);
     static void showInstruction(const string& msg);
 
-    static void showCardInfo(string bank, int num, bool blockState);
+    static void showCardInfo(string bank, string num, bool blockState);
     static void showCardBalance(const double balance);
 
     static int enterPIN();
     static int enterNumber(int max, string msg = "");
     static bool enterTrueFalse(string msg="");
 
-    //static int chooseOperation();
-
 protected:
     static void waitForEnter();
-    //static int enterNumber();
+    static string formatCardNumber(const string& n);
 };

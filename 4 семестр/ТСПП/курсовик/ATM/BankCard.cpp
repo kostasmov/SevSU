@@ -1,6 +1,6 @@
 #include "BankCard.h"
 
-BankCard::BankCard(int n, string bank, Client* owner, int PIN) {
+BankCard::BankCard(string n, string bank, Client* owner, int PIN) {
 	this->number = n;
 	this->bank = bank;
 	this->owner = owner;
@@ -11,7 +11,7 @@ BankCard::BankCard(int n, string bank, Client* owner, int PIN) {
 }
 
 // доступ к параметрам (гетры)
-int BankCard::getNumber() { return this->number; }				// номер карты
+string BankCard::getNumber() { return this->number; }			// номер карты
 string BankCard::getBank() { return this->bank; }				// банк
 string BankCard::getOwner() { return this->owner->getName(); }	// имя владельца
 

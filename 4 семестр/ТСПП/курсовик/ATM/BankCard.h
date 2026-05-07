@@ -7,9 +7,9 @@ using namespace std;
 class BankCard
 {
 public:
-    BankCard(int num, string bank, Client* owner, int PIN);
+    BankCard(string num, string bank, Client* owner, int PIN);
 
-    int getNumber();                // геттеры
+    string getNumber();     // геттеры
     string getBank();
     string getOwner();
 
@@ -23,7 +23,7 @@ public:
     bool withdraw(double amount);   // снятие
 
 protected:
-    int number;     // номер карты
+    string number;  // номер карты
     string bank;    // банк
     Client* owner;  // клиент-владелец
 
