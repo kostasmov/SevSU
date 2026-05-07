@@ -1799,7 +1799,7 @@
 									"parentStyle": true,
 									"left": 894.5,
 									"top": 185.5,
-									"width": 107.74609375,
+									"width": 107,
 									"height": 48,
 									"stereotypeLabel": {
 										"$ref": "AAAAAAGG1SliROiyUgw="
@@ -2398,9 +2398,9 @@
 											"font": "Arial;12;1",
 											"parentStyle": true,
 											"left": 698.5,
-											"top": 424.5,
+											"top": 430.5,
 											"width": 92,
-											"height": 36,
+											"height": 24,
 											"text": "Вывести деньги со счёта",
 											"wordWrap": true
 										},
@@ -2437,9 +2437,9 @@
 									"font": "Arial;12;0",
 									"parentStyle": true,
 									"left": 693.5,
-									"top": 417.5,
+									"top": 423.5,
 									"width": 102,
-									"height": 48,
+									"height": 36,
 									"stereotypeLabel": {
 										"$ref": "AAAAAAGG1VrcgaRwcM4="
 									},
@@ -11958,7 +11958,7 @@
 									"parentStyle": true,
 									"left": 424,
 									"top": 132,
-									"width": 113.46484375,
+									"width": 113,
 									"height": 60,
 									"stereotypeLabel": {
 										"$ref": "AAAAAAGG1movrkXVcLs="
@@ -21240,6 +21240,200 @@
 							"headQualifiersCompartment": {
 								"$ref": "AAAAAAGd/WWl9y2j0eQ="
 							}
+						},
+						{
+							"_type": "UMLDependencyView",
+							"_id": "AAAAAAGeAr/hJgsSXgo=",
+							"_parent": {
+								"$ref": "AAAAAAGHkHNV9S8adhM="
+							},
+							"model": {
+								"$ref": "AAAAAAGeAr/hJgsQJGA="
+							},
+							"subViews": [
+								{
+									"_type": "EdgeLabelView",
+									"_id": "AAAAAAGeAr/hJgsToPk=",
+									"_parent": {
+										"$ref": "AAAAAAGeAr/hJgsSXgo="
+									},
+									"model": {
+										"$ref": "AAAAAAGeAr/hJgsQJGA="
+									},
+									"visible": false,
+									"font": "Arial;13;0",
+									"parentStyle": false,
+									"left": 647,
+									"top": 769,
+									"height": 13,
+									"alpha": 1.5707963267948966,
+									"distance": 15,
+									"hostEdge": {
+										"$ref": "AAAAAAGeAr/hJgsSXgo="
+									},
+									"edgePosition": 1
+								},
+								{
+									"_type": "EdgeLabelView",
+									"_id": "AAAAAAGeAr/hJgsUc70=",
+									"_parent": {
+										"$ref": "AAAAAAGeAr/hJgsSXgo="
+									},
+									"model": {
+										"$ref": "AAAAAAGeAr/hJgsQJGA="
+									},
+									"visible": null,
+									"font": "Arial;13;0",
+									"parentStyle": false,
+									"left": 647,
+									"top": 784,
+									"height": 13,
+									"alpha": 1.5707963267948966,
+									"distance": 30,
+									"hostEdge": {
+										"$ref": "AAAAAAGeAr/hJgsSXgo="
+									},
+									"edgePosition": 1
+								},
+								{
+									"_type": "EdgeLabelView",
+									"_id": "AAAAAAGeAr/hJgsVqfk=",
+									"_parent": {
+										"$ref": "AAAAAAGeAr/hJgsSXgo="
+									},
+									"model": {
+										"$ref": "AAAAAAGeAr/hJgsQJGA="
+									},
+									"visible": false,
+									"font": "Arial;13;0",
+									"parentStyle": false,
+									"left": 648,
+									"top": 739,
+									"height": 13,
+									"alpha": -1.5707963267948966,
+									"distance": 15,
+									"hostEdge": {
+										"$ref": "AAAAAAGeAr/hJgsSXgo="
+									},
+									"edgePosition": 1
+								}
+							],
+							"font": "Arial;13;0",
+							"parentStyle": false,
+							"head": {
+								"$ref": "AAAAAAGHuo0D3aC+lIw="
+							},
+							"tail": {
+								"$ref": "AAAAAAGHuYNgOgtkcoA="
+							},
+							"points": "648:716;648:760;527:760",
+							"showVisibility": true,
+							"nameLabel": {
+								"$ref": "AAAAAAGeAr/hJgsToPk="
+							},
+							"stereotypeLabel": {
+								"$ref": "AAAAAAGeAr/hJgsUc70="
+							},
+							"propertyLabel": {
+								"$ref": "AAAAAAGeAr/hJgsVqfk="
+							}
+						},
+						{
+							"_type": "UMLDependencyView",
+							"_id": "AAAAAAGeAsAOwRX53XY=",
+							"_parent": {
+								"$ref": "AAAAAAGHkHNV9S8adhM="
+							},
+							"model": {
+								"$ref": "AAAAAAGeAsAOwBX3q6U="
+							},
+							"subViews": [
+								{
+									"_type": "EdgeLabelView",
+									"_id": "AAAAAAGeAsAOwRX65bs=",
+									"_parent": {
+										"$ref": "AAAAAAGeAsAOwRX53XY="
+									},
+									"model": {
+										"$ref": "AAAAAAGeAsAOwBX3q6U="
+									},
+									"visible": false,
+									"font": "Arial;13;0",
+									"parentStyle": false,
+									"left": 711,
+									"top": 854,
+									"height": 13,
+									"alpha": 1.5707963267948966,
+									"distance": 15,
+									"hostEdge": {
+										"$ref": "AAAAAAGeAsAOwRX53XY="
+									},
+									"edgePosition": 1
+								},
+								{
+									"_type": "EdgeLabelView",
+									"_id": "AAAAAAGeAsAOwRX7xGQ=",
+									"_parent": {
+										"$ref": "AAAAAAGeAsAOwRX53XY="
+									},
+									"model": {
+										"$ref": "AAAAAAGeAsAOwBX3q6U="
+									},
+									"visible": null,
+									"font": "Arial;13;0",
+									"parentStyle": false,
+									"left": 711,
+									"top": 869,
+									"height": 13,
+									"alpha": 1.5707963267948966,
+									"distance": 30,
+									"hostEdge": {
+										"$ref": "AAAAAAGeAsAOwRX53XY="
+									},
+									"edgePosition": 1
+								},
+								{
+									"_type": "EdgeLabelView",
+									"_id": "AAAAAAGeAsAOwRX8IWc=",
+									"_parent": {
+										"$ref": "AAAAAAGeAsAOwRX53XY="
+									},
+									"model": {
+										"$ref": "AAAAAAGeAsAOwBX3q6U="
+									},
+									"visible": false,
+									"font": "Arial;13;0",
+									"parentStyle": false,
+									"left": 712,
+									"top": 824,
+									"height": 13,
+									"alpha": -1.5707963267948966,
+									"distance": 15,
+									"hostEdge": {
+										"$ref": "AAAAAAGeAsAOwRX53XY="
+									},
+									"edgePosition": 1
+								}
+							],
+							"font": "Arial;13;0",
+							"parentStyle": false,
+							"head": {
+								"$ref": "AAAAAAGHupASevTw29o="
+							},
+							"tail": {
+								"$ref": "AAAAAAGHuYNgOgtkcoA="
+							},
+							"points": "712:716;712:845;514:845",
+							"showVisibility": true,
+							"nameLabel": {
+								"$ref": "AAAAAAGeAsAOwRX65bs="
+							},
+							"stereotypeLabel": {
+								"$ref": "AAAAAAGeAsAOwRX7xGQ="
+							},
+							"propertyLabel": {
+								"$ref": "AAAAAAGeAsAOwRX8IWc="
+							}
 						}
 					]
 				},
@@ -21861,6 +22055,32 @@
 							},
 							"target": {
 								"$ref": "AAAAAAGHuVVXAgWOQkk="
+							}
+						},
+						{
+							"_type": "UMLDependency",
+							"_id": "AAAAAAGeAr/hJgsQJGA=",
+							"_parent": {
+								"$ref": "AAAAAAGHuYNgOgtiHEo="
+							},
+							"source": {
+								"$ref": "AAAAAAGHuYNgOgtiHEo="
+							},
+							"target": {
+								"$ref": "AAAAAAGHuo0D3aC8CPY="
+							}
+						},
+						{
+							"_type": "UMLDependency",
+							"_id": "AAAAAAGeAsAOwBX3q6U=",
+							"_parent": {
+								"$ref": "AAAAAAGHuYNgOgtiHEo="
+							},
+							"source": {
+								"$ref": "AAAAAAGHuYNgOgtiHEo="
+							},
+							"target": {
+								"$ref": "AAAAAAGHupASevTuZ4I="
 							}
 						}
 					],
@@ -39949,7 +40169,7 @@
 													"left": 261,
 													"top": 295,
 													"width": 112,
-													"height": 39,
+													"height": 26,
 													"text": "Вызвать операцию оплаты",
 													"wordWrap": true
 												},
@@ -39988,7 +40208,7 @@
 											"left": 256,
 											"top": 288,
 											"width": 122,
-											"height": 51,
+											"height": 38,
 											"stereotypeLabel": {
 												"$ref": "AAAAAAGH5/DHT2+vkOU="
 											},
@@ -40120,7 +40340,7 @@
 													"left": 549,
 													"top": 271,
 													"width": 120,
-													"height": 26,
+													"height": 13,
 													"text": "Открыть валидатор",
 													"wordWrap": true
 												},
@@ -40159,7 +40379,7 @@
 											"left": 544,
 											"top": 264,
 											"width": 130,
-											"height": 38,
+											"height": 25,
 											"stereotypeLabel": {
 												"$ref": "AAAAAAGH5/v4u3D+7IA="
 											},
@@ -40459,7 +40679,7 @@
 													"left": 549,
 													"top": 535,
 													"width": 120,
-													"height": 39,
+													"height": 26,
 													"text": "Проверить подлинность купюр",
 													"wordWrap": true
 												},
@@ -40498,7 +40718,7 @@
 											"left": 544,
 											"top": 528,
 											"width": 130,
-											"height": 51,
+											"height": 38,
 											"stereotypeLabel": {
 												"$ref": "AAAAAAGH6Cik3nPvQgo="
 											},
@@ -40796,7 +41016,7 @@
 													"left": 549,
 													"top": 695,
 													"width": 120,
-													"height": 26,
+													"height": 13,
 													"text": "Вернуть наличные",
 													"wordWrap": true
 												},
@@ -40835,7 +41055,7 @@
 											"left": 544,
 											"top": 688,
 											"width": 130,
-											"height": 38,
+											"height": 25,
 											"stereotypeLabel": {
 												"$ref": "AAAAAAGH6CTcgXM1EB8="
 											},
@@ -41133,7 +41353,7 @@
 													"left": 261,
 													"top": 607,
 													"width": 112,
-													"height": 26,
+													"height": 13,
 													"text": "Забрать наличные",
 													"wordWrap": true
 												},
@@ -41172,7 +41392,7 @@
 											"left": 256,
 											"top": 600,
 											"width": 122,
-											"height": 38,
+											"height": 25,
 											"stereotypeLabel": {
 												"$ref": "AAAAAAGH6C3WVXTBIoU="
 											},
@@ -41266,7 +41486,7 @@
 													"left": 845,
 													"top": 423,
 													"width": 120,
-													"height": 26,
+													"height": 13,
 													"text": "Наличные [в кассе]",
 													"wordWrap": true
 												},
@@ -41305,7 +41525,7 @@
 											"left": 840,
 											"top": 416,
 											"width": 130,
-											"height": 38,
+											"height": 25,
 											"stereotypeLabel": {
 												"$ref": "AAAAAAGH67jvnVxsB9g="
 											},
@@ -45980,7 +46200,7 @@
 													"left": 253,
 													"top": 591,
 													"width": 104,
-													"height": 26,
+													"height": 13,
 													"text": "Проверить карту",
 													"wordWrap": true
 												},
@@ -46019,7 +46239,7 @@
 											"left": 248,
 											"top": 584,
 											"width": 114,
-											"height": 38,
+											"height": 25,
 											"stereotypeLabel": {
 												"$ref": "AAAAAAGH7/TVY8O9Ruc="
 											},
@@ -54376,9 +54596,9 @@
 													},
 													"font": "Arial;13;0",
 													"parentStyle": true,
-													"left": 32.72998046875,
+													"left": 30.55908203125,
 													"top": 13,
-													"width": 67.9326171875,
+													"width": 62.8037109375,
 													"height": 13,
 													"text": "Interaction1"
 												},
@@ -54392,7 +54612,7 @@
 													"parentStyle": true,
 													"left": 13,
 													"top": 13,
-													"width": 13.72998046875,
+													"width": 11.55908203125,
 													"height": 13,
 													"text": "sd"
 												}
@@ -56497,9 +56717,9 @@
 													"font": "Arial;13;0",
 													"parentStyle": false,
 													"left": 91,
-													"top": 447,
+													"top": 454,
 													"width": 139.92138671875,
-													"height": 26,
+													"height": 13,
 													"alpha": 1.2793390736014962,
 													"distance": 20.8806130178211,
 													"hostEdge": {
@@ -57111,7 +57331,7 @@
 													"visible": false,
 													"font": "Arial;13;0",
 													"parentStyle": true,
-													"left": 64.72998046875,
+													"left": 63.99365234375,
 													"top": 677,
 													"height": 13
 												},
@@ -57125,7 +57345,7 @@
 													"parentStyle": true,
 													"left": 45,
 													"top": 677,
-													"width": 13.72998046875,
+													"width": 12.99365234375,
 													"height": 13,
 													"text": "alt"
 												},
@@ -58586,7 +58806,7 @@
 													"visible": false,
 													"font": "Arial;13;0",
 													"parentStyle": true,
-													"left": 208.72998046875,
+													"left": 207.99365234375,
 													"top": 189,
 													"height": 13
 												},
@@ -58600,7 +58820,7 @@
 													"parentStyle": true,
 													"left": 189,
 													"top": 189,
-													"width": 13.72998046875,
+													"width": 12.99365234375,
 													"height": 13,
 													"text": "alt"
 												},
@@ -59078,9 +59298,9 @@
 													"font": "Arial;13;0",
 													"parentStyle": false,
 													"left": 281,
-													"top": 959,
+													"top": 965,
 													"width": 114,
-													"height": 39,
+													"height": 26,
 													"alpha": -4.617437745952067,
 													"distance": 21.095023109728988,
 													"hostEdge": {
