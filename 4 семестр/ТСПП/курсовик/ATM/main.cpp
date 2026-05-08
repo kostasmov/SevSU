@@ -38,12 +38,9 @@ static vector<Person*> createUsers() {
 static Person* chooseUser(const vector<Person*>& users) {
     vector<string> userList;
     
-    for (int i = 0; i < users.size(); i++) {
-        userList.push_back(users[i]->getName() + " (" + users[i]->getRole() + ")");
+    for (auto* user : users) {
+        userList.push_back(user->getName() + " (" + user->getRole() + ")");
     }
-
-    //map<int, string> exitLine;
-    //exitLine[0] = "Exit programm";
 
     int userIndex = ATM_UI::showChoiseMenu(
         userList, "Users list", "Choose user", false
@@ -60,8 +57,8 @@ static BankCard* chooseBankCard(Client* user) {
 
     vector<string> cardsList;
 
-    for (int i = 0; i < cardsAmount; i++) {
-        cardsList.push_back(user->getCards()[i]->getBank());
+    for (auto* card : user->getCards()) {
+        cardsList.push_back(card->getBank());
     }
 
     int cardIndex = ATM_UI::showChoiseMenu(
@@ -80,20 +77,19 @@ static BankCard* chooseBankCard(Client* user) {
 // =========================== ВЫПОЛНЕНИЕ ПРОГРАММЫ ===========================
 int main()
 {
-    cout << "Hello World!" << "\n\n";
-
     vector<Person*> users = createUsers();
     ATM* atm = new ATM("NovaBank");
     
     while (true) {
         system("cls");
+        cout << "___Hello World!___" << endl;
 
         // выбрать пользователя
         Person* user = chooseUser(users);
 
         // если пользователь не выбран - конец программы
         if (!user) {
-            cout << "Goodbye World!" << "\n\n";
+            cout << "\n___Goodbye World!___\n";
             break;
         }
 
@@ -102,10 +98,11 @@ int main()
         // ============== КЛИЕНТ ==============
         if (role == "client") {
             Client* client = dynamic_cast<Client*>(user);
+
             BankCard* card = chooseBankCard(client);
+            if (!card) continue;
 
             // cеанс обслуживание клиента на банкомате
-            if (!card) continue;
             atm->startSession(client, card);
         }
 
@@ -113,9 +110,7 @@ int main()
         else if (role == "collector") {
             Collector* collector = dynamic_cast<Collector*>(user);
             
-            // -------
-            cout << "COLLECTOR'S SCENARIO NOT DONE\n";
-            // -------
+            atm->startSession(collector);
         }
 
         // ========== СОТРУДНИК БАНКА ==========
@@ -123,7 +118,7 @@ int main()
             BankOfficer* officer = dynamic_cast<BankOfficer*>(user);
 
             // -------
-            cout << "OFFICER'S SCENARIO NOT DONE\n";
+            cout << "\nOFFICER'S SCENARIO NOT DONE\n";
             // -------
         }
 

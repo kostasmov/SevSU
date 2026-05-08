@@ -36,7 +36,7 @@ protected:
 
     bool validateCard();        // проверка безопасности
 
-    void getCardInfo();         // вывод информации о карте
+    void showCardInfo();        // вывод информации о карте
     void getCardBalance();      // вывод баланса на карте
 
     bool makeDeposit(map<int, int> cash);   // пополнить карту

@@ -31,6 +31,7 @@ bool CashHandler::canDispenseAmount(int amount) {
 bool CashHandler::cashIn(map<int, int> bills, int amount) {
 	if (!canAcceptBanknotes(amount)) return 0;
 
+
 	for (const auto& [key, value] : bills) {
 		this->bills[key] += value;
 	}

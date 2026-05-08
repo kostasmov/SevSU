@@ -26,7 +26,6 @@ public:
     );
 
     static void waitForEnter();
-    static void nextBlock() { cout << endl; };  // разграничение операций
 
     static void showMessage(const string& msg, bool wait=true);
     static void showInstruction(const string& msg);

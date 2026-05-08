@@ -11,8 +11,7 @@ void ATM_UI::showGoodbye() {
 	cout << endl;
 }
 void ATM_UI::showLine() {
-	cout << "----------------------------------------";
-	cout << endl;
+	cout << "----------------------------------------" << endl;
 }
 
 // Вывод сообщения
@@ -34,7 +33,11 @@ int ATM_UI::showChoiseMenu(const vector<string>&options,
 	const string& title, const string& msg,
 	const bool showLines)
 {
-	if (showLines) ATM_UI::showLine();
+	if (showLines) {
+		cout << endl; 
+		ATM_UI::showLine();
+	}
+	else cout << endl;
 
 	if (!title.empty()) cout << title << ": " << endl;
 
@@ -45,14 +48,13 @@ int ATM_UI::showChoiseMenu(const vector<string>&options,
 	if (!showLines) cout << "   ----------------------------------" << endl;
 	cout << "   0 - Exit" << endl;
 
-	if (showLines) ATM_UI::showLine();
+	if (showLines) ATM_UI::showLine(); 
 	else cout << endl;
 
 	while (true) {
 		int choice = ATM_UI::enterNumber(2, msg);
 
 		if (choice >= 0 && choice <= options.size()) {
-			cout << endl;
 			return choice;
 		}
 	}

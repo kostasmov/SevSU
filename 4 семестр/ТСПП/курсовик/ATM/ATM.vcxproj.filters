@@ -48,9 +48,6 @@
     <ClCompile Include="CashHandler.cpp">
       <Filter>Исходные файлы\Аппарат</Filter>
     </ClCompile>
-    <ClCompile Include="System_UI.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Person.h">
@@ -85,9 +82,6 @@
     </ClInclude>
     <ClInclude Include="ATM_UI.h">
       <Filter>Файлы заголовков\Аппарат</Filter>
-    </ClInclude>
-    <ClInclude Include="System_UI.h">
-      <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
