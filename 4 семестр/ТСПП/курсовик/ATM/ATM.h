@@ -3,6 +3,7 @@
 #include "CardReader.h"
 #include "CashHandler.h"
 #include "BillAcceptor.h"
+#include "Collector.h"
 #include "ATM_UI.h"
 
 #include <string>
@@ -16,9 +17,8 @@ public:
     ATM(string bank) { this->bank = bank; };
     string getBank() { return this->bank; };
 
-    void startSession(Client* client, BankCard* card);  // Начать сеанс обслуживания клиента
-
-    //void tranferMoney();
+    void startSession(Client* user, BankCard* card);  // Начать сеанс обслуживания
+    void startSession(Collector* user);
 
 protected:
     string bank;
@@ -28,19 +28,20 @@ protected:
     BillAcceptor billAcceptor;  // Деньгоприёмник
     const ATM_UI ui;            // Блок ввода/вывода
 
+    int pickUserCommand();      // Выбор команды (зависит от роли)
+    int pickCollectorCommand();
+
     bool setCardInReader(BankCard* card); 
     void returnCardToUser();
 
-    bool validateCard();    // проверка безопасности
+    bool validateCard();        // проверка безопасности
 
-    void getCardInfo();     // вывод информации о карте
-    void getCardBalance();  // вывод баланса на карте
+    void getCardInfo();         // вывод информации о карте
+    void getCardBalance();      // вывод баланса на карте
 
-    bool makeDeposit();         // пополнить карту
-    bool depositTransaction();  // перевод средств + пополнение кассы
+    bool makeDeposit(map<int, int> cash);   // пополнить карту
+    bool depositTransaction();              // перевод средств + пополнение кассы
 
-    bool makeWithdraw();    // снять кэш
-
-    int pickCommand();
+    bool makeWithdraw();        // снять наличные
 };
 

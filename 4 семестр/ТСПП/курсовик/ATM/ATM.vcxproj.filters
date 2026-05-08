@@ -42,7 +42,13 @@
     <ClCompile Include="CardReader.cpp">
       <Filter>Исходные файлы\Аппарат</Filter>
     </ClCompile>
+    <ClCompile Include="Client.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
     <ClCompile Include="CashHandler.cpp">
+      <Filter>Исходные файлы\Аппарат</Filter>
+    </ClCompile>
+    <ClCompile Include="System_UI.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
   </ItemGroup>
@@ -79,6 +85,9 @@
     </ClInclude>
     <ClInclude Include="ATM_UI.h">
       <Filter>Файлы заголовков\Аппарат</Filter>
+    </ClInclude>
+    <ClInclude Include="System_UI.h">
+      <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -1,8 +1,10 @@
 #pragma once
 
-#include <iostream>
 #include <string>
-#include <cctype>
+#include <vector>
+
+#include <iostream>
+#include <cctype>   // 
 #include <conio.h>  // _getch()
 
 using namespace std;
@@ -16,8 +18,15 @@ public:
     static void showGoodbye();
     static void showLine();
 
+    static int showChoiseMenu(
+        const vector<string>& options,
+        const string& title = "",
+        const string& enterMsg = "Make your choise",
+        const bool showLines = true
+    );
+
     static void waitForEnter();
-    static void nextBlock() { cout << endl; };    // разграничение операций
+    static void nextBlock() { cout << endl; };  // разграничение операций
 
     static void showMessage(const string& msg, bool wait=true);
     static void showInstruction(const string& msg);
@@ -26,6 +35,7 @@ public:
     static void showCardBalance(const double balance);
 
     static int enterPIN();
+
     static int enterNumber(int max, string msg = "");
     static bool enterTrueFalse(string msg="");
 

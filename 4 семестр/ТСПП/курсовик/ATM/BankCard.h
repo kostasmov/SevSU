@@ -8,6 +8,7 @@ class BankCard
 {
 public:
     BankCard(string num, string bank, Client* owner, int PIN);
+    ~BankCard() {};
 
     string getNumber();     // геттеры
     string getBank();

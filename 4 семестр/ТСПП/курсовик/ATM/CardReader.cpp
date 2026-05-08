@@ -29,15 +29,7 @@ bool CardReader::isCardPresent() const {
 	return (this->card ? true : false);
 }
 
-// вывод информации о карте
-void CardReader::getCardInfo() {
-	// НЕ РАБОТАЕТ - ОБРАЩАТЬСЯ НАПРЯМУЮ К cardReader.card
-
-	/*cout << "Bank: " << this->card->getBank() << endl;
-	cout << "Number: " << this->card->getNumber() << endl;
-	cout << "Is card blocked: " << (this->card->getBlockState() ? "YES" : "NO") << endl;*/
-}
-
-/*void CardReader::sendAlert() {
-
-}*/
+//// вывод информации о карте
+//void CardReader::getCardInfo() {
+//	// НЕ РАБОТАЕТ - ОБРАЩАТЬСЯ НАПРЯМУЮ К cardReader.card
+//}

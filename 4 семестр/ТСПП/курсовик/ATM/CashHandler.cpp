@@ -28,10 +28,10 @@ bool CashHandler::canDispenseAmount(int amount) {
 
 
 // Внесение в кассу новых купюр
-bool CashHandler::cashIn(map<int, int>* bills, int amount) {
+bool CashHandler::cashIn(map<int, int> bills, int amount) {
 	if (!canAcceptBanknotes(amount)) return 0;
 
-	for (const auto& [key, value] : *bills) {
+	for (const auto& [key, value] : bills) {
 		this->bills[key] += value;
 	}
 
@@ -46,6 +46,8 @@ map<int, int> CashHandler::cashOut(int amount) {
     
     map<int, int> cash = {};
     int remaining = amount;
+    
+    //int billsCount = 0;
 
     // выдаём от больших номиналов к меньшим
     for (int d : denominations) {
@@ -55,8 +57,13 @@ map<int, int> CashHandler::cashOut(int amount) {
         remaining -= canGive * d;
 
         this->bills[d] -= canGive;
+        this->bills_amount -= canGive;
+
         cash[d] = canGive;
+        //billsCount += canGive;
     }
+
+    //if (billsCount > this->maxGivableBanknotesAmount) return {};
 
     return cash;
 }

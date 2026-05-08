@@ -5,7 +5,7 @@
 * 405 - ошибка валидации
 * 1 - операция прошла успешно
 */
-int BillAcceptor::getCash(map<int, int>* cash) {
+int BillAcceptor::getCash(map<int, int> cash) {
     this->cash = cash;
 
     if (this->countBanknotes() > this->max_banknotes) {
@@ -24,29 +24,29 @@ int BillAcceptor::getCash(map<int, int>* cash) {
 
 // Операции-ЗАГЛУШКИ
 void BillAcceptor::returnCash() {
-	// заглушка
+    this->cash = {};
 }
 void BillAcceptor::takeCashInHandler() {
-    this->cash = NULL;
-    // заглушка
+    this->cash = {};
 }
 
 
 // Проверить корректность купюр
 bool BillAcceptor::validateBanknotes() {
-    if (!this->cash) return 0;
+    if (this->cash.empty()) return 0;
 
 	// По умолчанию все банкноты корректные - не мятые, не подделанные
 	return true;
 }
 
+
 // Подсчитать сумму 
 int BillAcceptor::calculateCash() {
-    if (!this->cash) return 0;
+    if (this->cash.empty()) return 0;
 
     int total = 0;
 
-    for (auto i = this->cash->begin(); i != this->cash->end(); ++i) {
+    for (auto i = this->cash.begin(); i != this->cash.end(); ++i) {
         total += i->first * i->second;
     }
 
@@ -55,11 +55,11 @@ int BillAcceptor::calculateCash() {
 
 // Подсчитать число купюр
 int BillAcceptor::countBanknotes() {
-    if (!this->cash) return 0;
+    if (this->cash.empty()) return 0;
 
     int amount = 0;
 
-    for (auto i = this->cash->begin(); i != this->cash->end(); ++i) {
+    for (auto i = this->cash.begin(); i != this->cash.end(); ++i) {
         amount += i->second;
     }
 

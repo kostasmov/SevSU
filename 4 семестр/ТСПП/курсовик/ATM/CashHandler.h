@@ -9,10 +9,10 @@ class CashHandler
 public:
     CashHandler() {};
 
-    bool canAcceptBanknotes(int count); // проверка на вместимость
-    bool canDispenseAmount(int amount); // проверка наличия нала для выдачи
+    bool canAcceptBanknotes(int banknotesAmount);   // проверка на вместимость
+    bool canDispenseAmount(int moneyAmount);        // проверка наличия нала для выдачи
 
-    bool cashIn(map<int, int>* bills, int amount);
+    bool cashIn(map<int, int> bills, int amount);
     map<int, int> cashOut(int amount);
 
 protected:
@@ -21,5 +21,7 @@ protected:
 
     map<int, int> bills = {};   // набор купюр разного номинала
     int bills_amount = 0;       // число купюр
+
+    //int maxGivableBanknotesAmount = 50; // НУЖНО КАК-ТО СЧИТАТЬ С BILL_ACCEPTOR
 };
 

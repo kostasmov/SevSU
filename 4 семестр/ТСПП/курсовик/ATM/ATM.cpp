@@ -5,23 +5,23 @@ void ATM::startSession(Client* client, BankCard* card) {
 	this->ui.showHello(this->bank);
 
 	// проверить вставляется ли карта в ридер
-	if (!this->setCardInReader(card)) {
-		return;
-	}
+	if (!this->setCardInReader(card)) return;
 
 	// вывести информацию о карте
 	this->getCardInfo();	
 
 	// валидация карты (ввод PIN-кода)
-	if (!this->validateCard()) {
+	bool validated = this->validateCard();
+
+	if (!validated) {
 		this->returnCardToUser();
 		this->ui.showGoodbye();
 		return;
 	}
 
-	// -----------------
+	// ---------------------------------
 	while (true) {
-		switch (this->pickCommand()) {
+		switch (this->pickUserCommand()) {
 		case(0):
 			// завершение работы
 			this->returnCardToUser();
@@ -35,7 +35,9 @@ void ATM::startSession(Client* client, BankCard* card) {
 
 		case (2):
 			// пополнение счёта (внесение наличных)
-			this->makeDeposit();
+			this->makeDeposit(client->getCash(
+				this->ui.enterNumber(6, "How much money you want to put into")
+			));
 			break;
 
 		case (3):
@@ -47,11 +49,41 @@ void ATM::startSession(Client* client, BankCard* card) {
 			this->ui.showMessage("Wrong operation code, try again");
 		};
 	}
-	// -----------------
+	// ---------------------------------
+}
+void ATM::startSession(Collector* client) {
+	this->ui.showHello(this->bank);
+
+	while (true) {
+		switch (this->pickCollectorCommand()) {
+		case(0):
+			// завершение работы
+			this->ui.showGoodbye();
+			return;
+
+		case (1):
+			// работа с кассой
+			//
+			break;
+
+		case (2):
+			// проверка картоприёмника
+			//
+			break;
+
+		case (3):
+			// просмотр содержимого валидатора
+			//
+			break;
+
+		default:
+			this->ui.showMessage("Wrong operation code, try again");
+		};
+	}
+	this->ui.showGoodbye();
 }
 
-int ATM::pickCommand() {
-
+int ATM::pickUserCommand() {
 	this->ui.nextBlock();
 
 	this->ui.showLine();
@@ -61,7 +93,20 @@ int ATM::pickCommand() {
 	this->ui.showMessage("Exit the system - 0", 0);
 	this->ui.showLine();
 
-	int operCode = this->ui.enterNumber(2, "Enter operation code");
+	int operCode = this->ui.enterNumber(1, "Enter operation code");
+	return operCode;
+}
+int ATM::pickCollectorCommand() {
+	this->ui.nextBlock();
+
+	this->ui.showLine();
+	this->ui.showMessage("Open cashbox - 1", 0);
+	this->ui.showMessage("Check card reader - 2", 0);
+	this->ui.showMessage("Check bill acceptor - 3", 0);
+	this->ui.showMessage("Exit the system - 0", 0);
+	this->ui.showLine();
+
+	int operCode = this->ui.enterNumber(1, "Enter operation code");
 	return operCode;
 }
 
@@ -135,24 +180,17 @@ void ATM::getCardBalance() {
 }
 
 // Внесение наличных
-bool ATM::makeDeposit() {
+bool ATM::makeDeposit(map<int, int> cash) {
 	// проверить помещается ли в банкомат хоть что-то
-	if (!this->cashHandler.canAcceptBanknotes(5)) {
+	if (!this->cashHandler.canAcceptBanknotes(3)) {
 		this->ui.showMessage("Sorry, cashbox is FULL of money");
 		return 0;
 	}
 
 	this->ui.showInstruction("Put money in bill acceptor");
 
-	// -----------------
-	map<int, int> cash;
-	cash[100] = 5;
-	cash[500] = 3;
-	cash[1000] = 1;
-	// -----------------
-
 	// попытка передать нал и обработка результата
-	switch (this->billAcceptor.getCash(&cash)) {
+	switch (this->billAcceptor.getCash(cash)) {
 	case 404:
 		this->ui.showMessage("Error: Too many banknotes inserted (404)", false);
 		break;
@@ -166,30 +204,33 @@ bool ATM::makeDeposit() {
 		if (this->depositTransaction()) return 1;
 		break;
 
-	default:
-		this->ui.showMessage("Unknown error while accepting cash", false);
-		break;
+	//default:
+	//	this->ui.showMessage("Unknown error while accepting cash", false);
+	//	break;
 	}
 
+	this->billAcceptor.returnCash();
 	this->ui.showInstruction("Get your cash back!");
+
 	return 0;
 }
 bool ATM::depositTransaction() {
 	int cashSum = this->billAcceptor.calculateCash();
-	int banknotesAmount = this->billAcceptor.countBanknotes();
-
 	this->ui.showMessage("Money put into - " + to_string(cashSum), false);
+
 	if (!this->ui.enterTrueFalse("Continue operation?")) return 0;
 
 	// --------- ТРАНЗАКЦИЯ ---------
+	int banknotesAmount = this->billAcceptor.countBanknotes();
 	bool done = this->cashHandler.cashIn(this->billAcceptor.cash, banknotesAmount);
+
 	if (!done) {
 		this->ui.showMessage("Sorry, there's no place in cashbox");
 		return 0;
 	}
 
+	this->billAcceptor.takeCashInHandler();		// НЕ ОЧЕНЬ ПРАВИЛЬНО
 	this->cardReader.card->deposit(cashSum);
-	this->billAcceptor.takeCashInHandler();
 
 	this->ui.showMessage("Operation completed!", false);
 	this->ui.showInstruction("Take your CHECK paper");
@@ -201,14 +242,14 @@ bool ATM::depositTransaction() {
 bool ATM::makeWithdraw() {
 	// проверить не пустая ли касса
 	if (!this->cashHandler.canDispenseAmount(100)) {
-		this->ui.showMessage("Sorry, no money((");
+		this->ui.showMessage("Sorry, ATM has no money((");
 		return 0;
 	}
 
 	while (true) {
 		int amount = this->ui.enterNumber(6, "Enter money amount");
 
-		// проверить есть ли в кассе достаточно нала
+		// проверить есть ли в кассе достаточно наличных
 		if (!this->cashHandler.canDispenseAmount(amount)) {
 			this->ui.showMessage("Sorry, can't dispense this money amount!");
 			if (!this->ui.enterTrueFalse("Try another number?"))
@@ -221,12 +262,15 @@ bool ATM::makeWithdraw() {
 			return 0;
 
 		// -------- СНЯТИЕ НАЛИЧНЫХ --------
-		if (!this->cardReader.card->withdraw(amount)) {	// проверка баланса
+		bool done = this->cardReader.card->withdraw(amount);
+
+		if (!done) {	// проверка что операция прошла (баланса хватило)
 			this->ui.showMessage("Sorry, you have no money");
 			return 0;
 		}
 
 		auto cash = this->cashHandler.cashOut(amount);
+		// ...
 		this->billAcceptor.returnCash();
 
 		this->ui.showMessage("Operation done!");

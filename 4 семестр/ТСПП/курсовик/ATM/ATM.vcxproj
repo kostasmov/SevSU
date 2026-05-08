@@ -134,7 +134,9 @@
     <ClCompile Include="CardReader.cpp" />
     <ClCompile Include="CashHandler.cpp" />
     <ClCompile Include="ATM_UI.cpp" />
+    <ClCompile Include="Client.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="System_UI.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ATM.h" />
@@ -147,6 +149,7 @@
     <ClInclude Include="Collector.h" />
     <ClInclude Include="ATM_UI.h" />
     <ClInclude Include="Person.h" />
+    <ClInclude Include="System_UI.h" />
     <ClInclude Include="Worker.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

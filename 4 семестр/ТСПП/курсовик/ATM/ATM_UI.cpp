@@ -29,6 +29,35 @@ void ATM_UI::showInstruction(const string& text) {
 	ATM_UI::waitForEnter();
 }
 
+// Вывод меню с выбором операций
+int ATM_UI::showChoiseMenu(const vector<string>&options,
+	const string& title, const string& msg,
+	const bool showLines)
+{
+	if (showLines) ATM_UI::showLine();
+
+	if (!title.empty()) cout << title << ": " << endl;
+
+	for (int i = 0; i < options.size(); i++) {
+		cout << "   " << i + 1 << " - " << options[i] << endl;
+	}
+	
+	if (!showLines) cout << "   ----------------------------------" << endl;
+	cout << "   0 - Exit" << endl;
+
+	if (showLines) ATM_UI::showLine();
+	else cout << endl;
+
+	while (true) {
+		int choice = ATM_UI::enterNumber(2, msg);
+
+		if (choice >= 0 && choice <= options.size()) {
+			cout << endl;
+			return choice;
+		}
+	}
+}
+
 
 // ======================= ОПЕРАЦИИ ВЫВОДА =======================
 
@@ -96,7 +125,7 @@ int ATM_UI::enterNumber(int max, string msg) {
 	string input;
 	char ch;
 
-	if (!msg.empty()) cout << endl << msg << " - ";
+	if (!msg.empty()) cout << msg << " - ";
 
 	while (true) {
 		ch = _getch();

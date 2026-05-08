@@ -12,9 +12,9 @@ public:
     bool returnCard();              // ридер отдаёт карту
 
     bool isCardPresent() const; // проверка наличия карты
-    void getCardInfo();         // возрат информации о карте (НЕ РАБОТАЕТ)
+    //void getCardInfo();         // возрат информации о карте (НЕ РАБОТАЕТ)
 
 protected:
-    //void sendAlert();
+    //
 };
 

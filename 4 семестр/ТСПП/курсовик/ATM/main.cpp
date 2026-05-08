@@ -10,6 +10,8 @@
 
 using namespace std;
 
+// ============================ ЗАПОЛНЕНИЕ ДАННЫХ ============================
+
 // Задание пользователей
 static vector<Person*> createUsers() {
     Client* client = new Client("Ivan Maheev");
@@ -23,106 +25,109 @@ static vector<Person*> createUsers() {
 
     Client* client2 = new Client("Eduard Afrikanov");
     client2->addCard(new BankCard("1010101010101010", "NovaBank", client2, 4321));
+    client2->getCards()[0]->deposit(900000);
 
     return vector<Person*>{ client, collector, officer, client2 };
 }
 
+
+
+// ========================== ВЫБОР ДАННЫХ/ОПЕРАЦИЙ ==========================
+
 // Выбор пользователя
-static int chooseUser(vector<Person*> users) {
-    cout << "Users list: " << endl;
-    for (int i = 0; i < users.size(); i++) {
-        cout << "   " << i + 1 << " - " << users[i]->getName();
-        cout << " (" << users[i]->getRole() << ")" << endl;
-    }
-
-    cout << "   ----------------------------------" << endl;
-    cout << "   0 - Exit programm" << endl;
+static Person* chooseUser(const vector<Person*>& users) {
+    vector<string> userList;
     
-    // запрашивать "код" пользователя
-    int userIndex = -1;
-    while (userIndex < 0 || userIndex > users.size()) {
-        userIndex = ATM_UI::enterNumber(1, "Choose user or exit programm");
+    for (int i = 0; i < users.size(); i++) {
+        userList.push_back(users[i]->getName() + " (" + users[i]->getRole() + ")");
     }
 
-    return userIndex - 1;
+    //map<int, string> exitLine;
+    //exitLine[0] = "Exit programm";
+
+    int userIndex = ATM_UI::showChoiseMenu(
+        userList, "Users list", "Choose user", false
+    );
+
+    if (userIndex == 0) return nullptr;
+    return users[userIndex - 1];
 }
 
 // Выбор карты
-static int chooseBankCard(Client* user) {
-    // вывести на экран имя клиента
-    cout << "User's name - " << user->getName() << endl;
-    
+static BankCard* chooseBankCard(Client* user) {
     int cardsAmount = int(user->getCards().size()); // количество карт у клиента
-    if (cardsAmount == 0) return -1;
+    if (cardsAmount == 0) return nullptr;
 
-    // вывести список карт
-    cout << "Cards: " << endl;
+    vector<string> cardsList;
+
     for (int i = 0; i < cardsAmount; i++) {
-        cout << "   " << i + 1 << " - " << user->getCards()[i]->getBank() << endl;
+        cardsList.push_back(user->getCards()[i]->getBank());
     }
 
-    // запрашивать "код" карты
-    int cardNum = 0;
-    while (cardNum <= 0 || cardNum > cardsAmount) {
-        cardNum = ATM_UI::enterNumber(2, "Choose card for operations");
-    }
+    int cardIndex = ATM_UI::showChoiseMenu(
+        cardsList, 
+        "Cards of " + user->getName(), 
+        "Choose card for operations",
+        false
+    );
 
-    return cardNum - 1;
+    if (cardIndex == 0) return nullptr;
+    return user->getCards()[cardIndex - 1];
 }
 
 
-// ============================ ВЫПОЛНЕНИЕ ПРОГРАММЫ ============================
+
+// =========================== ВЫПОЛНЕНИЕ ПРОГРАММЫ ===========================
 int main()
 {
     cout << "Hello World!" << "\n\n";
 
     vector<Person*> users = createUsers();
-
-    // есть ОДИН банкомат (банк указан, но, УВЫ, не участвует в логике)
     ATM* atm = new ATM("NovaBank");
     
     while (true) {
-        // выбрать пользователя (или выбрать "не выбирать")
-        int code = chooseUser(users);
+        system("cls");
 
-        // конец программф
-        if (code < 0) {
+        // выбрать пользователя
+        Person* user = chooseUser(users);
+
+        // если пользователь не выбран - конец программы
+        if (!user) {
             cout << "Goodbye World!" << "\n\n";
             break;
         }
 
-        Person* user = users[code];
         string role = user->getRole();
         
-        // ========== КЛИЕНТ ==========
+        // ============== КЛИЕНТ ==============
         if (role == "client") {
             Client* client = dynamic_cast<Client*>(user);
-            int cardIndex = chooseBankCard(client);
+            BankCard* card = chooseBankCard(client);
 
             // cеанс обслуживание клиента на банкомате
-            atm->startSession(client, client->getCards()[cardIndex]);
+            if (!card) continue;
+            atm->startSession(client, card);
         }
 
-        // ========== ИНКАССАТОР ==========
+        // ============ ИНКАССАТОР ============
         else if (role == "collector") {
             Collector* collector = dynamic_cast<Collector*>(user);
             
-            //
-            cout << "COLLECTOR'S SCENARIO NOT DONE\n\n";
-            //
+            // -------
+            cout << "COLLECTOR'S SCENARIO NOT DONE\n";
+            // -------
         }
 
         // ========== СОТРУДНИК БАНКА ==========
         else if (role == "officer") {
             BankOfficer* officer = dynamic_cast<BankOfficer*>(user);
 
-            //
-            cout << "OFFICER'S SCENARIO NOT DONE\n\n";
-            //
+            // -------
+            cout << "OFFICER'S SCENARIO NOT DONE\n";
+            // -------
         }
 
         ATM_UI::waitForEnter();
-        system("cls");
     }
 
     // очистка памяти

@@ -7,18 +7,19 @@ class BillAcceptor
 {
 public:
     BillAcceptor() {};
-    map<int, int>* cash = NULL;
 
-    int getCash(map<int, int>* cash);
-    void returnCash();
-    void takeCashInHandler();
+    const int max_banknotes = 50;  // максимальное число купюр за раз
 
-    int calculateCash();    // Подсчитать внесённую наличку
-    int countBanknotes();   // Подсчитать число банкнот
+    map<int, int> cash = {};
+    int getCash(map<int, int> cash);
+
+    void returnCash();          // заглушки
+    void takeCashInHandler();   
+
+    int calculateCash();    // подсчитать внесённую наличку
+    int countBanknotes();   // подсчитать число банкнот
 
 protected:
-    static const int max_banknotes = 8000;  // Максимальное число банкнот за раз
-
     bool validateBanknotes();   // Проверка что банкноты нормальные
 };
 
