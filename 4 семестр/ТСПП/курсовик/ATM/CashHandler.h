@@ -9,13 +9,13 @@ class CashHandler :
 {
 public:
     CashHandler() : CashHolder(8000) {
-        //this->cash = {
-        //    {50, 10},
-        //    {100, 20},  
-        //    {500, 15},
-        //    {1000, 5},
-        //    {2000, 5}
-        //};
+        this->cash = {
+            {50, 10},
+            {100, 20},  
+            {500, 15},
+            {1000, 5},
+            {2000, 5}
+        };
     }
 
     int depositCash(map<int, int> banknotes) override;      // добавить наличные

@@ -28,7 +28,7 @@ protected:
     BillAcceptor billAcceptor;  // Деньгоприёмник
     const ATM_UI ui;            // Блок ввода/вывода
 
-    int pickUserCommand();      // Выбор команды (зависит от роли)
+    int pickUserCommand();      // выбор команды (зависит от роли)
     int pickCollectorCommand();
 
     bool setCardInReader(BankCard* card); 

@@ -97,11 +97,16 @@ void ATM_UI::showCashboxInfo(int billsCount, map<int, int> bills) {
 	cout << endl;
 	cout << "Cashbox keeps " + to_string(billsCount) + " banknotes:" << endl;
 
-	for (const auto& [denomination, count] : bills) {
+	int total = 0;
+
+	for (const auto& [denom, count] : bills) {
 		cout << setw(3) << "" <<
-			left << setw(4) << denomination 
-			<< " : " << count << endl;
+			left << setw(4) << denom 
+			<< " : " << count << " (" << count * denom << endl;
+		total += count * denom;
 	}
+
+	cout << "\nTotal money handling: " << total << endl;
 }
 
 // ======================= ОПЕРАЦИИ ВВОДА =======================

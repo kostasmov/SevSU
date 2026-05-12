@@ -11,13 +11,13 @@ void ATM::startSession(Client* client, BankCard* card) {
 	this->showCardInfo();	
 
 	// валидация карты (ввод PIN-кода)
-	/*bool validated = this->validateCard();
+	bool validated = this->validateCard();
 
 	if (!validated) {
 		this->returnCardToUser();
 		this->ui.showGoodbye();
 		return;
-	}*/
+	}
 
 	// ---------------------------------
 	while (true) {
@@ -63,10 +63,7 @@ void ATM::startSession(Collector* client) {
 
 		case (1):
 			// проверка содержимого кассы
-			this->ui.showCashboxInfo(
-				this->cashHandler.countBanknotes(), 
-				this->cashHandler.getCashInfo()
-			);
+			this->showCashboxInfo();
 			break;
 
 		case (2):
@@ -79,6 +76,7 @@ void ATM::startSession(Collector* client) {
 			break;
 
 		case (3):
+			// проверка валидатора
 			if (this->billAcceptor.calculateCash() > 0) {
 				this->ui.showMessage("There's a forbidden cash in acceptor");
 				this->billAcceptor.withdrawCash();
@@ -88,9 +86,12 @@ void ATM::startSession(Collector* client) {
 			break;
 
 		case (4):
+			// пополнение кассы
 			break;
 
 		case (5):
+			// разгрузка кассы
+			this->cashHandler.getCashInfo();
 			break;
 
 		default:
@@ -114,10 +115,10 @@ int ATM::pickUserCommand() {
 }
 int ATM::pickCollectorCommand() {
 	vector<string> options = {
-		"Check banknotes",
+		"Check cashbox",
 		"Check card reader",
 		"Check bill acceptor",
-		"Deposit money in cashbox",
+		"Put money in cashbox",
 		"Take money out of cashbox"
 	};
 
@@ -181,7 +182,15 @@ bool ATM::validateCard() {
 }
 
 
-// ================== ОПЕРАЦИИ С ДЕНЬГАМИ И СЧЁТОМ ==================
+// ========================== ВЫВОД ДАННЫХ ==========================
+
+// Вывод содержимого кассы банкомата
+void ATM::showCashboxInfo() {
+	this->ui.showCashboxInfo(
+		this->cashHandler.countBanknotes(),
+		this->cashHandler.getCashInfo()
+	);
+}
 
 // Вывод информации о карте
 void ATM::showCardInfo() {
@@ -195,12 +204,13 @@ void ATM::showCardInfo() {
 	ATM_UI::showInstruction("Continue");
 }
 
-
 // Вывод баланса на счёте клиента
 void ATM::getCardBalance() {
 	this->ui.showCardBalance(this->cardReader.card->getBalance());
 }
 
+
+// ================== ОПЕРАЦИИ С ДЕНЬГАМИ И СЧЁТОМ ==================
 
 // Внесение наличных
 bool ATM::makeDeposit(map<int, int> cash) {
@@ -254,7 +264,6 @@ bool ATM::depositTransaction() {
 
 	return true;
 }
-
 
 // Снятие наличных
 bool ATM::makeWithdraw() {
