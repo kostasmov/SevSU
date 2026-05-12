@@ -101,13 +101,15 @@ void ATM_UI::showCashboxInfo(int billsCount, map<int, int> bills) {
 
 	for (const auto& [denom, count] : bills) {
 		cout << setw(3) << "" <<
-			left << setw(4) << denom 
-			<< " : " << count << " (" << count * denom << endl;
+			left << setw(4) << denom
+			<< " : " << count << endl; //" (" << count * denom << endl;
 		total += count * denom;
 	}
 
-	cout << "\nTotal money handling: " << total << endl;
+	cout << endl;
+	cout << "Total money handling: " << total << endl;
 }
+
 
 // ======================= ОПЕРАЦИИ ВВОДА =======================
 

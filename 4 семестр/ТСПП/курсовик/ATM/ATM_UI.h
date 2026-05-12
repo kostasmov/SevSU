@@ -5,8 +5,7 @@
 #include <map>
 
 #include <iostream>
-#include <iomanip>  // setw()
-//#include <cctype>   // 
+#include <iomanip>  // setw() 
 #include <conio.h>  // _getch()
 
 using namespace std;
@@ -40,6 +39,8 @@ public:
 
     static int enterNumber(int max, string msg = "");
     static bool enterTrueFalse(string msg="");
+
+    //static map<int, int> setBanknotes();
 
 protected:
     static string formatCardNumber(const string& n);

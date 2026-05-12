@@ -93,3 +93,9 @@ int CashHolder::countBanknotes(map<int, int> banknotes) {
 
     return amount;
 }
+
+
+// Подсчитать "свободное место"
+int CashHolder::countFreeSlots() {
+    return this->max_banknotes - this->countBanknotes();
+}

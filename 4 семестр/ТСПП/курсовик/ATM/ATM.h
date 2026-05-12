@@ -38,10 +38,17 @@ protected:
 
     void showCardInfo();        // вывод информации о карте
     void getCardBalance();      // вывод баланса на карте
+    void showCashboxInfo();     // вывод содержимого кассы
+
+    void checkCardReader();     // проверка приборов инкассатором
+    void checkBillAcceptor();
 
     bool makeDeposit(map<int, int> cash);   // пополнить карту
     bool depositTransaction();              // перевод средств + пополнение кассы
 
     bool makeWithdraw();        // снять наличные
+
+    bool loadCashbox(map<int, int> cash);
+    map<int, int> unloadCashbox();
 };
 

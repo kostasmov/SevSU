@@ -28,6 +28,8 @@ public:
     int countBanknotes();
     static int countBanknotes(map<int, int> banknotes);
 
+    int countFreeSlots();
+
 protected:
     static const int INF = 1000000000;
     static const vector<int> denominations; // номиналы купюр

@@ -51,7 +51,7 @@ void ATM::startSession(Client* client, BankCard* card) {
 	}
 	// ---------------------------------
 }
-void ATM::startSession(Collector* client) {
+void ATM::startSession(Collector* user) {
 	this->ui.showHello(this->bank);
 
 	while (true) {
@@ -68,25 +68,19 @@ void ATM::startSession(Collector* client) {
 
 		case (2):
 			// проверка картоприёмника
-			if (this->cardReader.card) {
-				this->ui.showMessage("There's a forbidden card in Reader");
-				this->returnCardToUser();
-			}
-			else this->ui.showMessage("---- Reader is empty ----");
+			this->checkCardReader();
 			break;
 
 		case (3):
 			// проверка валидатора
-			if (this->billAcceptor.calculateCash() > 0) {
-				this->ui.showMessage("There's a forbidden cash in acceptor");
-				this->billAcceptor.withdrawCash();
-				this->ui.showInstruction("Take these money away");
-			}
-			else this->ui.showMessage("---- Bill acceptor is empty ----");
+			this->checkBillAcceptor();
 			break;
 
 		case (4):
 			// пополнение кассы
+			this->loadCashbox(user->withdrawCash(
+				this->ui.enterNumber(6, "Enter money amount")
+			));
 			break;
 
 		case (5):
@@ -306,4 +300,43 @@ bool ATM::makeWithdraw() {
 		this->ui.showInstruction("Take your money away NOW");
 		return true;
 	}
+}
+
+// Пополнение кассы
+bool ATM::loadCashbox(map<int, int> cash) {
+	this->ui.showMessage("You can put into " + to_string(this->cashHandler.countFreeSlots()) + " banknotes", false);
+	this->ui.showMessage("You put " + to_string(this->cashHandler.countBanknotes(cash)) + " banknotes", false);
+
+	bool done = this->cashHandler.depositCash(cash);
+	
+	if (!done) {
+		this->ui.showMessage("Sorry, no enough place for this");
+	}
+	
+	this->ui.showMessage("Operation completed!");
+	return true;
+}
+
+
+// Разгрузка кассы
+
+
+// ================== ПРОВЕРКИ ОБОРУДОВАНИЯ ==================
+
+void ATM::checkCardReader() {
+	if (this->cardReader.card) {
+		this->ui.showMessage("There's a forbidden card in Reader");
+		this->returnCardToUser();
+	}
+	else 
+		this->ui.showMessage("---- Reader is empty ----");
+}
+void ATM::checkBillAcceptor() {
+	if (this->billAcceptor.calculateCash() > 0) {
+		this->ui.showMessage("There's a forbidden cash in acceptor");
+		this->billAcceptor.withdrawCash();
+		this->ui.showInstruction("Take these money away");
+	}
+	else 
+		this->ui.showMessage("---- Bill acceptor is empty ----");
 }
