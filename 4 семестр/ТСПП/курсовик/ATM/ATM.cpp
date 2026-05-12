@@ -85,7 +85,7 @@ void ATM::startSession(Collector* user) {
 
 		case (5):
 			// разгрузка кассы
-			this->cashHandler.getCashInfo();
+			user->depositCash(this->unloadCashbox());
 			break;
 
 		default:
@@ -209,10 +209,10 @@ void ATM::getCardBalance() {
 // Внесение наличных
 bool ATM::makeDeposit(map<int, int> cash) {
 	// проверить помещается ли в банкомат хоть что-то
-	//if (!this->cashHandler.canAccept(3)) {
-	//	this->ui.showMessage("Sorry, cashbox is FULL of money");
-	//	return 0;
-	//}
+	if (!this->cashHandler.canAccept(3)) {
+		this->ui.showMessage("Sorry, cashbox is FULL of money");
+		return 0;
+	}
 
 	this->ui.showInstruction("Put money in bill acceptor");
 
@@ -302,8 +302,11 @@ bool ATM::makeWithdraw() {
 	}
 }
 
+
 // Пополнение кассы
 bool ATM::loadCashbox(map<int, int> cash) {
+	this->ui.showInstruction("Put this clean money in cashbox");
+
 	this->ui.showMessage("You can put into " + to_string(this->cashHandler.countFreeSlots()) + " banknotes", false);
 	this->ui.showMessage("You put " + to_string(this->cashHandler.countBanknotes(cash)) + " banknotes", false);
 
@@ -317,8 +320,28 @@ bool ATM::loadCashbox(map<int, int> cash) {
 	return true;
 }
 
-
 // Разгрузка кассы
+map<int, int> ATM::unloadCashbox() {
+	while (true) {
+		int amount = this->ui.enterNumber(6, "Enter money amount");
+
+		map<int, int> cash = this->cashHandler.withdrawCash(amount);
+
+		if (cash.empty()) {
+			this->ui.showMessage("You can't load out such amount", false);
+			
+			if (!this->ui.enterTrueFalse("Try another number?"))
+				return {};
+			
+			continue;
+		}
+		
+		this->ui.showMessage("Operation done!");
+		this->ui.showInstruction("Take money away");
+
+		return cash;
+	}
+}
 
 
 // ================== ПРОВЕРКИ ОБОРУДОВАНИЯ ==================

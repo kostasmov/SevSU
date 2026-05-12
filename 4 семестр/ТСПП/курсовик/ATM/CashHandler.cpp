@@ -10,10 +10,10 @@ map<int, int> CashHandler::withdrawCash(int moneyAmount) {
     map<int, int> cash = this->recordWithdraw(moneyAmount);
 
     // проверить что поместится в валидатор
-    if (this->countBanknotes(cash) > this->maxDispensableBanknotesAmount) {
-        this->recordDeposit(cash);
-        return {};
-    }
+    //if (this->countBanknotes(cash) > this->maxDispensableBanknotesAmount) {
+    //    this->recordDeposit(cash);
+    //    return {};
+    //}
 
     return cash;
 }

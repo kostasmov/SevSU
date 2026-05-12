@@ -1,7 +1,7 @@
 #include "CashHolder.h"
 
 // Номиналы купюр
-const vector<int> CashHolder::denominations = { 5000, 1000, 500, 100, 50 };
+const vector<int> CashHolder::denominations = { 5000, 2000, 1000, 500, 200, 100, 50 };
 
 
 // Пополнение наличных
@@ -45,7 +45,7 @@ bool CashHolder::canAccept(int banknotesCount) {
     return true;
 }
 
-
+#include <iostream>
 // Проверить, можно ли выдать требуемую сумму
 bool CashHolder::canDispense(int moneyAmount) {
     if (moneyAmount <= 0 || moneyAmount % 50 != 0) {
