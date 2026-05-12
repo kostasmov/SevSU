@@ -1,23 +1,18 @@
 #pragma once
 
-#include <map> 
-using namespace std;
+#include "CashHolder.h"
+#include "CashHandler.h"
 
-class BillAcceptor
+class BillAcceptor :
+    public CashHolder
 {
 public:
-    BillAcceptor() {};
+    BillAcceptor() : CashHolder(50) {};
 
-    const int max_banknotes = 50;  // максимальное число купюр за раз
+    bool takeCashInHandler(CashHandler& handler);
 
-    map<int, int> cash = {};
-    int getCash(map<int, int> cash);
-
-    void returnCash();          // заглушки
-    void takeCashInHandler();   
-
-    int calculateCash();    // подсчитать внесённую наличку
-    int countBanknotes();   // подсчитать число банкнот
+    int depositCash(map<int, int> banknotes) override;  // добавить наличные
+    map<int, int> withdrawCash(int n=0) override;       // отдать ВСЕ наличные
 
 protected:
     bool validateBanknotes();   // Проверка что банкноты нормальные

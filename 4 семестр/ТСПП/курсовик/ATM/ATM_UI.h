@@ -2,9 +2,11 @@
 
 #include <string>
 #include <vector>
+#include <map>
 
 #include <iostream>
-#include <cctype>   // 
+#include <iomanip>  // setw()
+//#include <cctype>   // 
 #include <conio.h>  // _getch()
 
 using namespace std;
@@ -32,6 +34,7 @@ public:
 
     static void showCardInfo(string bank, string num, bool blockState);
     static void showCardBalance(const double balance);
+    static void showCashboxInfo(int billsCount, map<int, int> bills);
 
     static int enterPIN();
 

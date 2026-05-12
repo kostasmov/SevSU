@@ -1,27 +1,27 @@
 #pragma once
 
-#include <map>
-#include <vector>
+#include "CashHolder.h"
+
 using namespace std;
 
-class CashHandler
+class CashHandler :
+    public CashHolder
 {
 public:
-    CashHandler() {};
+    CashHandler() : CashHolder(8000) {
+        //this->cash = {
+        //    {50, 10},
+        //    {100, 20},  
+        //    {500, 15},
+        //    {1000, 5},
+        //    {2000, 5}
+        //};
+    }
 
-    bool canAcceptBanknotes(int banknotesAmount);   // проверка на вместимость
-    bool canDispenseAmount(int moneyAmount);        // проверка наличия нала для выдачи
-
-    bool cashIn(map<int, int> bills, int amount);
-    map<int, int> cashOut(int amount);
+    int depositCash(map<int, int> banknotes) override;      // добавить наличные
+    map<int, int> withdrawCash(int moneyAmount) override;   // отдать наличные
 
 protected:
-    const vector<int> denominations = { 5000, 2000, 1000, 500, 200, 100, 50 };
-    const int max_banknotes = 8000;   // максимальная вместимость купюр
-
-    map<int, int> bills = {};   // набор купюр разного номинала
-    int bills_amount = 0;       // число купюр
-
-    //int maxGivableBanknotesAmount = 50; // НУЖНО КАК-ТО СЧИТАТЬ С BILL_ACCEPTOR
+    int maxDispensableBanknotesAmount = 50; // НУЖНО КАК-ТО СЧИТАТЬ С BILL_ACCEPTOR
 };
 

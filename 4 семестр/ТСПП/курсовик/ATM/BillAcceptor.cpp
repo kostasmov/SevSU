@@ -5,29 +5,37 @@
 * 405 - ошибка валидации
 * 1 - операция прошла успешно
 */
-int BillAcceptor::getCash(map<int, int> cash) {
-    this->cash = cash;
+int BillAcceptor::depositCash(map<int, int> banknotes) {
+    this->cash = banknotes;
 
     if (this->countBanknotes() > this->max_banknotes) {
-        returnCash();
+        this->withdrawCash();
         return 404;
     }
 
     if (!validateBanknotes()) {
-        returnCash();
+        this->withdrawCash();
         return 405;
     }
 
     return 1;
 }
 
+// Отдать ВСЕ хранимые наличные
+map<int, int> BillAcceptor::withdrawCash(int n) {
+    map<int, int> cash = this->cash;
+    this->cash = {};
 
-// Операции-ЗАГЛУШКИ
-void BillAcceptor::returnCash() {
-    this->cash = {};
+    return cash;
 }
-void BillAcceptor::takeCashInHandler() {
+
+
+// Передача наличных в кассу
+bool BillAcceptor::takeCashInHandler(CashHandler& handler) {
+    if (!handler.depositCash(this->cash)) return false;
+
     this->cash = {};
+    return true;
 }
 
 
@@ -40,28 +48,3 @@ bool BillAcceptor::validateBanknotes() {
 }
 
 
-// Подсчитать сумму 
-int BillAcceptor::calculateCash() {
-    if (this->cash.empty()) return 0;
-
-    int total = 0;
-
-    for (auto i = this->cash.begin(); i != this->cash.end(); ++i) {
-        total += i->first * i->second;
-    }
-
-    return total;
-}
-
-// Подсчитать число купюр
-int BillAcceptor::countBanknotes() {
-    if (this->cash.empty()) return 0;
-
-    int amount = 0;
-
-    for (auto i = this->cash.begin(); i != this->cash.end(); ++i) {
-        amount += i->second;
-    }
-
-    return amount;
-}

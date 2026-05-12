@@ -1,12 +1,11 @@
-﻿#include <iostream>
-#include <vector>
-#include <cstdlib>
-
-#include "BankCard.h"
+﻿#include "BankCard.h"
 #include "Client.h"
 #include "Collector.h"
 #include "BankOfficer.h"
 #include "ATM.h"
+
+#include <iostream>
+#include <vector>
 
 using namespace std;
 

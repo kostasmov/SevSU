@@ -92,6 +92,17 @@ void ATM_UI::showCardBalance(const double balance) {
 	//cout << endl;
 }
 
+// Вывод информации о содержимом кассы
+void ATM_UI::showCashboxInfo(int billsCount, map<int, int> bills) {
+	cout << endl;
+	cout << "Cashbox keeps " + to_string(billsCount) + " banknotes:" << endl;
+
+	for (const auto& [denomination, count] : bills) {
+		cout << setw(3) << "" <<
+			left << setw(4) << denomination 
+			<< " : " << count << endl;
+	}
+}
 
 // ======================= ОПЕРАЦИИ ВВОДА =======================
 
