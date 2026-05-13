@@ -45,6 +45,12 @@ void ATM::startSession(Client* client, BankCard* card) {
 			this->makeWithdraw();
 			break;
 
+		case (4):
+			// перевод денег
+			this->ui.showMessage("Sorry, trouble with server connection");
+			this->ui.showInstruction("Continue");
+			break;
+
 		default:
 			this->ui.showMessage("Wrong operation code, try again");
 		};
@@ -99,6 +105,7 @@ int ATM::pickUserCommand() {
 		"Show card balance",
 		"Make deposit",
 		"Make withdraw",
+		"Transfer money",
 	};
 
 	return ATM_UI::showChoiseMenu(

@@ -1799,7 +1799,7 @@
 									"parentStyle": true,
 									"left": 894.5,
 									"top": 185.5,
-									"width": 107,
+									"width": 107.74609375,
 									"height": 48,
 									"stereotypeLabel": {
 										"$ref": "AAAAAAGG1SliROiyUgw="
@@ -2398,9 +2398,9 @@
 											"font": "Arial;12;1",
 											"parentStyle": true,
 											"left": 698.5,
-											"top": 430.5,
+											"top": 424.5,
 											"width": 92,
-											"height": 24,
+											"height": 36,
 											"text": "Вывести деньги со счёта",
 											"wordWrap": true
 										},
@@ -2437,9 +2437,9 @@
 									"font": "Arial;12;0",
 									"parentStyle": true,
 									"left": 693.5,
-									"top": 423.5,
+									"top": 417.5,
 									"width": 102,
-									"height": 36,
+									"height": 48,
 									"stereotypeLabel": {
 										"$ref": "AAAAAAGG1VrcgaRwcM4="
 									},
@@ -11958,7 +11958,7 @@
 									"parentStyle": true,
 									"left": 424,
 									"top": 132,
-									"width": 113,
+									"width": 113.46484375,
 									"height": 60,
 									"stereotypeLabel": {
 										"$ref": "AAAAAAGG1movrkXVcLs="
@@ -18773,24 +18773,6 @@
 											"height": 13,
 											"text": "+getID()",
 											"horizontalAlignment": 0
-										},
-										{
-											"_type": "UMLOperationView",
-											"_id": "AAAAAAGHupQGMJcSR8w=",
-											"_parent": {
-												"$ref": "AAAAAAGHuosp7n787Io="
-											},
-											"model": {
-												"$ref": "AAAAAAGHupQGKJb9wno="
-											},
-											"font": "Arial;13;0",
-											"parentStyle": true,
-											"left": 101,
-											"top": 820,
-											"width": 148.037109375,
-											"height": 13,
-											"text": "+getMessage(text: string)",
-											"horizontalAlignment": 0
 										}
 									],
 									"font": "Arial;13;0",
@@ -18798,7 +18780,7 @@
 									"left": 96,
 									"top": 800,
 									"width": 158.037109375,
-									"height": 38
+									"height": 23
 								},
 								{
 									"_type": "UMLReceptionCompartmentView",
@@ -18841,7 +18823,7 @@
 							"left": 96,
 							"top": 752,
 							"width": 157.037109375,
-							"height": 86,
+							"height": 72,
 							"nameCompartment": {
 								"$ref": "AAAAAAGHuosp7n72x7U="
 							},
@@ -18979,32 +18961,12 @@
 									"model": {
 										"$ref": "AAAAAAGHuo0D3aC8CPY="
 									},
-									"subViews": [
-										{
-											"_type": "UMLOperationView",
-											"_id": "AAAAAAGHupE2ORISOUY=",
-											"_parent": {
-												"$ref": "AAAAAAGHuo0D3aDFKIg="
-											},
-											"model": {
-												"$ref": "AAAAAAGHupE2LBH9PJk="
-											},
-											"font": "Arial;13;0",
-											"parentStyle": true,
-											"left": 309,
-											"top": 768,
-											"width": 214.43994140625,
-											"height": 13,
-											"text": "+startWorkWithATM(atm: insideATM)",
-											"horizontalAlignment": 0
-										}
-									],
 									"font": "Arial;13;0",
 									"parentStyle": true,
 									"left": 304,
 									"top": 763,
 									"width": 224.43994140625,
-									"height": 23
+									"height": 10
 								},
 								{
 									"_type": "UMLReceptionCompartmentView",
@@ -19223,6 +19185,24 @@
 											"height": 13,
 											"text": "+getName()",
 											"horizontalAlignment": 0
+										},
+										{
+											"_type": "UMLOperationView",
+											"_id": "AAAAAAGeIh1+UCfadpA=",
+											"_parent": {
+												"$ref": "AAAAAAGHuo3PVLJnrxk="
+											},
+											"model": {
+												"$ref": "AAAAAAGeIh1+QCfOl0Y="
+											},
+											"font": "Arial;13;2",
+											"parentStyle": true,
+											"left": 149,
+											"top": 516,
+											"width": 180.4736328125,
+											"height": 13,
+											"text": "+getRole()",
+											"horizontalAlignment": 0
 										}
 									],
 									"font": "Arial;13;0",
@@ -19230,7 +19210,7 @@
 									"left": 144,
 									"top": 496,
 									"width": 190.4736328125,
-									"height": 23
+									"height": 38
 								},
 								{
 									"_type": "UMLReceptionCompartmentView",
@@ -19273,7 +19253,7 @@
 							"left": 144,
 							"top": 448,
 							"width": 189.4736328125,
-							"height": 72,
+							"height": 86,
 							"nameCompartment": {
 								"$ref": "AAAAAAGHuo3PU7JhVdk="
 							},
@@ -19411,32 +19391,12 @@
 									"model": {
 										"$ref": "AAAAAAGHupASevTuZ4I="
 									},
-									"subViews": [
-										{
-											"_type": "UMLOperationView",
-											"_id": "AAAAAAGHupT/v5+G9g0=",
-											"_parent": {
-												"$ref": "AAAAAAGHupASevT3IXs="
-											},
-											"model": {
-												"$ref": "AAAAAAGHupT/tp9xcJU="
-											},
-											"font": "Arial;13;0",
-											"parentStyle": true,
-											"left": 317,
-											"top": 856,
-											"width": 193.30224609375,
-											"height": 13,
-											"text": "+sendMessage(reciever: Worker)",
-											"horizontalAlignment": 0
-										}
-									],
 									"font": "Arial;13;0",
 									"parentStyle": true,
 									"left": 312,
 									"top": 851,
 									"width": 203.30224609375,
-									"height": 23
+									"height": 10
 								},
 								{
 									"_type": "UMLReceptionCompartmentView",
@@ -19810,7 +19770,7 @@
 									"font": "Arial;13;0",
 									"parentStyle": false,
 									"left": 190,
-									"top": 629,
+									"top": 636,
 									"height": 13,
 									"alpha": 1.5707963267948966,
 									"distance": 15,
@@ -19832,7 +19792,7 @@
 									"font": "Arial;13;0",
 									"parentStyle": false,
 									"left": 175,
-									"top": 629,
+									"top": 636,
 									"height": 13,
 									"alpha": 1.5707963267948966,
 									"distance": 30,
@@ -19854,7 +19814,7 @@
 									"font": "Arial;13;0",
 									"parentStyle": false,
 									"left": 220,
-									"top": 630,
+									"top": 637,
 									"height": 13,
 									"alpha": -1.5707963267948966,
 									"distance": 15,
@@ -19872,7 +19832,7 @@
 							"tail": {
 								"$ref": "AAAAAAGHuosp7n71jxA="
 							},
-							"points": "205:752;205:520",
+							"points": "205:752;205:534",
 							"showVisibility": true,
 							"nameLabel": {
 								"$ref": "AAAAAAGHupcAgthOIhM="
@@ -22975,25 +22935,6 @@
 								"$ref": "AAAAAAGHuosp7n7z6iM="
 							},
 							"name": "getID"
-						},
-						{
-							"_type": "UMLOperation",
-							"_id": "AAAAAAGHupQGKJb9wno=",
-							"_parent": {
-								"$ref": "AAAAAAGHuosp7n7z6iM="
-							},
-							"name": "getMessage",
-							"parameters": [
-								{
-									"_type": "UMLParameter",
-									"_id": "AAAAAAGHupd5mNu+igo=",
-									"_parent": {
-										"$ref": "AAAAAAGHupQGKJb9wno="
-									},
-									"name": "text",
-									"type": "string"
-								}
-							]
 						}
 					]
 				},
@@ -23017,27 +22958,6 @@
 							"target": {
 								"$ref": "AAAAAAGHuosp7n7z6iM="
 							}
-						}
-					],
-					"operations": [
-						{
-							"_type": "UMLOperation",
-							"_id": "AAAAAAGHupE2LBH9PJk=",
-							"_parent": {
-								"$ref": "AAAAAAGHuo0D3aC8CPY="
-							},
-							"name": "startWorkWithATM",
-							"parameters": [
-								{
-									"_type": "UMLParameter",
-									"_id": "AAAAAAGHupLI4FepR4Y=",
-									"_parent": {
-										"$ref": "AAAAAAGHupE2LBH9PJk="
-									},
-									"name": "atm",
-									"type": "insideATM"
-								}
-							]
 						}
 					]
 				},
@@ -23068,6 +22988,15 @@
 								"$ref": "AAAAAAGHuo3PU7JeI7w="
 							},
 							"name": "getName"
+						},
+						{
+							"_type": "UMLOperation",
+							"_id": "AAAAAAGeIh1+QCfOl0Y=",
+							"_parent": {
+								"$ref": "AAAAAAGHuo3PU7JeI7w="
+							},
+							"name": "getRole",
+							"isAbstract": true
 						}
 					]
 				},
@@ -23091,29 +23020,6 @@
 							"target": {
 								"$ref": "AAAAAAGHuosp7n7z6iM="
 							}
-						}
-					],
-					"operations": [
-						{
-							"_type": "UMLOperation",
-							"_id": "AAAAAAGHupT/tp9xcJU=",
-							"_parent": {
-								"$ref": "AAAAAAGHupASevTuZ4I="
-							},
-							"name": "sendMessage",
-							"parameters": [
-								{
-									"_type": "UMLParameter",
-									"_id": "AAAAAAGHupXC86qCRIY=",
-									"_parent": {
-										"$ref": "AAAAAAGHupT/tp9xcJU="
-									},
-									"name": "reciever",
-									"type": {
-										"$ref": "AAAAAAGHuosp7n7z6iM="
-									}
-								}
-							]
 						}
 					]
 				},
