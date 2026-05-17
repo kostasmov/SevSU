@@ -1,0 +1,2 @@
+Лабы:	https://github.com/kostasmov/labs.local
+РГР:	https://github.com/kostasmov/BookLibrary-Web
