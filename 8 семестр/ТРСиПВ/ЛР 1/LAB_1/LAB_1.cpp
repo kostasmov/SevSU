@@ -2,26 +2,21 @@
 #include <iostream>
 #include <iomanip>
 #include <string>
-#include <cstring>
-#include <cmath>
 #include <fstream>
 
 using namespace std;
 
 void master();
 void slave();
-void send(int** matrix1, int** matrix2, int n, int cor, int i, int j, int comm);
-void printMatrix(int** matrix, int rows, int cols, string name);
+void printMatrix(int* matrix, int rows, int cols, string name);
 
-MPI_Status status;
-
-const int n = 3;    // Число строк матрицы 1
-const int m = 4;    // Число столбцов матрицы 1 | строк матрицы 2 
-const int k = 4;    // Число столбцов матрицы 2
+const int N = 3;    // Число строк матрицы 1
+const int M = 4;    // Число столбцов матрицы 1 | строк матрицы 2 
+const int K = 4;    // Число столбцов матрицы 2
 
 
 /*  Вариант 1 - Перемножение матриц
-    Программа умножает две матриц. Размеры матриц – n*m и m*k. 
+    Программа умножает две матрицы. Размеры матриц – N*M и M*K. 
     Каждый процесс определяет произведение одной строки матрицы 1 на все столбцы матрицы 2. 
     Результаты возвращаются в родительскую задачу. */
 
@@ -34,24 +29,29 @@ int main(int argc, char* argv[])
 
     rank ? slave() : master();              // нулевой процесс главный, остальные подчинённые
 
-    //MPI_Barrier(MPI_COMM_WORLD);
     MPI_Finalize();
-
     return 0;
 }
 
 
-// Главный процесс (планировщик заданий)
+// ====== Главный процесс (планировщик заданий) ======
 void master()
 {
-    //int size;
-    //MPI_Comm_size(MPI_COMM_WORLD, &size);
+    int size;                               // количество процессов
+    MPI_Comm_size(MPI_COMM_WORLD, &size);
 
-    //if (size == 1)
-    //{
-    //    cout << "You can't exec without slaves, you need at least 1 to go" << endl;
-    //    return;
-    //}
+    if (size <= N)
+    {
+        cout << "Can't complete work: not anough slave processes" << endl;
+        return;
+    }
+
+    // матрицы (множители)
+    int matrix1[N][M] = {};
+    int matrix2[M][K] = {};
+
+    // итоговая матрица-произведение
+    int result_matrix[N][K] = {};
 
     // ---------- Чтение матриц из файла ----------
     ifstream file("C:/matrix.txt");
@@ -60,149 +60,99 @@ void master()
         cout << "There is no input file" << endl;
         return;
     }
-
-    int** matrix1 = new int* [n];
-    int** matrix2 = new int* [m];
-
+    
     // чтение матрицы 1
-    for (int i = 0; i < n; i++)
+    for (int i = 0; i < N; i++)
     {
-        matrix1[i] = new int[m];
-        for (int j = 0; j < m; j++)
+        for (int j = 0; j < M; j++)
         {
             file >> matrix1[i][j];
         }
     }
 
     // чтение матрицы 2
-    for (int i = 0; i < m; i++)
+    for (int i = 0; i < M; i++)
     {
-        matrix2[i] = new int[k];
-        for (int j = 0; j < k; j++)
+        for (int j = 0; j < K; j++)
         {
             file >> matrix2[i][j];
         }
     }
 
     file.close();
-    // -------------------------------------------
+    // --------------------------------------------
 
-    printMatrix(matrix1, n, m, "Matrix 1");
-    printMatrix(matrix2, m, k, "Matrix 2");
+    printMatrix(&matrix1[0][0], N, M, "Matrix 1");
+    printMatrix(&matrix2[0][0], M, K, "Matrix 2");
 
-    //bool finished[size];
-    //memset(finished, 0, sizeof(finished));
-    //finished[0] = true;
+    MPI_Request send_request[N * 2] = {};   // дескрипторы отправок
 
-    //long long result[n][k];
+    // передача исполнителям строк и матрицы
+    for (int i = 0; i < N; i++)
+    {
+        MPI_Isend(matrix1[i], M, MPI_INT, i + 1, 1, MPI_COMM_WORLD, &send_request[i]);
+        MPI_Isend(matrix2, M * K, MPI_INT, i + 1, 2, MPI_COMM_WORLD, &send_request[N * 2 - i - 1]);
+    }
 
-    //int length = n * k;
-    //int j = 0;
-    //int in_work = 0;
+    MPI_Waitall(N * 2, send_request, MPI_STATUSES_IGNORE);
 
-    //for (int i = 1; i < size && j < length; i++)
-    //{
-    //    send(matrix1, matrix2, m, j, j / k, j % k, i);
-    //    finished[i] = true;
-    //    in_work++;
-    //    j++;
-    //}
+    MPI_Request recv_request[N] = {};   // дескрипторы возвратов
 
-    //long message[2];
-    //while (j < length || in_work > 0)
-    //{
-    //    MPI_Recv(message, 2, MPI_LONG_LONG, MPI_ANY_SOURCE, 1, MPI_COMM_WORLD, &status);
-    //    result[message[0] / k][message[0] % k] = message[1];
-    //    finished[status.MPI_SOURCE] = false;
-    //    in_work--;
+    // получение результатов
+    for (int i = 0; i < N; i++)
+    {
+        MPI_Irecv(result_matrix[i], K, MPI_INT, i + 1, 3, MPI_COMM_WORLD, &recv_request[i]);
+    }
 
-    //    if (j < length)
-    //    {
-    //        send(matrix1, matrix2, m, j, j / k, j % k, status.MPI_SOURCE);
-    //        finished[status.MPI_SOURCE] = true;
-    //        in_work++;
-    //        j++;
-    //    }
-    //}
+    MPI_Waitall(N, recv_request, MPI_STATUSES_IGNORE);
 
-    //// Sending tag 2 to stop slaves
-    //for (int i = 1; i < size; i++)
-    //{
-    //    int buffer[1];
-    //    MPI_Send(buffer, 0, MPI_LONG_LONG, i, 2, MPI_COMM_WORLD);
-    //}
-
-    //// Result printing
-    //for (int i = 0; i < n; i++)
-    //{
-    //    for (int j = 0; j < k; j++)
-    //    {
-    //        cout << result[i][j] << ' ';
-    //    }
-    //    cout << '\n';
-    //}
+    // вывод результата
+    printMatrix(&result_matrix[0][0], N, K, "Result matrix");
 }
 
-// Подчинённые процессы (вычислительные задачи)
+
+// ======= Подчинённые процессы (вычислительные задачи) =======
 void slave()
 {
-    int rank;               // номер процесса
-    int message[100];       // буфер 
-    //long long result[2];    // ??
+    MPI_Request get_request[3];
 
-    //MPI_Comm_rank(MPI_COMM_WORLD, &rank);
-    //bool working = true;
+    int row[M];         // буфер умножаемой строки
+    int matrix[M][K];   // матрица-множитель
 
-    //while (working)
-    //{
-    //    // принимаем условия задачи от главного процесса
-    //    MPI_Recv(message, 100, MPI_INT, 0, MPI_ANY_TAG, MPI_COMM_WORLD, &status);
+    int result[K] = {}; // строка-произведение
+    
+    // приём строки и матрицы для перемножения
+    MPI_Irecv(row, M, MPI_INT, 0, 1, MPI_COMM_WORLD, &get_request[0]);
+    MPI_Irecv(matrix, M * K, MPI_INT, 0, 2, MPI_COMM_WORLD, &get_request[1]);
 
-    //    // 
-    //    if (status.MPI_TAG == 2)
-    //    {
-    //        working = false;
-    //    }
-    //    else
-    //    {
-    //        int n = message[0];
-    //        long long result[2] = { message[1], 0 };
+    MPI_Waitall(2, get_request, MPI_STATUSES_IGNORE);
+    
+    // произведение строки на матрицу
+    for (int j = 0; j < K; j++)
+    {
+        result[j] = 0;
+        for (int i = 0; i < M; i++) 
+        {
+            result[j] += row[i] * matrix[i][j];
+        }
+    }
 
-    //        for (int i = 0; i < n; i++)
-    //        {
-    //            result[1] += message[2 + i] * message[2 + n + i];
-    //        }
-    //        printf("| Process: %d Result of multi: %d |\n", rank, result[1]);
-
-    //        MPI_Send(result, 2, MPI_LONG_LONG, 0, 1, MPI_COMM_WORLD);
-    //    }
-    //}
+    // отправка результата в master
+    MPI_Isend(result, K, MPI_INT, 0, 3, MPI_COMM_WORLD, &get_request[2]);
 }
 
-//
-void send(int** matrix1, int** matrix2, int n, int cor, int i, int j, int comm)
-{
-    //int buffer[100];
-    //buffer[0] = n;
-    //buffer[1] = cor;
-    //for (int l = 0; l < n; l++)
-    //    buffer[2 + l] = matrix1[i][l];
-    //for (int l = 0; l < n; l++)
-    //    buffer[2 + n + l] = matrix2[l][j];
-    //MPI_Send(buffer, 2 * n + 2, MPI_INT, comm, 1, MPI_COMM_WORLD);
-}
 
 // Вывод матрицы
-static void printMatrix(int** matrix, int rows, int cols, string name = "")
+static void printMatrix(int* matrix, int rows, int cols, string name = "")
 {
-    if (!name.empty())
+    if (!name.empty()) 
         cout << name << ":\n";
 
     for (int i = 0; i < rows; i++)
     {
         for (int j = 0; j < cols; j++)
         {
-            cout << setw(2) << matrix[i][j] << " ";
+            cout << setw(2) << matrix[i * cols + j] << " ";
         }
         cout << endl;
     }
