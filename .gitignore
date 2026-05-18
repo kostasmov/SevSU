@@ -3,3 +3,6 @@
 **/LibrarySQLApp.rar
 **/ВКР/материалы
 *.lnk
+
+**/.vs
+**/x64
