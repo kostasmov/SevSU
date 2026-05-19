@@ -37,10 +37,10 @@ int main(int argc, char* argv[])
 // ====== Главный процесс (планировщик заданий) ======
 void master()
 {
-    int size;                               // количество процессов
-    MPI_Comm_size(MPI_COMM_WORLD, &size);
+    int proc_count;                               // количество процессов
+    MPI_Comm_size(MPI_COMM_WORLD, &proc_count);
 
-    if (size <= N)
+    if (proc_count <= N)
     {
         cout << "Can't complete work: not anough slave processes" << endl;
         return;
@@ -87,7 +87,7 @@ void master()
 
     MPI_Request send_request[N * 2] = {};   // дескрипторы отправок
 
-    // передача исполнителям строк и матрицы
+    // отправление исполнителям строк и матрицы
     for (int i = 0; i < N; i++)
     {
         MPI_Isend(matrix1[i], M, MPI_INT, i + 1, 1, MPI_COMM_WORLD, &send_request[i]);
