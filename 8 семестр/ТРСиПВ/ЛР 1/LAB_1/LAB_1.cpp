@@ -86,6 +86,7 @@ void master()
     printMatrix(&matrix2[0][0], M, K, "Matrix 2");
 
     MPI_Request send_request[N * 2] = {};   // дескрипторы отправок
+    MPI_Request recv_request[N] = {};       // дескрипторы возвратов
 
     // отправление исполнителям строк и матрицы
     for (int i = 0; i < N; i++)
@@ -95,8 +96,6 @@ void master()
     }
 
     MPI_Waitall(N * 2, send_request, MPI_STATUSES_IGNORE);
-
-    MPI_Request recv_request[N] = {};   // дескрипторы возвратов
 
     // получение результатов
     for (int i = 0; i < N; i++)
