@@ -1,193 +1,256 @@
 <mxfile host="Electron" pages="2">
   <diagram name="DFD" id="mo806v944rZtwxLzmnAA">
-    <mxGraphModel dx="636" dy="456" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+    <mxGraphModel dx="816" dy="524" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
-        <mxCell id="bPZZlISa8Zn4KZ80y2I3-25" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;entryPerimeter=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" target="bPZZlISa8Zn4KZ80y2I3-12">
+        <mxCell id="G5_L5BGj42o9LCg_BFvx-21" edge="1" parent="1" source="bPZZlISa8Zn4KZ80y2I3-12" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0.5;exitDx=0;exitDy=40;exitPerimeter=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" target="bPZZlISa8Zn4KZ80y2I3-37">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="420" y="370" />
+              <mxPoint x="420" y="370" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="G5_L5BGj42o9LCg_BFvx-22" connectable="0" parent="G5_L5BGj42o9LCg_BFvx-21" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="Набор параметров задачи" vertex="1">
+          <mxGeometry relative="1" x="-0.1492" y="-1" as="geometry">
+            <mxPoint x="1" y="9" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="G5_L5BGj42o9LCg_BFvx-23" edge="1" parent="1" source="bPZZlISa8Zn4KZ80y2I3-12" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" target="bPZZlISa8Zn4KZ80y2I3-31">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="420" y="370" />
+              <mxPoint x="540" y="370" />
+              <mxPoint x="540" y="460" />
+              <mxPoint x="420" y="460" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="G5_L5BGj42o9LCg_BFvx-24" connectable="0" parent="G5_L5BGj42o9LCg_BFvx-23" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="Расписание пакетов задач" vertex="1">
+          <mxGeometry relative="1" x="0.6228" y="-1" as="geometry">
+            <mxPoint x="-42" y="11" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="bPZZlISa8Zn4KZ80y2I3-12" parent="1" style="html=1;dashed=0;whiteSpace=wrap;shape=mxgraph.dfd.start" value="0&lt;br&gt;Составление оптимального расписания выполнения пакетов задач в конвейерной системе с учётом ПТО" vertex="1">
+          <mxGeometry height="90" width="200" x="320" y="265" as="geometry" />
+        </mxCell>
+        <mxCell id="bPZZlISa8Zn4KZ80y2I3-34" parent="1" style="html=1;dashed=0;whiteSpace=wrap;" value="Пользователь (оператор)" vertex="1">
+          <mxGeometry height="80" width="120" x="40" y="270" as="geometry" />
+        </mxCell>
+        <mxCell id="G5_L5BGj42o9LCg_BFvx-5" edge="1" parent="1" source="bPZZlISa8Zn4KZ80y2I3-34" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.25;exitDx=0;exitDy=0;entryX=0.024;entryY=0.279;entryDx=0;entryDy=0;entryPerimeter=0;" target="bPZZlISa8Zn4KZ80y2I3-12">
           <mxGeometry relative="1" as="geometry">
             <Array as="points" />
-            <mxPoint x="245" y="295" as="sourcePoint" />
-            <mxPoint x="314" y="251" as="targetPoint" />
+            <mxPoint x="310" y="290" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="bPZZlISa8Zn4KZ80y2I3-26" connectable="0" parent="bPZZlISa8Zn4KZ80y2I3-25" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="Параметры&lt;br&gt;производственной&lt;br&gt;задачи" vertex="1">
-          <mxGeometry relative="1" x="-0.1667" y="-2" as="geometry">
-            <mxPoint x="5" y="-28" as="offset" />
+        <mxCell id="G5_L5BGj42o9LCg_BFvx-7" connectable="0" parent="G5_L5BGj42o9LCg_BFvx-5" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="Входные параметры задачи" vertex="1">
+          <mxGeometry relative="1" x="-0.0551" y="1" as="geometry">
+            <mxPoint x="2" y="-9" as="offset" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="bPZZlISa8Zn4KZ80y2I3-22" edge="1" parent="1" source="bPZZlISa8Zn4KZ80y2I3-12" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0;exitDx=158.28;exitDy=11.720000000000002;exitPerimeter=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="bPZZlISa8Zn4KZ80y2I3-34">
-          <mxGeometry relative="1" as="geometry">
-            <mxPoint x="608" y="233" as="targetPoint" />
-          </mxGeometry>
-        </mxCell>
-        <mxCell id="bPZZlISa8Zn4KZ80y2I3-23" connectable="0" parent="bPZZlISa8Zn4KZ80y2I3-22" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="Оптимальное расписание &lt;br&gt;выполнения пакетов &lt;br&gt;задач" vertex="1">
-          <mxGeometry relative="1" x="-0.3476" y="-1" as="geometry">
-            <mxPoint x="29" y="-27" as="offset" />
-          </mxGeometry>
-        </mxCell>
-        <mxCell id="bPZZlISa8Zn4KZ80y2I3-33" edge="1" parent="1" source="bPZZlISa8Zn4KZ80y2I3-12" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0;exitDx=158.28;exitDy=68.28;exitPerimeter=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="bPZZlISa8Zn4KZ80y2I3-32">
+        <mxCell id="G5_L5BGj42o9LCg_BFvx-6" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=1;entryY=0.75;entryDx=0;entryDy=0;" target="bPZZlISa8Zn4KZ80y2I3-34">
           <mxGeometry relative="1" as="geometry">
             <Array as="points">
-              <mxPoint x="600" y="323" />
+              <mxPoint x="325" y="330" />
             </Array>
-            <mxPoint x="534" y="314" as="sourcePoint" />
-            <mxPoint x="688" y="324" as="targetPoint" />
+            <mxPoint x="325" y="330" as="sourcePoint" />
+            <mxPoint x="199.99999999999994" y="330.04" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="bPZZlISa8Zn4KZ80y2I3-36" connectable="0" parent="bPZZlISa8Zn4KZ80y2I3-33" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="Документ с результатами&lt;br&gt;оптимизации" vertex="1">
-          <mxGeometry relative="1" x="-0.0179" y="-4" as="geometry">
-            <mxPoint x="2" y="-24" as="offset" />
+        <mxCell id="G5_L5BGj42o9LCg_BFvx-8" connectable="0" parent="G5_L5BGj42o9LCg_BFvx-6" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="Оптимальное расписание &lt;br&gt;(состав пакетов, порядок&amp;nbsp;&lt;div&gt;выполнения на приборах, &lt;br&gt;сеансы ПТО)&lt;/div&gt;" vertex="1">
+          <mxGeometry relative="1" x="0.0748" y="-2" as="geometry">
+            <mxPoint x="13" y="32" as="offset" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="bPZZlISa8Zn4KZ80y2I3-12" parent="1" style="html=1;dashed=0;whiteSpace=wrap;shape=mxgraph.dfd.start" value="Составление оптимального расписания обработки пакетированных задач" vertex="1">
-          <mxGeometry height="80" width="170" x="370" y="255" as="geometry" />
+        <mxCell id="G5_L5BGj42o9LCg_BFvx-11" parent="1" style="html=1;dashed=0;whiteSpace=wrap;" value="IBM ILOG CPLEX (решатель задач)" vertex="1">
+          <mxGeometry height="80" width="120" x="680" y="270" as="geometry" />
         </mxCell>
-        <mxCell id="bPZZlISa8Zn4KZ80y2I3-27" edge="1" parent="1" source="bPZZlISa8Zn4KZ80y2I3-31" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.437;exitY=0.004;exitDx=0;exitDy=0;entryX=0.5;entryY=0.5;entryDx=0;entryDy=40;entryPerimeter=0;exitPerimeter=0;edgeStyle=orthogonalEdgeStyle;" target="bPZZlISa8Zn4KZ80y2I3-12">
+        <mxCell id="G5_L5BGj42o9LCg_BFvx-16" edge="1" parent="1" source="G5_L5BGj42o9LCg_BFvx-11" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.25;exitDx=0;exitDy=0;verticalAlign=middle;startArrow=classic;startFill=1;endArrow=none;endFill=0;">
           <mxGeometry relative="1" as="geometry">
             <Array as="points">
-              <mxPoint x="455" y="420" />
+              <mxPoint x="515" y="290" />
             </Array>
-            <mxPoint x="455" y="415" as="sourcePoint" />
+            <mxPoint x="520" y="290" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="bPZZlISa8Zn4KZ80y2I3-28" connectable="0" parent="bPZZlISa8Zn4KZ80y2I3-27" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="Параметры приборов&lt;br&gt;конвейера и их ПТО" vertex="1">
-          <mxGeometry relative="1" x="-0.1089" y="2" as="geometry">
-            <mxPoint x="5" y="-6" as="offset" />
+        <mxCell id="G5_L5BGj42o9LCg_BFvx-19" connectable="0" parent="G5_L5BGj42o9LCg_BFvx-16" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="Модель MILP (переменные, &lt;br&gt;ограничения, вектора &lt;br&gt;значений)" vertex="1">
+          <mxGeometry relative="1" x="-0.0761" y="1" as="geometry">
+            <mxPoint x="-3" y="-31" as="offset" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="bPZZlISa8Zn4KZ80y2I3-31" parent="1" style="html=1;dashed=0;whiteSpace=wrap;shape=mxgraph.dfd.dataStoreID;align=right;spacingLeft=3;points=[[0,0],[0.5,0],[1,0],[0,0.5],[1,0.5],[0,1],[0.5,1],[1,1]];" value="Информация о конвейере" vertex="1">
-          <mxGeometry height="30" width="182" x="367" y="418" as="geometry" />
+        <mxCell id="G5_L5BGj42o9LCg_BFvx-17" edge="1" parent="1" source="G5_L5BGj42o9LCg_BFvx-11" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.75;exitDx=0;exitDy=0;entryX=0.976;entryY=0.752;entryDx=0;entryDy=0;entryPerimeter=0;" target="bPZZlISa8Zn4KZ80y2I3-12">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="680" y="333" />
+              <mxPoint x="600" y="333" />
+            </Array>
+          </mxGeometry>
         </mxCell>
-        <mxCell id="bPZZlISa8Zn4KZ80y2I3-32" parent="1" style="html=1;dashed=0;whiteSpace=wrap;shape=mxgraph.dfd.dataStoreID;align=right;spacingLeft=3;points=[[0,0],[0.5,0],[1,0],[0,0.5],[1,0.5],[0,1],[0.5,1],[1,1]];" value="Архив расписаний" vertex="1">
-          <mxGeometry height="30" width="140" x="691" y="308" as="geometry" />
+        <mxCell id="G5_L5BGj42o9LCg_BFvx-20" connectable="0" parent="G5_L5BGj42o9LCg_BFvx-17" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="Значения результирующих &lt;br&gt;параметров" vertex="1">
+          <mxGeometry relative="1" x="0.1922" y="-1" as="geometry">
+            <mxPoint x="20" y="21" as="offset" />
+          </mxGeometry>
         </mxCell>
-        <mxCell id="bPZZlISa8Zn4KZ80y2I3-34" parent="1" style="html=1;dashed=0;whiteSpace=wrap;" value="Пользователь" vertex="1">
-          <mxGeometry height="40" width="120" x="691" y="246" as="geometry" />
+        <mxCell id="QpJxfP00guwmXGXqoTbK-2" connectable="0" parent="1" style="group" value="" vertex="1">
+          <mxGeometry height="40" width="200" x="320" y="400" as="geometry" />
         </mxCell>
-        <mxCell id="bPZZlISa8Zn4KZ80y2I3-37" parent="1" style="html=1;dashed=0;whiteSpace=wrap;shape=mxgraph.dfd.dataStoreID;align=right;spacingLeft=3;points=[[0,0],[0.5,0],[1,0],[0,0.5],[1,0.5],[0,1],[0.5,1],[1,1]];" value="&lt;span style=&quot;text-align: center;&quot;&gt;Список заданий и их характеристики&lt;/span&gt;" vertex="1">
-          <mxGeometry height="40" width="158" x="87" y="275" as="geometry" />
+        <mxCell id="bPZZlISa8Zn4KZ80y2I3-37" parent="QpJxfP00guwmXGXqoTbK-2" style="html=1;dashed=0;whiteSpace=wrap;shape=mxgraph.dfd.dataStoreID;align=center;spacingLeft=3;points=[[0,0],[0.5,0],[1,0],[0,0.5],[1,0.5],[0,1],[0.5,1],[1,1]];" value="&lt;span style=&quot;&quot;&gt;Файл с параметрами&lt;/span&gt;" vertex="1">
+          <mxGeometry height="40" width="200" as="geometry" />
+        </mxCell>
+        <mxCell id="QpJxfP00guwmXGXqoTbK-1" parent="QpJxfP00guwmXGXqoTbK-2" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="D1" vertex="1">
+          <mxGeometry height="30" width="30" y="5" as="geometry" />
+        </mxCell>
+        <mxCell id="QpJxfP00guwmXGXqoTbK-5" connectable="0" parent="1" style="group" value="" vertex="1">
+          <mxGeometry height="40" width="200" x="320" y="490" as="geometry" />
+        </mxCell>
+        <mxCell id="bPZZlISa8Zn4KZ80y2I3-31" parent="QpJxfP00guwmXGXqoTbK-5" style="html=1;dashed=0;whiteSpace=wrap;shape=mxgraph.dfd.dataStoreID;align=center;spacingLeft=3;points=[[0,0],[0.5,0],[1,0],[0,0.5],[1,0.5],[0,1],[0.5,1],[1,1]];" value="Архив расписаний" vertex="1">
+          <mxGeometry height="40" width="200" as="geometry" />
+        </mxCell>
+        <mxCell id="QpJxfP00guwmXGXqoTbK-3" parent="QpJxfP00guwmXGXqoTbK-5" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="D2" vertex="1">
+          <mxGeometry height="30" width="30" y="5" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
   </diagram>
   <diagram name="DFD decompose" id="yZlUQ_zTXnKlMwhLdB4-">
-    <mxGraphModel dx="1255" dy="655" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+    <mxGraphModel dx="1138" dy="216" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
         <mxCell id="Q1I2YEHAu7ZJnoiD90BB-0" />
         <mxCell id="Q1I2YEHAu7ZJnoiD90BB-1" parent="Q1I2YEHAu7ZJnoiD90BB-0" />
-        <mxCell id="Q1I2YEHAu7ZJnoiD90BB-4" edge="1" parent="Q1I2YEHAu7ZJnoiD90BB-1" source="Q1I2YEHAu7ZJnoiD90BB-8" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;entryPerimeter=0;" target="KP8m-EX4QzJ9SFeA1Wx3-5">
-          <mxGeometry relative="1" as="geometry">
-            <mxPoint x="840" y="520.19" as="sourcePoint" />
-            <mxPoint x="952.72" y="519.4699999999999" as="targetPoint" />
-          </mxGeometry>
+        <mxCell id="nXpuAibHiEYlrnfpXQvQ-5" parent="Q1I2YEHAu7ZJnoiD90BB-1" style="html=1;dashed=0;whiteSpace=wrap;shape=mxgraph.dfd.dataStoreID;align=center;spacingLeft=3;points=[[0,0],[0.5,0],[1,0],[0,0.5],[1,0.5],[0,1],[0.5,1],[1,1]];" value="Архив расписаний" vertex="1">
+          <mxGeometry height="40" width="200" x="1040" y="940" as="geometry" />
         </mxCell>
-        <mxCell id="KP8m-EX4QzJ9SFeA1Wx3-22" connectable="0" parent="Q1I2YEHAu7ZJnoiD90BB-4" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="&quot;Сырые&quot; вектора &lt;br&gt;результирующих &lt;br&gt;параметров" vertex="1">
-          <mxGeometry relative="1" x="0.0196" y="3" as="geometry">
-            <mxPoint x="-1" y="-27" as="offset" />
-          </mxGeometry>
+        <mxCell id="nXpuAibHiEYlrnfpXQvQ-6" parent="Q1I2YEHAu7ZJnoiD90BB-1" style="html=1;dashed=0;whiteSpace=wrap;" value="Пользователь (оператор)" vertex="1">
+          <mxGeometry height="80" width="120" x="160" y="800" as="geometry" />
         </mxCell>
-        <mxCell id="Q1I2YEHAu7ZJnoiD90BB-6" edge="1" parent="Q1I2YEHAu7ZJnoiD90BB-1" source="Q1I2YEHAu7ZJnoiD90BB-8" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0.5;exitDx=0;exitDy=-40;exitPerimeter=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" target="Q1I2YEHAu7ZJnoiD90BB-12">
-          <mxGeometry relative="1" as="geometry">
-            <Array as="points" />
-            <mxPoint x="690" y="380.2800000000002" as="sourcePoint" />
-            <mxPoint x="730" y="390" as="targetPoint" />
-          </mxGeometry>
+        <mxCell id="nXpuAibHiEYlrnfpXQvQ-12" parent="Q1I2YEHAu7ZJnoiD90BB-1" style="html=1;dashed=0;whiteSpace=wrap;" value="IBM ILOG CPLEX (решатель задач)" vertex="1">
+          <mxGeometry height="80" width="120" x="850" y="950" as="geometry" />
         </mxCell>
-        <mxCell id="KP8m-EX4QzJ9SFeA1Wx3-16" connectable="0" parent="Q1I2YEHAu7ZJnoiD90BB-6" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="Результаты &lt;br&gt;выполнения оптимизации" vertex="1">
-          <mxGeometry relative="1" x="0.1368" y="-3" as="geometry">
+        <mxCell id="brrGvNQB_5AKiFY4alIZ-14" edge="1" parent="Q1I2YEHAu7ZJnoiD90BB-1" source="brrGvNQB_5AKiFY4alIZ-0" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0.5;exitDx=0;exitDy=40;exitPerimeter=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" target="nXpuAibHiEYlrnfpXQvQ-7">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="HSYwaSbYST0q-WANGJP_-2" connectable="0" parent="brrGvNQB_5AKiFY4alIZ-14" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="Структура парметров" vertex="1">
+          <mxGeometry relative="1" x="-0.2614" as="geometry">
             <mxPoint as="offset" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="Q1I2YEHAu7ZJnoiD90BB-8" parent="Q1I2YEHAu7ZJnoiD90BB-1" style="html=1;dashed=0;whiteSpace=wrap;shape=mxgraph.dfd.start" value="Составление оптимального расписания обработки пакетированных задач" vertex="1">
-          <mxGeometry height="80" width="170" x="650" y="480" as="geometry" />
+        <mxCell id="brrGvNQB_5AKiFY4alIZ-0" parent="Q1I2YEHAu7ZJnoiD90BB-1" style="html=1;dashed=0;whiteSpace=wrap;shape=mxgraph.dfd.start" value="1.1&lt;br&gt;Ввод и валидация исходных данных" vertex="1">
+          <mxGeometry height="80" width="120" x="360" y="800" as="geometry" />
         </mxCell>
-        <mxCell id="Q1I2YEHAu7ZJnoiD90BB-9" edge="1" parent="Q1I2YEHAu7ZJnoiD90BB-1" source="KP8m-EX4QzJ9SFeA1Wx3-9" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;edgeStyle=orthogonalEdgeStyle;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=0.5;entryDx=0;entryDy=40;entryPerimeter=0;" target="KP8m-EX4QzJ9SFeA1Wx3-0">
-          <mxGeometry relative="1" as="geometry">
-            <Array as="points">
-              <mxPoint x="452" y="643" />
-            </Array>
-            <mxPoint x="451.9939999999999" y="642.9100000000001" as="sourcePoint" />
-            <mxPoint x="480" y="570" as="targetPoint" />
-          </mxGeometry>
-        </mxCell>
-        <mxCell id="Q1I2YEHAu7ZJnoiD90BB-10" connectable="0" parent="Q1I2YEHAu7ZJnoiD90BB-9" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="Параметры приборов&lt;br&gt;конвейера и их ПТО" vertex="1">
-          <mxGeometry relative="1" x="-0.1089" y="2" as="geometry">
-            <mxPoint x="-15" y="-45" as="offset" />
-          </mxGeometry>
-        </mxCell>
-        <mxCell id="Q1I2YEHAu7ZJnoiD90BB-12" parent="Q1I2YEHAu7ZJnoiD90BB-1" style="html=1;dashed=0;whiteSpace=wrap;shape=mxgraph.dfd.dataStoreID;align=right;spacingLeft=3;points=[[0,0],[0.5,0],[1,0],[0,0.5],[1,0.5],[0,1],[0.5,1],[1,1]];" value="Архив расписаний" vertex="1">
-          <mxGeometry height="30" width="140" x="665" y="380" as="geometry" />
-        </mxCell>
-        <mxCell id="Q1I2YEHAu7ZJnoiD90BB-13" parent="Q1I2YEHAu7ZJnoiD90BB-1" style="html=1;dashed=0;whiteSpace=wrap;" value="Пользователь" vertex="1">
-          <mxGeometry height="40" width="120" x="1241" y="500" as="geometry" />
-        </mxCell>
-        <mxCell id="Q1I2YEHAu7ZJnoiD90BB-14" parent="Q1I2YEHAu7ZJnoiD90BB-1" style="html=1;dashed=0;whiteSpace=wrap;shape=mxgraph.dfd.dataStoreID;align=right;spacingLeft=3;points=[[0,0],[0.5,0],[1,0],[0,0.5],[1,0.5],[0,1],[0.5,1],[1,1]];" value="&lt;span style=&quot;text-align: center;&quot;&gt;Список заданий и их характеристики&lt;/span&gt;" vertex="1">
-          <mxGeometry height="40" width="158" x="130" y="500" as="geometry" />
-        </mxCell>
-        <mxCell id="KP8m-EX4QzJ9SFeA1Wx3-0" parent="Q1I2YEHAu7ZJnoiD90BB-1" style="html=1;dashed=0;whiteSpace=wrap;shape=mxgraph.dfd.start" value="Валидация и составление структуры входных параметров" vertex="1">
-          <mxGeometry height="80" width="170" x="367" y="480" as="geometry" />
-        </mxCell>
-        <mxCell id="KP8m-EX4QzJ9SFeA1Wx3-1" edge="1" parent="Q1I2YEHAu7ZJnoiD90BB-1" source="Q1I2YEHAu7ZJnoiD90BB-14" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;entryPerimeter=0;" target="KP8m-EX4QzJ9SFeA1Wx3-0">
+        <mxCell id="HSYwaSbYST0q-WANGJP_-1" edge="1" parent="Q1I2YEHAu7ZJnoiD90BB-1" source="brrGvNQB_5AKiFY4alIZ-1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" target="HSYwaSbYST0q-WANGJP_-0">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="KP8m-EX4QzJ9SFeA1Wx3-2" connectable="0" parent="KP8m-EX4QzJ9SFeA1Wx3-1" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="Параметры &lt;br&gt;заданий" vertex="1">
-          <mxGeometry relative="1" x="-0.1352" as="geometry">
-            <mxPoint x="8" y="-20" as="offset" />
+        <mxCell id="HSYwaSbYST0q-WANGJP_-3" connectable="0" parent="HSYwaSbYST0q-WANGJP_-1" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="Объект модели MILP" vertex="1">
+          <mxGeometry relative="1" x="-0.1919" y="3" as="geometry">
+            <mxPoint as="offset" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="KP8m-EX4QzJ9SFeA1Wx3-20" edge="1" parent="Q1I2YEHAu7ZJnoiD90BB-1" source="KP8m-EX4QzJ9SFeA1Wx3-5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="Q1I2YEHAu7ZJnoiD90BB-13">
-          <mxGeometry relative="1" as="geometry" />
+        <mxCell id="brrGvNQB_5AKiFY4alIZ-1" parent="Q1I2YEHAu7ZJnoiD90BB-1" style="html=1;dashed=0;whiteSpace=wrap;shape=mxgraph.dfd.start" value="1.2&lt;br&gt;Построение расширенной модели MILP" vertex="1">
+          <mxGeometry height="80" width="120" x="600" y="800" as="geometry" />
         </mxCell>
-        <mxCell id="KP8m-EX4QzJ9SFeA1Wx3-21" connectable="0" parent="KP8m-EX4QzJ9SFeA1Wx3-20" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="Оптимальное расписание&lt;br&gt;выполнения пакетов&lt;br&gt;задач" vertex="1">
-          <mxGeometry relative="1" x="0.1164" y="-3" as="geometry">
-            <mxPoint x="-14" y="-33" as="offset" />
+        <mxCell id="HSYwaSbYST0q-WANGJP_-8" edge="1" parent="Q1I2YEHAu7ZJnoiD90BB-1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0.5;exitDx=0;exitDy=40;exitPerimeter=0;entryX=0.334;entryY=0.03;entryDx=0;entryDy=0;entryPerimeter=0;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="900" y="877.6000000000001" as="sourcePoint" />
+            <mxPoint x="900.08" y="950" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="KP8m-EX4QzJ9SFeA1Wx3-5" parent="Q1I2YEHAu7ZJnoiD90BB-1" style="html=1;dashed=0;whiteSpace=wrap;shape=mxgraph.dfd.start" value="Обработка и вывод результатов оптимизации&amp;nbsp;" vertex="1">
-          <mxGeometry height="80" width="170" x="940" y="480" as="geometry" />
-        </mxCell>
-        <mxCell id="KP8m-EX4QzJ9SFeA1Wx3-6" edge="1" parent="Q1I2YEHAu7ZJnoiD90BB-1" source="KP8m-EX4QzJ9SFeA1Wx3-0" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;entryPerimeter=0;" target="Q1I2YEHAu7ZJnoiD90BB-8">
-          <mxGeometry relative="1" as="geometry" />
-        </mxCell>
-        <mxCell id="KP8m-EX4QzJ9SFeA1Wx3-7" connectable="0" parent="KP8m-EX4QzJ9SFeA1Wx3-6" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="&amp;nbsp;Валидированные&lt;br&gt;параметры задачи" vertex="1">
-          <mxGeometry relative="1" x="-0.1388" y="1" as="geometry">
-            <mxPoint x="2" y="-19" as="offset" />
+        <mxCell id="HSYwaSbYST0q-WANGJP_-10" connectable="0" parent="HSYwaSbYST0q-WANGJP_-8" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="Расширенная &lt;br&gt;модель MILP" vertex="1">
+          <mxGeometry relative="1" x="-0.3793" y="1" as="geometry">
+            <mxPoint x="-51" y="15" as="offset" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="KP8m-EX4QzJ9SFeA1Wx3-9" parent="Q1I2YEHAu7ZJnoiD90BB-1" style="html=1;dashed=0;whiteSpace=wrap;shape=mxgraph.dfd.dataStoreID;align=center;spacingLeft=3;points=[[0,0],[0.5,0],[1,0],[0,0.5],[1,0.5],[0,1],[0.5,1],[1,1]];" value="Хранилище данных" vertex="1">
-          <mxGeometry height="30" width="340" x="360" y="643" as="geometry" />
+        <mxCell id="brrGvNQB_5AKiFY4alIZ-2" parent="Q1I2YEHAu7ZJnoiD90BB-1" style="html=1;dashed=0;whiteSpace=wrap;shape=mxgraph.dfd.start" value="1.3&lt;br&gt;Решение задачи оптимизации" vertex="1">
+          <mxGeometry height="80" width="120" x="850" y="800" as="geometry" />
         </mxCell>
-        <mxCell id="KP8m-EX4QzJ9SFeA1Wx3-10" edge="1" parent="Q1I2YEHAu7ZJnoiD90BB-1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0.5;entryDx=0;entryDy=40;entryPerimeter=0;exitX=0.934;exitY=-0.015;exitDx=0;exitDy=0;exitPerimeter=0;">
+        <mxCell id="brrGvNQB_5AKiFY4alIZ-12" edge="1" parent="Q1I2YEHAu7ZJnoiD90BB-1" source="brrGvNQB_5AKiFY4alIZ-3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" target="nXpuAibHiEYlrnfpXQvQ-6">
           <mxGeometry relative="1" as="geometry">
             <Array as="points">
-              <mxPoint x="681.4" y="643.39" />
+              <mxPoint x="1240" y="840" />
+              <mxPoint x="1240" y="760" />
+              <mxPoint x="220" y="760" />
             </Array>
-            <mxPoint x="680.0000000000001" y="642.9400000000002" as="sourcePoint" />
-            <mxPoint x="681.4" y="560.39" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="KP8m-EX4QzJ9SFeA1Wx3-11" connectable="0" parent="KP8m-EX4QzJ9SFeA1Wx3-10" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="Шаблон &lt;br&gt;модели MILP" vertex="1">
-          <mxGeometry relative="1" x="0.087" y="-1" as="geometry">
-            <mxPoint x="-2" y="1" as="offset" />
+        <mxCell id="brrGvNQB_5AKiFY4alIZ-13" connectable="0" parent="brrGvNQB_5AKiFY4alIZ-12" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="Оптимальное расписание выполнения пакетов задач с учётом ПТО приборов + диаграмма Ганта" vertex="1">
+          <mxGeometry relative="1" x="0.0172" y="1" as="geometry">
+            <mxPoint x="1" y="-11" as="offset" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="KP8m-EX4QzJ9SFeA1Wx3-17" parent="Q1I2YEHAu7ZJnoiD90BB-1" style="html=1;dashed=0;whiteSpace=wrap;shape=mxgraph.dfd.dataStoreID;align=right;spacingLeft=3;points=[[0,0],[0.5,0],[1,0],[0,0.5],[1,0.5],[0,1],[0.5,1],[1,1]];" value="Библиотеки CPLEX (программа-оптимизатор)" vertex="1">
-          <mxGeometry height="30" width="220" x="730" y="643" as="geometry" />
+        <mxCell id="HSYwaSbYST0q-WANGJP_-12" edge="1" parent="Q1I2YEHAu7ZJnoiD90BB-1" source="brrGvNQB_5AKiFY4alIZ-3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0.5;exitDx=0;exitDy=40;exitPerimeter=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" target="nXpuAibHiEYlrnfpXQvQ-5">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="KP8m-EX4QzJ9SFeA1Wx3-18" edge="1" parent="Q1I2YEHAu7ZJnoiD90BB-1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.693;entryY=0.981;entryDx=0;entryDy=0;entryPerimeter=0;">
+        <mxCell id="HSYwaSbYST0q-WANGJP_-13" connectable="0" parent="HSYwaSbYST0q-WANGJP_-12" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="Расписания пакетов задач" vertex="1">
+          <mxGeometry relative="1" x="-0.2111" y="-3" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="brrGvNQB_5AKiFY4alIZ-3" parent="Q1I2YEHAu7ZJnoiD90BB-1" style="html=1;dashed=0;whiteSpace=wrap;shape=mxgraph.dfd.start" value="1.4&lt;br&gt;Постобработка и вывод результатов" vertex="1">
+          <mxGeometry height="80" width="120" x="1080" y="800" as="geometry" />
+        </mxCell>
+        <mxCell id="brrGvNQB_5AKiFY4alIZ-4" edge="1" parent="Q1I2YEHAu7ZJnoiD90BB-1" source="brrGvNQB_5AKiFY4alIZ-0" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;entryPerimeter=0;" target="brrGvNQB_5AKiFY4alIZ-1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="brrGvNQB_5AKiFY4alIZ-5" connectable="0" parent="brrGvNQB_5AKiFY4alIZ-4" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="Объект &lt;br&gt;валидированных &lt;br&gt;параметров" vertex="1">
+          <mxGeometry relative="1" x="-0.525" y="2" as="geometry">
+            <mxPoint x="31" y="-28" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="brrGvNQB_5AKiFY4alIZ-6" edge="1" parent="Q1I2YEHAu7ZJnoiD90BB-1" source="brrGvNQB_5AKiFY4alIZ-1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;entryPerimeter=0;" target="brrGvNQB_5AKiFY4alIZ-2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="brrGvNQB_5AKiFY4alIZ-7" connectable="0" parent="brrGvNQB_5AKiFY4alIZ-6" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="Объект модели &lt;br&gt;MILP (переменные,&amp;nbsp;&lt;div&gt;ограничения, значения&amp;nbsp;&lt;/div&gt;&lt;div&gt;параметров)&lt;/div&gt;" vertex="1">
+          <mxGeometry relative="1" x="-0.275" y="3" as="geometry">
+            <mxPoint x="13" y="-27" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="brrGvNQB_5AKiFY4alIZ-8" edge="1" parent="Q1I2YEHAu7ZJnoiD90BB-1" source="brrGvNQB_5AKiFY4alIZ-2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;entryPerimeter=0;" target="brrGvNQB_5AKiFY4alIZ-3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="brrGvNQB_5AKiFY4alIZ-9" connectable="0" parent="brrGvNQB_5AKiFY4alIZ-8" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="Вектора значений&lt;br&gt;результирующих &lt;br&gt;параметров" vertex="1">
+          <mxGeometry relative="1" x="-0.3" y="1" as="geometry">
+            <mxPoint x="11" y="-29" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="brrGvNQB_5AKiFY4alIZ-10" edge="1" parent="Q1I2YEHAu7ZJnoiD90BB-1" source="nXpuAibHiEYlrnfpXQvQ-6" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;entryPerimeter=0;" target="brrGvNQB_5AKiFY4alIZ-0">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="brrGvNQB_5AKiFY4alIZ-11" connectable="0" parent="brrGvNQB_5AKiFY4alIZ-10" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="Входные &lt;br&gt;параметры &lt;br&gt;задачи" vertex="1">
+          <mxGeometry relative="1" x="-0.3575" y="-2" as="geometry">
+            <mxPoint x="14" y="-32" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="HSYwaSbYST0q-WANGJP_-5" connectable="0" parent="Q1I2YEHAu7ZJnoiD90BB-1" style="group" value="" vertex="1">
+          <mxGeometry height="40" width="185" x="567.5" y="940" as="geometry" />
+        </mxCell>
+        <mxCell id="HSYwaSbYST0q-WANGJP_-0" parent="HSYwaSbYST0q-WANGJP_-5" style="html=1;dashed=0;whiteSpace=wrap;shape=mxgraph.dfd.dataStoreID;align=center;spacingLeft=3;points=[[0,0],[0.5,0],[1,0],[0,0.5],[1,0.5],[0,1],[0.5,1],[1,1]];" value="&amp;nbsp; &amp;nbsp;Файл с моделью" vertex="1">
+          <mxGeometry height="40" width="185" as="geometry" />
+        </mxCell>
+        <mxCell id="HSYwaSbYST0q-WANGJP_-4" parent="HSYwaSbYST0q-WANGJP_-5" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="D2" vertex="1">
+          <mxGeometry height="30" width="30" y="5" as="geometry" />
+        </mxCell>
+        <mxCell id="HSYwaSbYST0q-WANGJP_-7" connectable="0" parent="Q1I2YEHAu7ZJnoiD90BB-1" style="group" value="" vertex="1">
+          <mxGeometry height="40" width="185" x="327.5" y="940" as="geometry" />
+        </mxCell>
+        <mxCell id="nXpuAibHiEYlrnfpXQvQ-7" parent="HSYwaSbYST0q-WANGJP_-7" style="html=1;dashed=0;whiteSpace=wrap;shape=mxgraph.dfd.dataStoreID;align=center;spacingLeft=3;points=[[0,0],[0.5,0],[1,0],[0,0.5],[1,0.5],[0,1],[0.5,1],[1,1]];" value="&amp;nbsp; &amp;nbsp;Файл с параметрами" vertex="1">
+          <mxGeometry height="40" width="185" as="geometry" />
+        </mxCell>
+        <mxCell id="HSYwaSbYST0q-WANGJP_-6" parent="HSYwaSbYST0q-WANGJP_-7" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="D1" vertex="1">
+          <mxGeometry height="30" width="30" y="5" as="geometry" />
+        </mxCell>
+        <mxCell id="HSYwaSbYST0q-WANGJP_-9" edge="1" parent="Q1I2YEHAu7ZJnoiD90BB-1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.75;exitY=0;exitDx=0;exitDy=0;">
           <mxGeometry relative="1" as="geometry">
             <Array as="points">
-              <mxPoint x="780.19" y="600" />
-              <mxPoint x="780.19" y="600" />
+              <mxPoint x="920" y="920" />
+              <mxPoint x="920" y="920" />
             </Array>
-            <mxPoint x="780.19" y="643" as="sourcePoint" />
-            <mxPoint x="780.0000000000002" y="558.4799999999999" as="targetPoint" />
+            <mxPoint x="920" y="950" as="sourcePoint" />
+            <mxPoint x="920" y="880" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="KP8m-EX4QzJ9SFeA1Wx3-19" connectable="0" parent="KP8m-EX4QzJ9SFeA1Wx3-18" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="API для MILP-модели&amp;nbsp;&lt;div&gt;и решатель задач&lt;/div&gt;" vertex="1">
-          <mxGeometry relative="1" x="-0.0634" as="geometry">
-            <mxPoint x="10" as="offset" />
+        <mxCell id="HSYwaSbYST0q-WANGJP_-11" connectable="0" parent="HSYwaSbYST0q-WANGJP_-9" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="&lt;div&gt;Статус решения&lt;br&gt;и его параметры&lt;/div&gt;" vertex="1">
+          <mxGeometry relative="1" x="0.2884" y="1" as="geometry">
+            <mxPoint x="51" y="12" as="offset" />
           </mxGeometry>
         </mxCell>
       </root>
