@@ -4,6 +4,7 @@
 
 **/ВКР/материалы
 **/ВКР/черновики
+**/cplex_scheduler/venv/Lib/site-packages
 
 *.lnk
 **/.vs

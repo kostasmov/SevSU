@@ -60,6 +60,11 @@ class TaskParameters:
             errors.append("Количество приборов L должно быть ≥ 2")
         if self.J < 2:
             errors.append("Количество позиций J должно быть ≥ 2")
+        if self.J < self.I:
+            errors.append(
+                f"Количество позиций J={self.J} должно быть ≥ числу типов заданий I={self.I}: "
+                f"условие чередования типов требует минимум одну позицию на каждый тип."
+            )
         if self.J > self.I * max(self.n) if self.n else True:
             pass  # нормально
 

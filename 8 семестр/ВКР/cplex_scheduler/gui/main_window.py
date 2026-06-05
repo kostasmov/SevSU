@@ -343,12 +343,27 @@ class MainWindow(QMainWindow):
         if results.is_solved:
             self.btn_export.setEnabled(True)
             self.btn_save_results.setEnabled(True)
+        elif results.status == OptimizationResults.STATUS_INFEASIBLE:
+            msg_text = "Задача не имеет допустимого решения.\n"
+            if results.message:
+                msg_text += f"\n{results.message}"
+            QMessageBox.warning(self, "Задача неразрешима", msg_text)
+        elif results.status == OptimizationResults.STATUS_ERROR:
+            msg_text = "Ошибка при решении задачи."
+            if results.message:
+                msg_text += f"\n\n{results.message}"
+            QMessageBox.critical(self, "Ошибка решателя", msg_text)
 
-        msg = (f"Решение: {results.status} | "
-               f"{results.criterion} = {results.objective_value:.4f} | "
-               f"Время: {results.solve_time:.2f} с")
-        if results.improvement_percent:
-            msg += f" | Улучшение: {results.improvement_percent:.1f}%"
+        if results.is_solved and results.objective_value is not None:
+            msg = (f"Решение: {results.status} | "
+                   f"{results.criterion} = {results.objective_value:.4f} | "
+                   f"Время: {results.solve_time:.2f} с")
+            if results.improvement_percent:
+                msg += f" | Улучшение: {results.improvement_percent:.1f}%"
+        else:
+            msg = (f"Статус: {results.status} | "
+                   f"Время: {results.solve_time:.2f} с"
+                   + (f" | {results.message}" if results.message else ""))
         self.status.showMessage(msg)
 
     def _on_solve_error(self, err: str):

@@ -1,45 +1,44 @@
 @echo off
 chcp 65001 > nul
 echo ================================================
-echo  Installation and launch of the optimization program
+echo  Установка и запуск программы оптимизации КС
 echo ================================================
 echo.
 
-REM Check Python
+REM Проверка Python
 python --version > nul 2>&1
 if errorlevel 1 (
-    echo ERROR: Python not found!
-    echo Install Python 3.10+ from https://python.org
-    echo During installation check "Add Python to PATH"
+    echo ОШИБКА: Python не найден!
+    echo Установите Python 3.10+ с сайта https://python.org
+    echo При установке поставьте галочку "Add Python to PATH"
     pause
     exit /b 1
 )
 
-echo [1/4] Python found:
+echo [1/4] Python найден:
 python --version
 echo.
 
-REM Create virtual environment (if not exists)
+REM Создание виртуального окружения (если нет)
 if not exist "venv" (
-    echo [2/4] Creating virtual environment...
+    echo [2/4] Создание виртуального окружения...
     python -m venv venv
 ) else (
-    echo [2/4] Virtual environment already exists.
+    echo [2/4] Виртуальное окружение уже существует.
 )
 echo.
 
-REM Activate environment
-echo [3/4] Activating environment and installing packages...
+REM Активация окружения
+echo [3/4] Активация окружения и установка пакетов...
 call venv\Scripts\activate.bat
 
-REM Install packages
+REM Установка пакетов
 pip install --quiet --upgrade pip
 pip install PyQt5 matplotlib numpy openpyxl pulp
 
 echo.
-echo [4/4] Launching program...
+echo [4/4] Запуск программы...
 echo.
 python main.py
 
 pause
-

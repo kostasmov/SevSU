@@ -1,7 +1,7 @@
 @echo off
 chcp 65001 > nul
 echo ================================================
-echo  Model test (without GUI, console only)
+echo  Тест модели (без GUI, только консоль)
 echo ================================================
 echo.
 if exist "venv\Scripts\activate.bat" (

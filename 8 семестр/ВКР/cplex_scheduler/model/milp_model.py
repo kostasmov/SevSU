@@ -114,9 +114,7 @@ class MILPModel:
 
         # Максимальное число заданий в пакете
         n_min = min(p.n)
-        u_max = n_min - 2
-        if u_max < 0:
-            u_max = n_min
+        u_max = max(n_min, 2)  # upBound для m[j]: не менее 2
 
         prob = pulp.LpProblem("FlowShop_Batch_Scheduling", pulp.LpMinimize)
 
