@@ -27,20 +27,20 @@ BTN_ORANGE = "background-color: #C55A11; color: white; padding: 5px 10px; border
 
 class InputTab(QWidget):
     """Вкладка для ввода параметров задачи"""
-
     params_changed = pyqtSignal()
 
     def __init__(self, parent=None):
         super().__init__(parent)
-        #self._params = TaskParameters.example_small()
 
         self._ts_layout = None
         self._ts_container = None   #
 
-        self._setup_ui()            #
-        #self._load_params_to_ui()
+        self._setup_ui()
 
-    # -------------------- Интерфейс --------------------
+        # self._params = TaskParameters.example_small()
+        # self._load_params_to_ui()
+
+    # -------------------- Построение интерфейса --------------------
 
     def _setup_ui(self):
         """Заполнение интерфейса для формы ввода данных"""
@@ -49,24 +49,24 @@ class InputTab(QWidget):
         main_layout.setContentsMargins(6, 6, 6, 6)
 
         # Панель быстрых действий
-        main_layout.addLayout(self._build_action_bar())
+        self._build_action_bar(main_layout)
 
         # Прокручиваемая форма ввода данных
         scroll = QScrollArea()
         scroll.setWidgetResizable(True)
         scroll.setFrameShape(QFrame.NoFrame)
 
-        self._container = QWidget()
-        self._main_content_layout = QVBoxLayout(self._container)
-        self._main_content_layout.setSpacing(8)
+        self._input_form = QWidget()
+        self._input_form_layout = QVBoxLayout(self._input_form)
+        self._input_form_layout.setSpacing(8)
 
-        self._build_content(self._main_content_layout)
+        self._build_input_form(self._input_form_layout)
 
-        scroll.setWidget(self._container)
+        scroll.setWidget(self._input_form)
         main_layout.addWidget(scroll)
 
-    def _build_action_bar(self):
-        """Создание окна быстрых действий"""
+    def _build_action_bar(self, layout):
+        """Создание панели быстрых действий"""
         action_bar = QHBoxLayout()
         action_bar.setSpacing(6)
 
@@ -109,99 +109,19 @@ class InputTab(QWidget):
         action_bar.addWidget(btn_example_medium)
 
         action_bar.addStretch()
-        return action_bar
 
-    def _build_content(self, layout):
+        layout.addLayout(action_bar)
+
+    def _build_input_form(self, layout):
         """Строит основное содержимое формы ввода"""
 
-        # Параметры размерности задачи
-        dim_group = QGroupBox("Размерность задачи")
-        dim_layout = QGridLayout(dim_group)
-
-        dim_layout.addWidget(QLabel("Количество типов заданий:"), 0, 0)
-        self.spin_I = QSpinBox()
-        self.spin_I.setRange(2, 15)
-        self.spin_I.setValue(0)
-        self.spin_I.setToolTip("Количество типов заданий (2-15)")
-        dim_layout.addWidget(self.spin_I, 0, 1)
-
-        dim_layout.addWidget(QLabel("Количество приборов:"), 0, 2)
-        self.spin_L = QSpinBox()
-        self.spin_L.setRange(2, 10)
-        self.spin_L.setValue(0)
-        self.spin_I.setToolTip("Количество приборов (2-10)")
-        dim_layout.addWidget(self.spin_L, 0, 3)
-
-        dim_layout.addWidget(QLabel("Количество пакетов:"), 0, 4)
-        self.spin_J = QSpinBox()
-        self.spin_J.setRange(2, 20)
-        self.spin_J.setValue(0)
-        self.spin_I.setToolTip("Количество позиций (пакетов) в решении (2-20)")
-        dim_layout.addWidget(self.spin_J, 0, 5)
-
-        btn_apply_dim = QPushButton("✔ Применить размерность (перестроить матрицы)")
-        btn_apply_dim.setStyleSheet(BTN_STYLE)
-        btn_apply_dim.clicked.connect(self._apply_dimensions)
-        dim_layout.addWidget(btn_apply_dim, 1, 0, 1, 6)
-
-        layout.addWidget(dim_group)
-
-        # Подсказка по формату
-        hint = QLabel(
-            "ℹ  После изменения параметров нажмите «Применить размерность». "
-            "Для загрузки своих данных используйте «Загрузить JSON»"
-        )
-        hint.setWordWrap(True)
-        hint.setStyleSheet("color: #555; font-size: 9pt; background: #EEF2FF; "
-                           "padding: 4px; border-radius: 3px;")
-        layout.addWidget(hint)
-
-        # Количество заданий
-        n_group = QGroupBox("Количество заданий каждого типа")
-        n_layout = QVBoxLayout(n_group)
-        self.n_table = QTableWidget(1, 2)
-        self.n_table.setHorizontalHeaderLabels([f"Тип {i+1}" for i in range(2)])
-        self.n_table.verticalHeader().hide()
-        self.n_table.setMaximumHeight(60)
-        for i in range(2):
-            self._set_cell(self.n_table, 0, i, "0")
-        n_layout.addWidget(self.n_table)
-
-        n_hint = QLabel("Минимальное значение — 2.")
-        n_hint.setStyleSheet("color: #777; font-size: 8pt;")
-        n_layout.addWidget(n_hint)
-        layout.addWidget(n_group)
-
-        # ── Времена обработки ──
-        t_group = QGroupBox("Время обработки t[прибор][тип]  (строки = приборы, столбцы = типы)")
-        t_layout = QVBoxLayout(t_group)
-        self.t_table = QTableWidget(3, 3)
-        self._setup_matrix_table(self.t_table, 3, 3,
-                                 row_labels=[f"Прибор {l+1}" for l in range(3)],
-                                 col_labels=[f"Тип {i+1}" for i in range(3)])
-        self._fill_table(self.t_table, [[2,4,6],[3,5,7],[1,3,5]])
-        t_layout.addWidget(self.t_table)
-
-        btn_paste_t = QPushButton("📋 Вставить из буфера (табуляция)")
-        btn_paste_t.setToolTip("Вставьте данные скопированные из Excel (Tab-разделители)")
-        btn_paste_t.clicked.connect(lambda: self._paste_from_clipboard(self.t_table))
-        t_layout.addWidget(btn_paste_t)
-        layout.addWidget(t_group)
+        self._build_dim_group(layout)
+        self._build_n_group(layout)
+        self._build_t_group(layout)
+        self._build_t_init_group(layout)
 
         # ── Первоначальная наладка ──
-        ti_group = QGroupBox("Времена первоначальной наладки  t_init[прибор][тип]")
-        ti_layout = QVBoxLayout(ti_group)
-        self.ti_table = QTableWidget(3, 3)
-        self._setup_matrix_table(self.ti_table, 3, 3,
-                                 row_labels=[f"Прибор {l+1}" for l in range(3)],
-                                 col_labels=[f"Тип {i+1}" for i in range(3)])
-        self._fill_table(self.ti_table, [[1,2,3],[2,3,4],[1,2,3]])
-        ti_layout.addWidget(self.ti_table)
 
-        btn_paste_ti = QPushButton("📋 Вставить из буфера")
-        btn_paste_ti.clicked.connect(lambda: self._paste_from_clipboard(self.ti_table))
-        ti_layout.addWidget(btn_paste_ti)
-        layout.addWidget(ti_group)
 
         # ── Переналадки ──
         ts_group = QGroupBox("Времена переналадок  t_setup[прибор][с типа → на тип]")
@@ -287,6 +207,101 @@ class InputTab(QWidget):
         opt_layout.addWidget(self.chk_verbose, 1, 2)
 
         layout.addWidget(opt_group)
+        self._apply_dimensions()
+
+    # -------------------- Построение блоков формы ввода --------------------
+
+    def _build_dim_group(self, layout):
+        """Создание блока ввода параметров размерности задачи"""
+        dim_group = QGroupBox("Размерность задачи")
+        dim_layout = QGridLayout(dim_group)
+
+        dim_layout.addWidget(QLabel("Количество типов заданий:"), 0, 0)
+        self.spin_I = QSpinBox()
+        self.spin_I.setRange(2, 15)
+        self.spin_I.setValue(3)
+        self.spin_I.setToolTip("Количество типов заданий (2-15)")
+        dim_layout.addWidget(self.spin_I, 0, 1)
+
+        dim_layout.addWidget(QLabel("Количество приборов:"), 0, 2)
+        self.spin_L = QSpinBox()
+        self.spin_L.setRange(2, 10)
+        self.spin_L.setValue(4)
+        self.spin_I.setToolTip("Количество приборов (2-10)")
+        dim_layout.addWidget(self.spin_L, 0, 3)
+
+        dim_layout.addWidget(QLabel("Количество пакетов:"), 0, 4)
+        self.spin_J = QSpinBox()
+        self.spin_J.setRange(2, 20)
+        self.spin_J.setValue(7)
+        self.spin_I.setToolTip("Количество позиций (пакетов) в решении (2-20)")
+        dim_layout.addWidget(self.spin_J, 0, 5)
+
+        btn_apply_dim = QPushButton("✔ Применить размерность (перестроить матрицы)")
+        btn_apply_dim.setStyleSheet(BTN_STYLE)
+        btn_apply_dim.clicked.connect(self._apply_dimensions)
+        dim_layout.addWidget(btn_apply_dim, 1, 0, 1, 6)
+
+        layout.addWidget(dim_group)
+
+        # Подсказка
+        hint = QLabel(
+            "ℹ  После изменения параметров нажмите «Применить размерность». "
+            "Для загрузки своих данных используйте «Загрузить JSON»"
+        )
+        hint.setWordWrap(True)
+        hint.setStyleSheet("color: #555; font-size: 9pt; background: #EEF2FF; "
+                           "padding: 4px; border-radius: 3px;")
+        layout.addWidget(hint)
+
+    def _build_n_group(self, layout):
+        """Создание блока ввода параметров n[i]"""
+        n_group = QGroupBox("Количество заданий каждого типа:")
+        n_layout = QVBoxLayout(n_group)
+
+        self.n_table = QTableWidget(1, 2)
+        self.n_table.verticalHeader().hide()
+        self.n_table.setMaximumHeight(60)
+        n_layout.addWidget(self.n_table)
+
+        n_hint = QLabel("Минимальное значение - 2")
+        n_hint.setStyleSheet("color: #777; font-size: 8pt;")
+        n_layout.addWidget(n_hint)
+
+        layout.addWidget(n_group)
+
+    def _build_t_group(self, layout):
+        """Создание блока ввода параметров t[l][i]"""
+
+        # Время обработки задания типа i на приборе l: t[l][i]
+        t_group = QGroupBox("Длительность обработки заданий разных типов на разных приборах:")
+        t_layout = QVBoxLayout(t_group)
+
+        self.t_table = QTableWidget()
+        t_layout.addWidget(self.t_table)
+
+        btn_paste_t = QPushButton("📋 Вставить из буфера (табуляция)")
+        btn_paste_t.setToolTip("Вставьте данные скопированные из Excel (Tab-разделители)")
+        btn_paste_t.clicked.connect(lambda: self._paste_from_clipboard(self.t_table))
+        t_layout.addWidget(btn_paste_t)
+
+        layout.addWidget(t_group)
+
+    def _build_t_init_group(self, layout):
+        """Создание блока ввода параметров t_init[l][i]"""
+
+        # Время наладки прибора l на задания типа i: t_init[l][i]
+        ti_group = QGroupBox("Время первоначальной наладки приборов на тип заданий:")
+        ti_layout = QVBoxLayout(ti_group)
+
+        self.ti_table = QTableWidget()
+        ti_layout.addWidget(self.ti_table)
+
+        btn_paste_ti = QPushButton("📋 Вставить из буфера")
+        btn_paste_ti.clicked.connect(lambda: self._paste_from_clipboard(self.ti_table))
+        ti_layout.addWidget(btn_paste_ti)
+
+        layout.addWidget(ti_group)
 
     # ─────────────────────────── helpers ───────────────────────
 
@@ -389,50 +404,50 @@ class InputTab(QWidget):
                 except ValueError:
                     pass
 
-    # ────────────────────── apply dimensions ───────────────────
+    # -------------------- Применение размерностей --------------------
 
     def _apply_dimensions(self):
         I = self.spin_I.value()
         L = self.spin_L.value()
 
-        # n_table
+        # Таблица n[i]
         self.n_table.setColumnCount(I)
-        self.n_table.setHorizontalHeaderLabels([f"n[{i+1}]" for i in range(I)])
-        for i in range(I):
-            if not self.n_table.item(0, i):
-                self._set_cell(self.n_table, 0, i, "4")
+        self.n_table.setHorizontalHeaderLabels([f"Тип [{i+1}]" for i in range(I)])
+        # for i in range(I):
+        #     if not self.n_table.item(0, i):
+        #         self._set_cell(self.n_table, 0, i, "1")
 
         # d_table
-        self.d_table.setColumnCount(I)
-        self.d_table.setHorizontalHeaderLabels([f"d[{i+1}]" for i in range(I)])
-        for i in range(I):
-            if not self.d_table.item(0, i):
-                self._set_cell(self.d_table, 0, i, str(30 + i * 10))
+        # self.d_table.setColumnCount(I)
+        # self.d_table.setHorizontalHeaderLabels([f"d[{i+1}]" for i in range(I)])
+        # for i in range(I):
+        #     if not self.d_table.item(0, i):
+        #         self._set_cell(self.d_table, 0, i, str(30 + i * 10))
 
-        # t_table
+        # Таблица t[i]
         self.t_table.setRowCount(L)
         self.t_table.setColumnCount(I)
         self.t_table.setHorizontalHeaderLabels([f"Тип {i+1}" for i in range(I)])
         self.t_table.setVerticalHeaderLabels([f"Прибор {l+1}" for l in range(L)])
-        for r in range(L):
-            for c in range(I):
-                if not self.t_table.item(r, c):
-                    self._set_cell(self.t_table, r, c, str((r + 1) * (c + 1) + 1))
+        # for r in range(L):
+        #     for c in range(I):
+        #         if not self.t_table.item(r, c):
+        #             self._set_cell(self.t_table, r, c, str((r + 1) * (c + 1) + 1))
 
-        # ti_table
+        # Таблица t_init
         self.ti_table.setRowCount(L)
         self.ti_table.setColumnCount(I)
         self.ti_table.setHorizontalHeaderLabels([f"Тип {i+1}" for i in range(I)])
         self.ti_table.setVerticalHeaderLabels([f"Прибор {l+1}" for l in range(L)])
-        for r in range(L):
-            for c in range(I):
-                if not self.ti_table.item(r, c):
-                    self._set_cell(self.ti_table, r, c, str(c + 1))
+        # for r in range(L):
+        #     for c in range(I):
+        #         if not self.ti_table.item(r, c):
+        #             self._set_cell(self.ti_table, r, c, str(c + 1))
 
-        # ts_tables
+        # Таблицы t_setup[l][i]
         self._rebuild_ts_tables(L, I)
 
-        # maint_table
+        # Таблица t_maint[l]
         self.maint_table.setRowCount(L)
         for l in range(L):
             self._set_cell_readonly(self.maint_table, l, 0, f"Прибор {l+1}")
@@ -625,88 +640,88 @@ class InputTab(QWidget):
         except Exception as e:
             QMessageBox.critical(self, "Ошибка", str(e))
 
-    def _import_csv(self):
-        """Импорт CSV: выбор матрицы для загрузки"""
-        msg = (
-            "Выберите CSV-файл для импорта.\n\n"
-            "Формат CSV:\n"
-            "  • Разделитель: точка с запятой (;) или запятая (,)\n"
-            "  • Строки соответствуют приборам (L строк)\n"
-            "  • Столбцы соответствуют типам (I столбцов)\n\n"
-            "Куда импортировать?"
-        )
-        from PyQt5.QtWidgets import QDialog, QDialogButtonBox, QRadioButton
-        dlg = QDialog(self)
-        dlg.setWindowTitle("Импорт CSV")
-        dlg_layout = QVBoxLayout(dlg)
-        dlg_layout.addWidget(QLabel(msg))
-
-        opts = [
-            ("Времена обработки t[l][i]", "t"),
-            ("Первоначальная наладка t_init[l][i]", "ti"),
-            ("Директивные сроки d[i] (одна строка)", "d"),
-            ("Количество заданий n[i] (одна строка)", "n"),
-        ]
-        radios = []
-        for label, key in opts:
-            rb = QRadioButton(label)
-            dlg_layout.addWidget(rb)
-            radios.append((rb, key))
-        radios[0][0].setChecked(True)
-
-        btns = QDialogButtonBox(QDialogButtonBox.Ok | QDialogButtonBox.Cancel)
-        btns.accepted.connect(dlg.accept)
-        btns.rejected.connect(dlg.reject)
-        dlg_layout.addWidget(btns)
-
-        if dlg.exec_() != dlg.Accepted:
-            return
-
-        target = next(k for rb, k in radios if rb.isChecked())
-
-        path, _ = QFileDialog.getOpenFileName(
-            self, "Открыть CSV", "", "CSV (*.csv);;Текст (*.txt);;Все файлы (*)"
-        )
-        if not path:
-            return
-
-        try:
-            data = self._read_csv_file(path)
-            if target == "t":
-                self._fill_table_raw(self.t_table, data)
-            elif target == "ti":
-                self._fill_table_raw(self.ti_table, data)
-            elif target == "d":
-                flat = [v for row in data for v in row]
-                self.d_table.setColumnCount(len(flat))
-                self.d_table.setHorizontalHeaderLabels(
-                    [f"d[{i+1}]" for i in range(len(flat))])
-                for i, v in enumerate(flat):
-                    self._set_cell(self.d_table, 0, i, str(v))
-            elif target == "n":
-                flat = [v for row in data for v in row]
-                self.n_table.setColumnCount(len(flat))
-                self.n_table.setHorizontalHeaderLabels(
-                    [f"n[{i+1}]" for i in range(len(flat))])
-                for i, v in enumerate(flat):
-                    self._set_cell(self.n_table, 0, i, str(int(float(v))))
-            QMessageBox.information(self, "Импорт завершён",
-                                    f"Данные загружены из:\n{os.path.basename(path)}")
-        except Exception as e:
-            QMessageBox.critical(self, "Ошибка импорта CSV", str(e))
-
-    def _read_csv_file(self, path):
-        """Читает CSV, автоопределяет разделитель"""
-        with open(path, 'r', encoding='utf-8-sig') as f:
-            sample = f.read(1024)
-        sep = ';' if sample.count(';') >= sample.count(',') else ','
-        data = []
-        with open(path, 'r', encoding='utf-8-sig') as f:
-            reader = csv.reader(f, delimiter=sep)
-            for row in reader:
-                if row:
-                    data.append([v.strip().replace(',', '.') for v in row])
-        return data
+    # def _import_csv(self):
+    #     """Импорт CSV: выбор матрицы для загрузки"""
+    #     msg = (
+    #         "Выберите CSV-файл для импорта.\n\n"
+    #         "Формат CSV:\n"
+    #         "  • Разделитель: точка с запятой (;) или запятая (,)\n"
+    #         "  • Строки соответствуют приборам (L строк)\n"
+    #         "  • Столбцы соответствуют типам (I столбцов)\n\n"
+    #         "Куда импортировать?"
+    #     )
+    #     from PyQt5.QtWidgets import QDialog, QDialogButtonBox, QRadioButton
+    #     dlg = QDialog(self)
+    #     dlg.setWindowTitle("Импорт CSV")
+    #     dlg_layout = QVBoxLayout(dlg)
+    #     dlg_layout.addWidget(QLabel(msg))
+    #
+    #     opts = [
+    #         ("Времена обработки t[l][i]", "t"),
+    #         ("Первоначальная наладка t_init[l][i]", "ti"),
+    #         ("Директивные сроки d[i] (одна строка)", "d"),
+    #         ("Количество заданий n[i] (одна строка)", "n"),
+    #     ]
+    #     radios = []
+    #     for label, key in opts:
+    #         rb = QRadioButton(label)
+    #         dlg_layout.addWidget(rb)
+    #         radios.append((rb, key))
+    #     radios[0][0].setChecked(True)
+    #
+    #     btns = QDialogButtonBox(QDialogButtonBox.Ok | QDialogButtonBox.Cancel)
+    #     btns.accepted.connect(dlg.accept)
+    #     btns.rejected.connect(dlg.reject)
+    #     dlg_layout.addWidget(btns)
+    #
+    #     if dlg.exec_() != dlg.Accepted:
+    #         return
+    #
+    #     target = next(k for rb, k in radios if rb.isChecked())
+    #
+    #     path, _ = QFileDialog.getOpenFileName(
+    #         self, "Открыть CSV", "", "CSV (*.csv);;Текст (*.txt);;Все файлы (*)"
+    #     )
+    #     if not path:
+    #         return
+    #
+    #     try:
+    #         data = self._read_csv_file(path)
+    #         if target == "t":
+    #             self._fill_table_raw(self.t_table, data)
+    #         elif target == "ti":
+    #             self._fill_table_raw(self.ti_table, data)
+    #         elif target == "d":
+    #             flat = [v for row in data for v in row]
+    #             self.d_table.setColumnCount(len(flat))
+    #             self.d_table.setHorizontalHeaderLabels(
+    #                 [f"d[{i+1}]" for i in range(len(flat))])
+    #             for i, v in enumerate(flat):
+    #                 self._set_cell(self.d_table, 0, i, str(v))
+    #         elif target == "n":
+    #             flat = [v for row in data for v in row]
+    #             self.n_table.setColumnCount(len(flat))
+    #             self.n_table.setHorizontalHeaderLabels(
+    #                 [f"n[{i+1}]" for i in range(len(flat))])
+    #             for i, v in enumerate(flat):
+    #                 self._set_cell(self.n_table, 0, i, str(int(float(v))))
+    #         QMessageBox.information(self, "Импорт завершён",
+    #                                 f"Данные загружены из:\n{os.path.basename(path)}")
+    #     except Exception as e:
+    #         QMessageBox.critical(self, "Ошибка импорта CSV", str(e))
+    #
+    # def _read_csv_file(self, path):
+    #     """Читает CSV, автоопределяет разделитель"""
+    #     with open(path, 'r', encoding='utf-8-sig') as f:
+    #         sample = f.read(1024)
+    #     sep = ';' if sample.count(';') >= sample.count(',') else ','
+    #     data = []
+    #     with open(path, 'r', encoding='utf-8-sig') as f:
+    #         reader = csv.reader(f, delimiter=sep)
+    #         for row in reader:
+    #             if row:
+    #                 data.append([v.strip().replace(',', '.') for v in row])
+    #     return data
 
     def _fill_table_raw(self, table, data):
         rows = len(data)
@@ -717,70 +732,70 @@ class InputTab(QWidget):
             for c, val in enumerate(row):
                 self._set_cell(table, r, c, val)
 
-    def _export_csv(self):
-        """Экспорт всех матриц в CSV-файлы в выбранную папку"""
-        folder = QFileDialog.getExistingDirectory(
-            self, "Выберите папку для экспорта CSV"
-        )
-        if not folder:
-            return
-
-        try:
-            p = self.get_params()
-
-            def write_matrix(filename, matrix, row_labels=None, col_labels=None):
-                with open(os.path.join(folder, filename), 'w', newline='',
-                          encoding='utf-8-sig') as f:
-                    writer = csv.writer(f, delimiter=';')
-                    if col_labels:
-                        writer.writerow([''] + col_labels)
-                    for idx, row in enumerate(matrix):
-                        prefix = [row_labels[idx]] if row_labels else []
-                        writer.writerow(prefix + [str(v) for v in row])
-
-            def write_row(filename, row, labels):
-                with open(os.path.join(folder, filename), 'w', newline='',
-                          encoding='utf-8-sig') as f:
-                    writer = csv.writer(f, delimiter=';')
-                    writer.writerow(labels)
-                    writer.writerow([str(v) for v in row])
-
-            write_matrix("t_processing.csv", p.t,
-                         row_labels=[f"Прибор {l+1}" for l in range(p.L)],
-                         col_labels=[f"Тип {i+1}" for i in range(p.I)])
-
-            write_matrix("t_init.csv", p.t_init,
-                         row_labels=[f"Прибор {l+1}" for l in range(p.L)],
-                         col_labels=[f"Тип {i+1}" for i in range(p.I)])
-
-            write_row("n_counts.csv", p.n,
-                      [f"n[{i+1}]" for i in range(p.I)])
-
-            write_row("d_deadlines.csv", p.d,
-                      [f"d[{i+1}]" for i in range(p.I)])
-
-            for l in range(p.L):
-                write_matrix(f"t_setup_device_{l+1}.csv", p.t_setup[l],
-                             row_labels=[f"с {i+1}" for i in range(p.I)],
-                             col_labels=[f"на {i+1}" for i in range(p.I)])
-
-            if p.use_maintenance:
-                write_matrix("maintenance.csv",
-                             [[p.TM[l], p.tm_maint[l]] for l in range(p.L)],
-                             row_labels=[f"Прибор {l+1}" for l in range(p.L)],
-                             col_labels=["TM[l]", "tm[l]"])
-
-            # Также JSON
-            p.to_json(os.path.join(folder, "params.json"))
-
-            files = ["t_processing.csv", "t_init.csv", "n_counts.csv",
-                     "d_deadlines.csv", "params.json"] + \
-                    [f"t_setup_device_{l+1}.csv" for l in range(p.L)]
-
-            QMessageBox.information(
-                self, "Экспорт завершён",
-                f"Файлы сохранены в:\n{folder}\n\n" +
-                "\n".join(f"  • {f}" for f in files)
-            )
-        except Exception as e:
-            QMessageBox.critical(self, "Ошибка экспорта", str(e))
+    # def _export_csv(self):
+    #     """Экспорт всех матриц в CSV-файлы в выбранную папку"""
+    #     folder = QFileDialog.getExistingDirectory(
+    #         self, "Выберите папку для экспорта CSV"
+    #     )
+    #     if not folder:
+    #         return
+    #
+    #     try:
+    #         p = self.get_params()
+    #
+    #         def write_matrix(filename, matrix, row_labels=None, col_labels=None):
+    #             with open(os.path.join(folder, filename), 'w', newline='',
+    #                       encoding='utf-8-sig') as f:
+    #                 writer = csv.writer(f, delimiter=';')
+    #                 if col_labels:
+    #                     writer.writerow([''] + col_labels)
+    #                 for idx, row in enumerate(matrix):
+    #                     prefix = [row_labels[idx]] if row_labels else []
+    #                     writer.writerow(prefix + [str(v) for v in row])
+    #
+    #         def write_row(filename, row, labels):
+    #             with open(os.path.join(folder, filename), 'w', newline='',
+    #                       encoding='utf-8-sig') as f:
+    #                 writer = csv.writer(f, delimiter=';')
+    #                 writer.writerow(labels)
+    #                 writer.writerow([str(v) for v in row])
+    #
+    #         write_matrix("t_processing.csv", p.t,
+    #                      row_labels=[f"Прибор {l+1}" for l in range(p.L)],
+    #                      col_labels=[f"Тип {i+1}" for i in range(p.I)])
+    #
+    #         write_matrix("t_init.csv", p.t_init,
+    #                      row_labels=[f"Прибор {l+1}" for l in range(p.L)],
+    #                      col_labels=[f"Тип {i+1}" for i in range(p.I)])
+    #
+    #         write_row("n_counts.csv", p.n,
+    #                   [f"n[{i+1}]" for i in range(p.I)])
+    #
+    #         write_row("d_deadlines.csv", p.d,
+    #                   [f"d[{i+1}]" for i in range(p.I)])
+    #
+    #         for l in range(p.L):
+    #             write_matrix(f"t_setup_device_{l+1}.csv", p.t_setup[l],
+    #                          row_labels=[f"с {i+1}" for i in range(p.I)],
+    #                          col_labels=[f"на {i+1}" for i in range(p.I)])
+    #
+    #         if p.use_maintenance:
+    #             write_matrix("maintenance.csv",
+    #                          [[p.TM[l], p.tm_maint[l]] for l in range(p.L)],
+    #                          row_labels=[f"Прибор {l+1}" for l in range(p.L)],
+    #                          col_labels=["TM[l]", "tm[l]"])
+    #
+    #         # Также JSON
+    #         p.to_json(os.path.join(folder, "params.json"))
+    #
+    #         files = ["t_processing.csv", "t_init.csv", "n_counts.csv",
+    #                  "d_deadlines.csv", "params.json"] + \
+    #                 [f"t_setup_device_{l+1}.csv" for l in range(p.L)]
+    #
+    #         QMessageBox.information(
+    #             self, "Экспорт завершён",
+    #             f"Файлы сохранены в:\n{folder}\n\n" +
+    #             "\n".join(f"  • {f}" for f in files)
+    #         )
+    #     except Exception as e:
+    #         QMessageBox.critical(self, "Ошибка экспорта", str(e))
