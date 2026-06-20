@@ -165,7 +165,7 @@ class InputTab(QWidget):
         layout.addWidget(n_group)
 
         # ── Времена обработки ──
-        t_group = QGroupBox("Времена обработки  t[прибор][тип]  (строки = приборы, столбцы = типы)")
+        t_group = QGroupBox("Время обработки t[прибор][тип]  (строки = приборы, столбцы = типы)")
         t_layout = QVBoxLayout(t_group)
         self.t_table = QTableWidget(3, 3)
         self._setup_matrix_table(self.t_table, 3, 3,

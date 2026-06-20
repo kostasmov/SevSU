@@ -1,9 +1,10 @@
 """
-Главное окно приложения
+Главное окно системы
 """
 
 import os
 import json
+
 from PyQt5.QtWidgets import (
     QMainWindow, QTabWidget, QWidget, QVBoxLayout,
     QHBoxLayout, QPushButton, QLabel, QProgressBar,
@@ -17,14 +18,15 @@ from gui.input_tab import InputTab
 from gui.result_tab import ResultTab
 from gui.gantt_widget import GanttWidget
 from gui.analysis_tab import AnalysisTab
+
 from model.parameters import TaskParameters
 from model.milp_model import MILPModel, SOLVER_AVAILABLE
 from model.results import OptimizationResults
+
 from utils.exporter import export_to_excel, HAS_OPENPYXL
 
-
 class SolverWorker(QThread):
-    """Поток решателя, чтобы GUI не замерзал"""
+    """Класс для решения задачи оптимизации в отдельном потоке"""
     finished = pyqtSignal(OptimizationResults)
     error = pyqtSignal(str)
 
@@ -36,6 +38,7 @@ class SolverWorker(QThread):
         self.verbose = verbose
 
     def run(self):
+        """Создание объекта модели и запуск решателя"""
         try:
             model = MILPModel(self.params, self.criterion,
                               self.time_limit, self.verbose)
@@ -47,31 +50,52 @@ class SolverWorker(QThread):
 
 
 class MainWindow(QMainWindow):
+    """Интерфейс системы"""
     def __init__(self):
         super().__init__()
-        self.setWindowTitle("Оптимизация расписания конвейерных систем — ВКР")
-        self.setMinimumSize(1100, 700)
-        self.resize(1280, 820)
+        self.setWindowTitle("Оптимизация расписания конвейерных систем")
 
         self._current_results = None
         self._current_params = None
         self._worker = None
 
+        self._setup_screen()
         self._setup_ui()
         self._setup_menu()
         self._setup_statusbar()
         self._check_solver()
 
+    def _setup_screen(self):
+        """Установить размеры главного окна относительно экрана"""
+        screen = QApplication.primaryScreen()
+        screen_geometry = screen.availableGeometry()
+        screen_width = screen_geometry.width()
+        screen_height = screen_geometry.height()
+
+        # минимальный размер окна - 60% от размера экрана
+        min_width = int(screen_width * 0.6)
+        min_height = int(screen_height * 0.6)
+        self.setMinimumSize(min_width, min_height)
+
+        # изначальный размер окна - 80% от размера экрана
+        window_width = int(screen_width * 0.8)
+        window_height = int(screen_height * 0.8)
+        self.resize(window_width, window_height)
+
     def _setup_ui(self):
+        """Создание интерфейса пользователя"""
+
+        # Корневой контейнер
         central = QWidget()
         self.setCentralWidget(central)
         main_layout = QVBoxLayout(central)
         main_layout.setContentsMargins(5, 5, 5, 5)
 
-        # ── Верхняя панель ──
+        # Верхняя панель
         toolbar = QHBoxLayout()
         toolbar.setSpacing(6)
 
+        # Кнопка "Решить задачу"
         self.btn_solve = QPushButton("▶  Решить задачу")
         self.btn_solve.setFont(QFont("Arial", 11, QFont.Bold))
         self.btn_solve.setStyleSheet("""
@@ -87,6 +111,7 @@ class MainWindow(QMainWindow):
         self.btn_solve.clicked.connect(self._on_solve)
         toolbar.addWidget(self.btn_solve)
 
+        # Кнопка остановки процесса решения
         self.btn_stop = QPushButton("⏹  Стоп")
         self.btn_stop.setEnabled(False)
         self.btn_stop.setStyleSheet("""
@@ -104,7 +129,6 @@ class MainWindow(QMainWindow):
 
         toolbar.addSpacing(8)
 
-        # Разделитель
         sep = QLabel("|")
         sep.setStyleSheet("color: #CCC; font-size: 18px;")
         toolbar.addWidget(sep)
@@ -126,32 +150,34 @@ class MainWindow(QMainWindow):
 
         toolbar.addSpacing(4)
 
-        btn_ex_s = QPushButton("📋 Мал. пример")
-        btn_ex_s.setToolTip("Загрузить малый пример (I=3, L=3)")
-        btn_ex_s.setStyleSheet("padding: 6px 10px;")
-        btn_ex_s.clicked.connect(lambda: self._load_example("small"))
-        toolbar.addWidget(btn_ex_s)
-
-        btn_ex_m = QPushButton("📋 Сред. пример")
-        btn_ex_m.setToolTip("Загрузить средний пример (I=5, L=5)")
-        btn_ex_m.setStyleSheet("padding: 6px 10px;")
-        btn_ex_m.clicked.connect(lambda: self._load_example("medium"))
-        toolbar.addWidget(btn_ex_m)
-
-        toolbar.addSpacing(4)
+        # Кнопки которые подгружают в форму данные из примеров
+        # btn_ex_s = QPushButton("📋 Мал. пример")
+        # btn_ex_s.setToolTip("Загрузить малый пример (I=3, L=3)")
+        # btn_ex_s.setStyleSheet("padding: 6px 10px;")
+        # btn_ex_s.clicked.connect(lambda: self._load_example("small"))
+        # toolbar.addWidget(btn_ex_s)
+        #
+        # btn_ex_m = QPushButton("📋 Сред. пример")
+        # btn_ex_m.setToolTip("Загрузить средний пример (I=5, L=5)")
+        # btn_ex_m.setStyleSheet("padding: 6px 10px;")
+        # btn_ex_m.clicked.connect(lambda: self._load_example("medium"))
+        # toolbar.addWidget(btn_ex_m)
+        #
+        # toolbar.addSpacing(4)
 
         sep2 = QLabel("|")
         sep2.setStyleSheet("color: #CCC; font-size: 18px;")
         toolbar.addWidget(sep2)
 
-        self.btn_export = QPushButton("📊 Экспорт Excel")
+        # Кнопки экспорта
+        self.btn_export = QPushButton("📊 Экспорт в Excel")
         self.btn_export.setEnabled(False)
         self.btn_export.setToolTip("Экспорт результатов в Excel")
         self.btn_export.setStyleSheet("padding: 6px 12px;")
         self.btn_export.clicked.connect(self._export_excel)
         toolbar.addWidget(self.btn_export)
 
-        self.btn_save_results = QPushButton("💾 Результаты JSON")
+        self.btn_save_results = QPushButton("💾 Экспорт в JSON")
         self.btn_save_results.setEnabled(False)
         self.btn_save_results.setToolTip("Сохранить результаты в JSON")
         self.btn_save_results.setStyleSheet("padding: 6px 12px;")
@@ -195,9 +221,10 @@ class MainWindow(QMainWindow):
         main_layout.addWidget(self.tabs)
 
     def _setup_menu(self):
+        """Создание пунктов верхнего меню программы"""
         menubar = self.menuBar()
 
-        # Файл
+        # Файловое меню
         file_menu = menubar.addMenu("Файл")
 
         act_new = QAction("Новая задача", self)
@@ -207,33 +234,33 @@ class MainWindow(QMainWindow):
 
         file_menu.addSeparator()
 
-        act_open = QAction("📂 Открыть параметры (JSON)...", self)
+        act_open = QAction("📂 Открыть параметры (JSON)", self)
         act_open.setShortcut("Ctrl+O")
         act_open.triggered.connect(self._open_params)
         file_menu.addAction(act_open)
 
-        act_save = QAction("💾 Сохранить параметры (JSON)...", self)
+        act_save = QAction("💾 Сохранить параметры (JSON)", self)
         act_save.setShortcut("Ctrl+S")
         act_save.triggered.connect(self._save_params)
         file_menu.addAction(act_save)
 
+        # file_menu.addSeparator()
+
+        # act_import_csv = QAction("📊 Импорт матриц из CSV", self)
+        # act_import_csv.triggered.connect(self._import_csv_menu)
+        # file_menu.addAction(act_import_csv)
+        #
+        # act_export_csv = QAction("📤 Экспорт матриц в CSV", self)
+        # act_export_csv.triggered.connect(self._export_csv_menu)
+        # file_menu.addAction(act_export_csv)
+
         file_menu.addSeparator()
 
-        act_import_csv = QAction("📊 Импорт матриц из CSV...", self)
-        act_import_csv.triggered.connect(self._import_csv_menu)
-        file_menu.addAction(act_import_csv)
-
-        act_export_csv = QAction("📤 Экспорт матриц в CSV...", self)
-        act_export_csv.triggered.connect(self._export_csv_menu)
-        file_menu.addAction(act_export_csv)
-
-        file_menu.addSeparator()
-
-        act_export = QAction("📊 Экспорт результатов (Excel)...", self)
+        act_export = QAction("📊 Сохранить результаты (Excel)", self)
         act_export.triggered.connect(self._export_excel)
         file_menu.addAction(act_export)
 
-        act_export_res = QAction("💾 Сохранить результаты (JSON)...", self)
+        act_export_res = QAction("💾 Сохранить результаты (JSON)", self)
         act_export_res.triggered.connect(self._save_results_json)
         file_menu.addAction(act_export_res)
 
@@ -244,7 +271,7 @@ class MainWindow(QMainWindow):
         act_exit.triggered.connect(self.close)
         file_menu.addAction(act_exit)
 
-        # Примеры
+        # Меню загрузки примеров (а надо ли??)
         ex_menu = menubar.addMenu("Примеры")
         ex_small = QAction("Загрузить малый пример (I=3, L=3)", self)
         ex_small.triggered.connect(lambda: self._load_example("small"))
@@ -255,10 +282,10 @@ class MainWindow(QMainWindow):
         ex_menu.addAction(ex_med)
 
         # Форматы CSV
-        fmt_menu = menubar.addMenu("Формат CSV")
-        act_fmt = QAction("Показать формат CSV-файлов", self)
-        act_fmt.triggered.connect(self._show_csv_format)
-        fmt_menu.addAction(act_fmt)
+        # fmt_menu = menubar.addMenu("Формат CSV")
+        # act_fmt = QAction("Показать формат CSV-файлов", self)
+        # act_fmt.triggered.connect(self._show_csv_format)
+        # fmt_menu.addAction(act_fmt)
 
         # Справка
         help_menu = menubar.addMenu("Справка")
@@ -271,12 +298,14 @@ class MainWindow(QMainWindow):
         help_menu.addAction(act_info)
 
     def _setup_statusbar(self):
+        """Нижняя строка со статусом программы"""
         self.status = QStatusBar()
         self.setStatusBar(self.status)
         self.status.showMessage(
-            "Готов к работе. Введите параметры задачи или загрузите JSON/CSV и нажмите «Решить».")
+            "Программа готова к работе. Введите или импортируйте параметры задачи и нажмите «Решить».")
 
     def _check_solver(self):
+        """Проверить установлен ли на устройстве решатель задач"""
         if SOLVER_AVAILABLE is None:
             QMessageBox.warning(
                 self,
@@ -284,11 +313,14 @@ class MainWindow(QMainWindow):
                 "Не найден ни один MILP-решатель!\n\n"
                 "Установите один из:\n"
                 "  • pip install pulp\n"
-                "  • pip install docplex  (требует IBM CPLEX)\n\n"
+                "  • pip install cplex docplex\n\n"
                 "Без решателя расчёты невозможны."
             )
 
+    # ----- Действия при работе с интерфейсом -----
+
     def _on_solve(self):
+        """Запуск решения задачи через отдельный поток"""
         if SOLVER_AVAILABLE is None:
             QMessageBox.critical(self, "Ошибка", "Решатель не установлен!")
             return
@@ -326,6 +358,7 @@ class MainWindow(QMainWindow):
         self._worker.start()
 
     def _on_stop(self):
+        """Остановить процесс решения"""
         if self._worker and self._worker.isRunning():
             self._worker.terminate()
             self._worker.wait(2000)
@@ -333,6 +366,7 @@ class MainWindow(QMainWindow):
         self.status.showMessage("Решение остановлено пользователем.")
 
     def _on_solve_done(self, results: OptimizationResults):
+        """Обновление интерфейса при успешной работе решателя"""
         self._current_results = results
         self._reset_ui()
 
@@ -367,20 +401,24 @@ class MainWindow(QMainWindow):
         self.status.showMessage(msg)
 
     def _on_solve_error(self, err: str):
+        """Вывод сообщения об ошибке при решении задачи"""
         self._reset_ui()
         QMessageBox.critical(self, "Ошибка решателя", err[:800])
         self.status.showMessage("Ошибка при решении.")
 
     def _reset_ui(self):
+        """Сброс интерфейса"""
         self.btn_solve.setEnabled(True)
         self.btn_stop.setEnabled(False)
         self.progress.hide()
 
     def _load_example(self, name):
+        """Загрузка в форму примера задачи"""
         self.input_tab.load_example(name)
         self.status.showMessage(f"Загружен пример: {name}")
 
     def _new_task(self):
+        """Очистить параметры для ввода новой задачи"""
         reply = QMessageBox.question(
             self, "Новая задача",
             "Очистить все данные и начать заново?",
@@ -395,6 +433,7 @@ class MainWindow(QMainWindow):
             self.btn_save_results.setEnabled(False)
 
     def _open_params(self):
+        """Импортировать параметры задачи из JSON"""
         path, _ = QFileDialog.getOpenFileName(
             self, "Открыть параметры", "", "JSON (*.json);;Все файлы (*)"
         )
@@ -407,6 +446,7 @@ class MainWindow(QMainWindow):
                 QMessageBox.critical(self, "Ошибка", f"Не удалось загрузить файл:\n{e}")
 
     def _save_params(self):
+        """"Экспортировать параметры задачи в JSON"""
         path, _ = QFileDialog.getSaveFileName(
             self, "Сохранить параметры", "params.json", "JSON (*.json)"
         )
@@ -418,17 +458,18 @@ class MainWindow(QMainWindow):
             except Exception as e:
                 QMessageBox.critical(self, "Ошибка", str(e))
 
-    def _import_csv_menu(self):
-        """Вызвать импорт CSV из вкладки ввода"""
-        self.tabs.setCurrentIndex(0)
-        self.input_tab._import_csv()
+    # def _import_csv_menu(self):
+    #     """ """
+    #     self.tabs.setCurrentIndex(0)
+    #     self.input_tab._import_csv()
 
-    def _export_csv_menu(self):
-        """Вызвать экспорт CSV из вкладки ввода"""
-        self.tabs.setCurrentIndex(0)
-        self.input_tab._export_csv()
+    # def _export_csv_menu(self):
+    #     """"""
+    #     self.tabs.setCurrentIndex(0)
+    #     self.input_tab._export_csv()
 
     def _export_excel(self):
+        """Экспортировать параметры в формате Excel"""
         if not self._current_results or not self._current_results.is_solved:
             QMessageBox.information(self, "Нет результатов",
                                     "Сначала решите задачу.")
@@ -452,6 +493,7 @@ class MainWindow(QMainWindow):
                 QMessageBox.critical(self, "Ошибка", str(e))
 
     def _save_results_json(self):
+        """Сохранение результатов оптимизации в формате JSON"""
         if not self._current_results:
             QMessageBox.information(self, "Нет результатов", "Сначала решите задачу.")
             return
@@ -465,76 +507,74 @@ class MainWindow(QMainWindow):
             except Exception as e:
                 QMessageBox.critical(self, "Ошибка", str(e))
 
-    def _show_csv_format(self):
-        QMessageBox.information(
-            self, "Формат CSV-файлов",
-            "Программа поддерживает CSV с разделителями ; или ,\n\n"
-            "── Матрица времён обработки (t_processing.csv) ──\n"
-            "  Строки = приборы (L строк)\n"
-            "  Столбцы = типы заданий (I столбцов)\n"
-            "  Пример (L=3, I=3):\n"
-            "  2;4;6\n"
-            "  3;5;7\n"
-            "  1;3;5\n\n"
-            "── Вектор n[i] (n_counts.csv) ──\n"
-            "  Одна строка, I значений:\n"
-            "  4;4;4\n\n"
-            "── Вектор d[i] (d_deadlines.csv) ──\n"
-            "  Одна строка, I значений:\n"
-            "  30;40;50\n\n"
-            "── Переналадки (t_setup_device_N.csv) ──\n"
-            "  Квадратная матрица I×I для прибора N.\n"
-            "  Диагональ = 0.\n\n"
-            "Используйте «Экспорт CSV» для создания шаблонов."
-        )
+    # def _show_csv_format(self):
+    #     QMessageBox.information(
+    #         self, "Формат CSV-файлов",
+    #         "Программа поддерживает CSV с разделителями ; или ,\n\n"
+    #         "── Матрица времён обработки (t_processing.csv) ──\n"
+    #         "  Строки = приборы (L строк)\n"
+    #         "  Столбцы = типы заданий (I столбцов)\n"
+    #         "  Пример (L=3, I=3):\n"
+    #         "  2;4;6\n"
+    #         "  3;5;7\n"
+    #         "  1;3;5\n\n"
+    #         "── Вектор n[i] (n_counts.csv) ──\n"
+    #         "  Одна строка, I значений:\n"
+    #         "  4;4;4\n\n"
+    #         "── Вектор d[i] (d_deadlines.csv) ──\n"
+    #         "  Одна строка, I значений:\n"
+    #         "  30;40;50\n\n"
+    #         "── Переналадки (t_setup_device_N.csv) ──\n"
+    #         "  Квадратная матрица I×I для прибора N.\n"
+    #         "  Диагональ = 0.\n\n"
+    #         "Используйте «Экспорт CSV» для создания шаблонов."
+    #     )
 
     def _show_about(self):
+        """Вывести информацию о программе"""
         QMessageBox.about(
             self,
             "О программе",
-            "<h3>Система оптимизации расписания КС</h3>"
-            "<p>Выпускная квалификационная работа бакалавра</p>"
+            "<h3>Система оптимизации расписания пакетов задач на конвейере</h3>"
+            "<p>Выпускная квалификационная работа</p>"
             "<p><b>Тема:</b> Разработка системы оптимизации расписания выполнения "
             "пакетов заданий в конвейерных системах при учёте технического "
             "обслуживания приборов с использованием целочисленного программирования</p>"
-            "<p><b>Кафедра:</b> Информационные системы, СевГУ, 2024</p>"
+            "<p><b>Кафедра:</b> Информационные технологии и системы, СевГУ, 2026</p>"
             "<hr>"
-            "<p><b>Основана на:</b> Кротов К.В. Модели MILP оптимизации включения "
-            "заданий в пакеты. ИУС, 2024, № 6, с. 46–57.</p>"
-            "<p><b>Решатель:</b> IBM CPLEX (docplex) / PuLP (CBC/GLPK)</p>"
+            "<p><b>Решатель:</b> IBM CPLEX (docplex) / PuLP (CBC)</p>"
             "<p><b>GUI:</b> PyQt5 + matplotlib</p>"
-            "<hr>"
-            "<p><b>Форматы ввода данных:</b><br>"
-            "  • Ручной ввод в таблицы<br>"
-            "  • Вставка из Excel (буфер обмена)<br>"
-            "  • Загрузка из JSON-файла<br>"
-            "  • Импорт матриц из CSV-файлов</p>"
-            "<p><b>Форматы экспорта:</b><br>"
-            "  • Параметры → JSON<br>"
-            "  • Матрицы → CSV (набор файлов)<br>"
-            "  • Результаты → Excel (.xlsx)<br>"
-            "  • Результаты → JSON</p>"
+            # "<hr>"
+            # "<p><b>Форматы ввода данных:</b><br>"
+            # "  • Ручной ввод в таблицы<br>"
+            # "  • Вставка из Excel (буфер обмена)<br>"
+            # "  • Загрузка из JSON-файла<br>"
+            # "  • Импорт матриц из CSV-файлов</p>"
+            # "<p><b>Форматы экспорта:</b><br>"
+            # "  • Параметры → JSON<br>"
+            # "  • Матрицы → CSV (набор файлов)<br>"
+            # "  • Результаты → Excel (.xlsx)<br>"
+            # "  • Результаты → JSON</p>"
         )
 
     def _show_solver_info(self):
+        """Вывести информацию о решателе задач (для меню)"""
         if SOLVER_AVAILABLE == "cplex":
-            msg = ("IBM CPLEX доступен через docplex.\n\n"
+            msg = ("Решатель IBM ILOG CPLEX. Доступен через библиотеку DOcplex.\n\n"
                    "Высокопроизводительный коммерческий решатель.\n"
                    "Community Edition: до 1000 переменных бесплатно.")
         elif SOLVER_AVAILABLE == "pulp":
-            msg = ("PuLP доступен (CBC/GLPK solver).\n\n"
-                   "Бесплатный открытый решатель.\n"
-                   "Для задач малого и среднего размера работает хорошо.\n\n"
-                   "Для улучшения производительности установите:\n"
-                   "pip install docplex  (+ IBM CPLEX)")
+            msg = ("Решатель CBC. Доступен через библиотеку PuLP.\n\n"
+                   "Бесплатный открытый решатель lля задач малого и среднего размера.\n\n")
         else:
             msg = ("Решатель НЕ НАЙДЕН!\n\n"
                    "Установите:\n"
                    "  pip install pulp\n"
-                   "  (опционально: pip install docplex)")
+                   "  pip install cplex docplex")
         QMessageBox.information(self, "Информация о решателе", msg)
 
     def closeEvent(self, event):
+        """Остановить поток решения задачи"""
         if self._worker and self._worker.isRunning():
             self._worker.terminate()
         event.accept()

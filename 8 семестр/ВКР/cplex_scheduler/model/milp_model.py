@@ -1,23 +1,23 @@
 """
 MILP-модель оптимизации расписания выполнения пакетов заданий
-в конвейерных системах с учётом технического обслуживания (ТО)
-приборов.
-
-Прототип (без ТО): Кротов К.В. Модели MILP оптимизации включения
-заданий в пакеты и порядков проведения операций с ними в конвейерных
-системах. ИУС, 2024, № 6, с. 46–57.
+в конвейерных системах с учётом технического обслуживания (ПТО) приборов.
 
 ПОЛНАЯ ФОРМУЛИРОВКА РЕАЛИЗОВАННОЙ МОДЕЛИ
 ========================================
 
 Индексы и параметры:
-  i, k = 1..I — типы заданий;  l = 1..L — приборы;  j = 1..J — позиции;
-  n_i — количество заданий типа i;  t_li — время обработки задания
-  типа i на приборе l;  t'_lki — переналадка прибора l с типа k на тип i;
-  t0_li — первоначальная наладка;  d_i — директивные сроки (критерий G);
-  TM_l — момент начала ТО прибора l, tm_l — длительность ТО прибора l;
-  H — горизонт планирования: H = 1.2 * (суммарная трудоёмкость
-      + переналадки + надбавка на ТО);  R = 1.5*H — константа big-M.
+  i, k = 1..I — типы заданий;
+  l = 1..L — приборы;
+  j = 1..J — позиции;
+  n_i — количество заданий типа i;
+  t_li — время обработки задания типа i на приборе l;
+  t_lki — переналадка прибора l с типа k на тип i;
+  t0_li — первоначальная наладка;
+  d_i — директивные сроки (критерий G);
+  TM_l — момент начала ТО прибора l,
+  tm_l — длительность ТО прибора l;
+  H — горизонт планирования: H = 1.2 * (суммарная трудоёмкость + переналадки + надбавка на ТО);
+  R = 1.5*H — константа big-M.
 
 ТО каждого прибора — ОДИН заранее заданный фиксированный промежуток
 времени (а не периодически повторяющийся цикл): [TM_l, TM_l + tm_l].
@@ -87,6 +87,7 @@ from model.results import OptimizationResults, BatchInfo, ScheduleEntry, Mainten
 
 logger = logging.getLogger(__name__)
 
+# --------------- ПРОВЕРКА УСТАНОВЛЕННОГО РЕШАТЕЛЯ ---------------
 SOLVER_AVAILABLE = None
 try:
     from docplex.mp.model import Model as CplexModel
@@ -117,12 +118,13 @@ def _maintenance_window(TM: float, tm: float) -> Optional[Tuple[float, float]]:
 
 
 def _estimate_horizon(params) -> float:
-    """Грубая оценка горизонта расписания."""
+    """Грубая оценка горизонта расписания"""
     p = params
     total = 0.0
     for l in range(p.L):
         for i in range(p.I):
             total += p.t[l][i] * p.n[i]
+
     # Добавим переналадки
     for l in range(p.L):
         for i in range(p.I):
@@ -141,7 +143,6 @@ def _estimate_horizon(params) -> float:
             if w is not None:
                 horizon = max(horizon, (w[1]) * 1.1)
     return horizon
-
 
 
 def _greedy_initial_solution(p, maint_windows, horizon):
@@ -224,8 +225,8 @@ def _greedy_initial_solution(p, maint_windows, horizon):
 
 class MILPModel:
     """
-    Модель 1: min Cmax   (ограничения 31–46 + блок ТО)
-    Модель 2: min G      (ограничения 51–71 + блок ТО)
+    Модель 1: min Cmax
+    Модель 2: min G
     """
 
     def __init__(self, params: TaskParameters, criterion: str = "Cmax",
@@ -297,290 +298,290 @@ class MILPModel:
     # PuLP
     # ------------------------------------------------------------------
 
-    def _solve_pulp(self) -> OptimizationResults:
-        import pulp
-        p = self.params
-        I, L, J = p.I, p.L, p.J
-
-        # Оценка горизонта и промежутка ТО
-        horizon = _estimate_horizon(p)
-        R = horizon * 1.5   # big-M: достаточно R >= horizon, берём с запасом 1.5
-
-        # Максимальный размер пакета
-        n_min = min(p.n)
-
-        # --- Единственный фиксированный промежуток ТО для каждого прибора ---
-        maint_windows = {}   # maint_windows[l] = (a_s, a_e) или None
-        for l in range(L):
-            maint_windows[l] = _maintenance_window(p.TM[l], p.tm_maint[l]) \
-                if p.use_maintenance else None
-
-        prob = pulp.LpProblem("FlowShop_Batch", pulp.LpMinimize)
-
-        # ── Переменные ──
-
-        # x[i,j] = 1 если позиция j содержит тип i
-        x = {(i, j): pulp.LpVariable(f"x_{i}_{j}", cat='Binary')
-             for i in range(I) for j in range(J)}
-
-        # m[j] — размер пакета
-        m = {j: pulp.LpVariable(f"m_{j}", lowBound=2, upBound=n_min, cat='Integer')
-             for j in range(J)}
-
-        # q[l,j] — момент начала обработки пакета j на приборе l
-        q = {(l, j): pulp.LpVariable(f"q_{l}_{j}", lowBound=0)
-             for l in range(L) for j in range(J)}
-
-        # r[j,i] = m[j]*x[i,j]  (линеаризация)
-        r = {(j, i): pulp.LpVariable(f"r_{j}_{i}", lowBound=0, upBound=n_min)
-             for j in range(J) for i in range(I)}
-
-        # y[k,j1,i,j] = x[k,j1]*x[i,j]  (линеаризация произведения бинарных)
-        y = {(k, j-1, i, j): pulp.LpVariable(f"y_{k}_{j-1}_{i}_{j}", cat='Binary')
-             for j in range(1, J)
-             for i in range(I) for k in range(I) if i != k}
-
-        # v[l] — индикатор для max при j=0, l>=1
-
-        # w[l,j] — индикатор для max при j>=1, l>=1
-
-        # delta[l,j] — ТО: 1=пакет до промежутка ТО, 0=пакет после него
-        # (определена только для приборов l, у которых задан промежуток ТО)
-        delta = {}
-        for l in range(L):
-            if maint_windows[l] is not None:
-                for j in range(J):
-                    delta[l, j] = pulp.LpVariable(f"delta_{l}_{j}", cat='Binary')
-
-        # ── (31) Единственность типа + распределение всех заданий ──
-        for j in range(J):
-            prob += pulp.lpSum(x[i, j] for i in range(I)) == 1
-
-        for i in range(I):
-            prob += pulp.lpSum(r[j, i] for j in range(J)) == p.n[i]
-
-        # ── (32) Различие типов в соседних позициях ──
-        for j in range(1, J):
-            for i in range(I):
-                prob += x[i, j] + x[i, j-1] <= 1
-
-        # ── (38) Линеаризация r[j,i] = m[j]*x[i,j] ──
-        for j in range(J):
-            for i in range(I):
-                prob += r[j, i] >= 0
-                prob += r[j, i] <= n_min * x[i, j]
-                prob += r[j, i] <= m[j]
-                prob += r[j, i] >= m[j] - n_min * (1 - x[i, j])
-
-        # ── (44) Линеаризация y = x[k,j-1]*x[i,j] ──
-        for j in range(1, J):
-            j1 = j - 1
-            for i in range(I):
-                for k in range(I):
-                    if i == k:
-                        continue
-                    prob += y[k, j1, i, j] <= x[k, j1]
-                    prob += y[k, j1, i, j] <= x[i, j]
-                    prob += y[k, j1, i, j] >= x[k, j1] + x[i, j] - 1
-
-        # ── Расписание ──
-
-        # (33) Прибор 0, позиция 0
-        prob += q[0, 0] >= pulp.lpSum(p.t_init[0][i] * x[i, 0] for i in range(I))
-
-        # (34) Прибор 0, позиции j>=1
-        for j in range(1, J):
-            j1 = j - 1
-            setup = pulp.lpSum(
-                p.t_setup[0][k][i] * y[k, j1, i, j]
-                for i in range(I) for k in range(I) if i != k)
-            prob += q[0, j] >= (q[0, j1]
-                                + pulp.lpSum(p.t[0][i] * r[j1, i] for i in range(I))
-                                + setup)
-
-        # (35-37) Прибор l>=1, позиция 0
-        for l in range(1, L):
-            init_l = pulp.lpSum(p.t_init[l][i] * x[i, 0] for i in range(I))
-            prev_end = q[l-1, 0] + pulp.lpSum(p.t[l-1][i] * r[0, i] for i in range(I))
-            # Безусловные нижние границы: пакет не может начаться раньше,
-            # чем завершилась наладка прибора И обработка на предыдущем приборе.
-            # (Равенство max(...) из статьи заменено на >=: при наличии промежутка ТО
-            # требуется возможность простоя прибора, равенство делает модель некорректной.)
-            prob += q[l, 0] >= init_l
-            prob += q[l, 0] >= prev_end
-
-        # (39-43) Прибор l>=1, позиции j>=1
-        for l in range(1, L):
-            for j in range(1, J):
-                j1 = j - 1
-                setup_l = pulp.lpSum(
-                    p.t_setup[l][k][i] * y[k, j1, i, j]
-                    for i in range(I) for k in range(I) if i != k)
-                prev_pos = (q[l, j1]
-                            + pulp.lpSum(p.t[l][i] * r[j1, i] for i in range(I))
-                            + setup_l)
-                prev_dev = (q[l-1, j]
-                            + pulp.lpSum(p.t[l-1][i] * r[j, i] for i in range(I)))
-                prob += q[l, j] >= prev_pos
-                prob += q[l, j] >= prev_dev
-
-        # ── (ТО.1) Дизъюнктивные ограничения: пакет до или после промежутка ТО ──
-        if p.use_maintenance:
-            for l in range(L):
-                for j in range(J):
-                    proc_j = pulp.lpSum(p.t[l][i] * r[j, i] for i in range(I))
-                    # (ТО.2) Пакет обязан завершиться в пределах горизонта.
-                    prob += q[l, j] + proc_j <= horizon
-                    w = maint_windows[l]
-                    if w is None:
-                        continue
-                    a_s, a_e = w
-                    d_var = delta[l, j]
-                    # delta=1: пакет заканчивается ДО начала промежутка ТО
-                    prob += q[l, j] + proc_j <= a_s + R * (1 - d_var)
-                    # delta=0: пакет начинается ПОСЛЕ окончания промежутка ТО
-                    prob += q[l, j] >= a_e - R * d_var
-
-        # ── Критерий ──
-        eps = 1.0 / (R * 10.0)   # прижим расписания «влево», не влияет на оптимум критерия
-        q_pull = pulp.lpSum(q[l, j] for l in range(L) for j in range(J))
-        if self.criterion == "Cmax":
-            Cmax = pulp.LpVariable("Cmax", lowBound=0)
-            prob += Cmax + eps * q_pull
-            for j in range(J):
-                prob += Cmax >= (q[L-1, j]
-                                 + pulp.lpSum(p.t[L-1][i] * r[j, i] for i in range(I)))
-        else:
-            g_time = {i: pulp.LpVariable(f"g_{i}", lowBound=0) for i in range(I)}
-            delay = {i: pulp.LpVariable(f"p_{i}", lowBound=0) for i in range(I)}
-            prob += pulp.lpSum(delay[i] for i in range(I)) + eps * q_pull
-            for i in range(I):
-                for j in range(J):
-                    end_j = (q[L-1, j]
-                             + pulp.lpSum(p.t[L-1][ii] * r[j, ii] for ii in range(I)))
-                    prob += g_time[i] >= end_j - R * (1 - x[i, j])
-                prob += delay[i] >= g_time[i] - p.d[i]
-                prob += delay[i] >= 0
-
-        # ── Тёплый старт: эвристическое стартовое решение ──
-        warm = _greedy_initial_solution(p, maint_windows, horizon)
-        warm_start = False
-        if warm is not None:
-            try:
-                seq, m0, q0 = warm["seq"], warm["m"], warm["q"]
-                for j in range(J):
-                    for i in range(I):
-                        x[i, j].setInitialValue(1 if seq[j] == i else 0)
-                        r[j, i].setInitialValue(m0[j] if seq[j] == i else 0)
-                    m[j].setInitialValue(m0[j])
-                for j in range(1, J):
-                    for i in range(I):
-                        for k in range(I):
-                            if i == k:
-                                continue
-                            y[k, j - 1, i, j].setInitialValue(
-                                1 if (seq[j - 1] == k and seq[j] == i) else 0)
-                for l in range(L):
-                    for j in range(J):
-                        q[l, j].setInitialValue(round(q0[l][j], 6))
-                        dur = p.t[l][seq[j]] * m0[j]
-                        w = maint_windows[l]
-                        if w is not None:
-                            a_s, _a_e = w
-                            delta[l, j].setInitialValue(
-                                1 if q0[l][j] + dur <= a_s + 1e-9 else 0)
-                if self.criterion == "Cmax":
-                    Cmax.setInitialValue(round(warm["cmax"], 6))
-                else:
-                    for i in range(I):
-                        ends = [q0[L - 1][j] + p.t[L - 1][i] * m0[j]
-                                for j in range(J) if seq[j] == i]
-                        gi = max(ends) if ends else 0.0
-                        g_time[i].setInitialValue(round(gi, 6))
-                        delay[i].setInitialValue(round(max(0.0, gi - p.d[i]), 6))
-                warm_start = True
-                logger.info("Тёплый старт: эвристическое решение, Cmax=%.2f",
-                            warm["cmax"])
-            except Exception:
-                warm_start = False
-                logger.exception("Не удалось задать тёплый старт")
-
-        # ── Запуск ──
-        msg = 1 if self.verbose else 0
-        avail = pulp.listSolvers(onlyAvailable=True)
-        if 'PULP_CBC_CMD' in avail:
-            solver = pulp.PULP_CBC_CMD(msg=msg, timeLimit=self.time_limit, gapRel=0.05,
-                                       warmStart=warm_start)
-        elif 'GLPK_CMD' in avail:
-            solver = pulp.GLPK_CMD(msg=msg, timeLimit=self.time_limit)
-        else:
-            solver = pulp.PULP_CBC_CMD(msg=msg)
-
-        status_code = prob.solve(solver)
-        status_str = pulp.LpStatus[status_code]
-        sol_status = getattr(prob, "sol_status", None)
-
-        results = OptimizationResults()
-        results.criterion = self.criterion
-
-        if status_str == "Infeasible" or sol_status == pulp.LpSolutionInfeasible:
-            results.status = OptimizationResults.STATUS_INFEASIBLE
-            results.message = "Задача не имеет допустимого решения. Проверьте параметры ТО."
-            return results
-
-        # Ключевая проверка: значения переменных валидны только если найдено
-        # ЦЕЛОЧИСЛЕННОЕ решение (оптимум или инкумбент). Если за лимит времени
-        # целочисленное решение не найдено, PuLP возвращает значения
-        # LP-релаксации — их нельзя выдавать за расписание.
-        if sol_status == pulp.LpSolutionOptimal:
-            results.status = OptimizationResults.STATUS_OPTIMAL
-        elif sol_status == pulp.LpSolutionIntegerFeasible:
-            results.status = OptimizationResults.STATUS_FEASIBLE
-        else:
-            results.status = OptimizationResults.STATUS_INFEASIBLE
-            results.message = (
-                "За отведённый лимит времени целочисленное решение не найдено "
-                "(найдена только нижняя оценка критерия). Увеличьте лимит "
-                "времени на вкладке «Параметры задачи» или уменьшите "
-                "размерность задачи.")
-            return results
-
-        try:
-            if self.criterion == "Cmax":
-                results.objective_value = pulp.value(Cmax)
-            else:
-                results.objective_value = sum(pulp.value(delay[i]) or 0.0 for i in range(I))
-        except Exception:
-            results.objective_value = None
-
-        if results.objective_value is None:
-            results.status = OptimizationResults.STATUS_INFEASIBLE
-            results.message = "Решение не найдено"
-            return results
-
-        # ── Единое извлечение результатов + верификация ──
-        ok = self._extract_results(
-            pulp.value, results, maint_windows, x, m, q,
-            g_time=g_time if self.criterion == "G" else None,
-            delay=delay if self.criterion == "G" else None)
-        if not ok:
-            results.status = OptimizationResults.STATUS_ERROR
-            results.message = ("Решатель вернул некорректные значения "
-                               "переменных. Увеличьте лимит времени.")
-            results.batches.clear(); results.schedule.clear()
-            results.maintenance.clear()
-            return results
-
-        v_ok, v_report = self._verify_solution(results, maint_windows)
-        if not v_ok:
-            results.status = OptimizationResults.STATUS_ERROR
-            results.message = "Верификация решения не пройдена: " + v_report
-            logger.error("Верификация (PuLP): %s", v_report)
-            return results
-        results.message = ((results.message + " | ") if results.message
-                           else "") + "Верификация: " + v_report
-
-        return results
+    # def _solve_pulp(self) -> OptimizationResults:
+    #     import pulp
+    #     p = self.params
+    #     I, L, J = p.I, p.L, p.J
+    #
+    #     # Оценка горизонта и промежутка ТО
+    #     horizon = _estimate_horizon(p)
+    #     R = horizon * 1.5   # big-M: достаточно R >= horizon, берём с запасом 1.5
+    #
+    #     # Максимальный размер пакета
+    #     n_min = min(p.n)
+    #
+    #     # --- Единственный фиксированный промежуток ТО для каждого прибора ---
+    #     maint_windows = {}   # maint_windows[l] = (a_s, a_e) или None
+    #     for l in range(L):
+    #         maint_windows[l] = _maintenance_window(p.TM[l], p.tm_maint[l]) \
+    #             if p.use_maintenance else None
+    #
+    #     prob = pulp.LpProblem("FlowShop_Batch", pulp.LpMinimize)
+    #
+    #     # ── Переменные ──
+    #
+    #     # x[i,j] = 1 если позиция j содержит тип i
+    #     x = {(i, j): pulp.LpVariable(f"x_{i}_{j}", cat='Binary')
+    #          for i in range(I) for j in range(J)}
+    #
+    #     # m[j] — размер пакета
+    #     m = {j: pulp.LpVariable(f"m_{j}", lowBound=2, upBound=n_min, cat='Integer')
+    #          for j in range(J)}
+    #
+    #     # q[l,j] — момент начала обработки пакета j на приборе l
+    #     q = {(l, j): pulp.LpVariable(f"q_{l}_{j}", lowBound=0)
+    #          for l in range(L) for j in range(J)}
+    #
+    #     # r[j,i] = m[j]*x[i,j]  (линеаризация)
+    #     r = {(j, i): pulp.LpVariable(f"r_{j}_{i}", lowBound=0, upBound=n_min)
+    #          for j in range(J) for i in range(I)}
+    #
+    #     # y[k,j1,i,j] = x[k,j1]*x[i,j]  (линеаризация произведения бинарных)
+    #     y = {(k, j-1, i, j): pulp.LpVariable(f"y_{k}_{j-1}_{i}_{j}", cat='Binary')
+    #          for j in range(1, J)
+    #          for i in range(I) for k in range(I) if i != k}
+    #
+    #     # v[l] — индикатор для max при j=0, l>=1
+    #
+    #     # w[l,j] — индикатор для max при j>=1, l>=1
+    #
+    #     # delta[l,j] — ТО: 1=пакет до промежутка ТО, 0=пакет после него
+    #     # (определена только для приборов l, у которых задан промежуток ТО)
+    #     delta = {}
+    #     for l in range(L):
+    #         if maint_windows[l] is not None:
+    #             for j in range(J):
+    #                 delta[l, j] = pulp.LpVariable(f"delta_{l}_{j}", cat='Binary')
+    #
+    #     # ── (31) Единственность типа + распределение всех заданий ──
+    #     for j in range(J):
+    #         prob += pulp.lpSum(x[i, j] for i in range(I)) == 1
+    #
+    #     for i in range(I):
+    #         prob += pulp.lpSum(r[j, i] for j in range(J)) == p.n[i]
+    #
+    #     # ── (32) Различие типов в соседних позициях ──
+    #     for j in range(1, J):
+    #         for i in range(I):
+    #             prob += x[i, j] + x[i, j-1] <= 1
+    #
+    #     # ── (38) Линеаризация r[j,i] = m[j]*x[i,j] ──
+    #     for j in range(J):
+    #         for i in range(I):
+    #             prob += r[j, i] >= 0
+    #             prob += r[j, i] <= n_min * x[i, j]
+    #             prob += r[j, i] <= m[j]
+    #             prob += r[j, i] >= m[j] - n_min * (1 - x[i, j])
+    #
+    #     # ── (44) Линеаризация y = x[k,j-1]*x[i,j] ──
+    #     for j in range(1, J):
+    #         j1 = j - 1
+    #         for i in range(I):
+    #             for k in range(I):
+    #                 if i == k:
+    #                     continue
+    #                 prob += y[k, j1, i, j] <= x[k, j1]
+    #                 prob += y[k, j1, i, j] <= x[i, j]
+    #                 prob += y[k, j1, i, j] >= x[k, j1] + x[i, j] - 1
+    #
+    #     # ── Расписание ──
+    #
+    #     # (33) Прибор 0, позиция 0
+    #     prob += q[0, 0] >= pulp.lpSum(p.t_init[0][i] * x[i, 0] for i in range(I))
+    #
+    #     # (34) Прибор 0, позиции j>=1
+    #     for j in range(1, J):
+    #         j1 = j - 1
+    #         setup = pulp.lpSum(
+    #             p.t_setup[0][k][i] * y[k, j1, i, j]
+    #             for i in range(I) for k in range(I) if i != k)
+    #         prob += q[0, j] >= (q[0, j1]
+    #                             + pulp.lpSum(p.t[0][i] * r[j1, i] for i in range(I))
+    #                             + setup)
+    #
+    #     # (35-37) Прибор l>=1, позиция 0
+    #     for l in range(1, L):
+    #         init_l = pulp.lpSum(p.t_init[l][i] * x[i, 0] for i in range(I))
+    #         prev_end = q[l-1, 0] + pulp.lpSum(p.t[l-1][i] * r[0, i] for i in range(I))
+    #         # Безусловные нижние границы: пакет не может начаться раньше,
+    #         # чем завершилась наладка прибора И обработка на предыдущем приборе.
+    #         # (Равенство max(...) из статьи заменено на >=: при наличии промежутка ТО
+    #         # требуется возможность простоя прибора, равенство делает модель некорректной.)
+    #         prob += q[l, 0] >= init_l
+    #         prob += q[l, 0] >= prev_end
+    #
+    #     # (39-43) Прибор l>=1, позиции j>=1
+    #     for l in range(1, L):
+    #         for j in range(1, J):
+    #             j1 = j - 1
+    #             setup_l = pulp.lpSum(
+    #                 p.t_setup[l][k][i] * y[k, j1, i, j]
+    #                 for i in range(I) for k in range(I) if i != k)
+    #             prev_pos = (q[l, j1]
+    #                         + pulp.lpSum(p.t[l][i] * r[j1, i] for i in range(I))
+    #                         + setup_l)
+    #             prev_dev = (q[l-1, j]
+    #                         + pulp.lpSum(p.t[l-1][i] * r[j, i] for i in range(I)))
+    #             prob += q[l, j] >= prev_pos
+    #             prob += q[l, j] >= prev_dev
+    #
+    #     # ── (ТО.1) Дизъюнктивные ограничения: пакет до или после промежутка ТО ──
+    #     if p.use_maintenance:
+    #         for l in range(L):
+    #             for j in range(J):
+    #                 proc_j = pulp.lpSum(p.t[l][i] * r[j, i] for i in range(I))
+    #                 # (ТО.2) Пакет обязан завершиться в пределах горизонта.
+    #                 prob += q[l, j] + proc_j <= horizon
+    #                 w = maint_windows[l]
+    #                 if w is None:
+    #                     continue
+    #                 a_s, a_e = w
+    #                 d_var = delta[l, j]
+    #                 # delta=1: пакет заканчивается ДО начала промежутка ТО
+    #                 prob += q[l, j] + proc_j <= a_s + R * (1 - d_var)
+    #                 # delta=0: пакет начинается ПОСЛЕ окончания промежутка ТО
+    #                 prob += q[l, j] >= a_e - R * d_var
+    #
+    #     # ── Критерий ──
+    #     eps = 1.0 / (R * 10.0)   # прижим расписания «влево», не влияет на оптимум критерия
+    #     q_pull = pulp.lpSum(q[l, j] for l in range(L) for j in range(J))
+    #     if self.criterion == "Cmax":
+    #         Cmax = pulp.LpVariable("Cmax", lowBound=0)
+    #         prob += Cmax + eps * q_pull
+    #         for j in range(J):
+    #             prob += Cmax >= (q[L-1, j]
+    #                              + pulp.lpSum(p.t[L-1][i] * r[j, i] for i in range(I)))
+    #     else:
+    #         g_time = {i: pulp.LpVariable(f"g_{i}", lowBound=0) for i in range(I)}
+    #         delay = {i: pulp.LpVariable(f"p_{i}", lowBound=0) for i in range(I)}
+    #         prob += pulp.lpSum(delay[i] for i in range(I)) + eps * q_pull
+    #         for i in range(I):
+    #             for j in range(J):
+    #                 end_j = (q[L-1, j]
+    #                          + pulp.lpSum(p.t[L-1][ii] * r[j, ii] for ii in range(I)))
+    #                 prob += g_time[i] >= end_j - R * (1 - x[i, j])
+    #             prob += delay[i] >= g_time[i] - p.d[i]
+    #             prob += delay[i] >= 0
+    #
+    #     # ── Тёплый старт: эвристическое стартовое решение ──
+    #     warm = _greedy_initial_solution(p, maint_windows, horizon)
+    #     warm_start = False
+    #     if warm is not None:
+    #         try:
+    #             seq, m0, q0 = warm["seq"], warm["m"], warm["q"]
+    #             for j in range(J):
+    #                 for i in range(I):
+    #                     x[i, j].setInitialValue(1 if seq[j] == i else 0)
+    #                     r[j, i].setInitialValue(m0[j] if seq[j] == i else 0)
+    #                 m[j].setInitialValue(m0[j])
+    #             for j in range(1, J):
+    #                 for i in range(I):
+    #                     for k in range(I):
+    #                         if i == k:
+    #                             continue
+    #                         y[k, j - 1, i, j].setInitialValue(
+    #                             1 if (seq[j - 1] == k and seq[j] == i) else 0)
+    #             for l in range(L):
+    #                 for j in range(J):
+    #                     q[l, j].setInitialValue(round(q0[l][j], 6))
+    #                     dur = p.t[l][seq[j]] * m0[j]
+    #                     w = maint_windows[l]
+    #                     if w is not None:
+    #                         a_s, _a_e = w
+    #                         delta[l, j].setInitialValue(
+    #                             1 if q0[l][j] + dur <= a_s + 1e-9 else 0)
+    #             if self.criterion == "Cmax":
+    #                 Cmax.setInitialValue(round(warm["cmax"], 6))
+    #             else:
+    #                 for i in range(I):
+    #                     ends = [q0[L - 1][j] + p.t[L - 1][i] * m0[j]
+    #                             for j in range(J) if seq[j] == i]
+    #                     gi = max(ends) if ends else 0.0
+    #                     g_time[i].setInitialValue(round(gi, 6))
+    #                     delay[i].setInitialValue(round(max(0.0, gi - p.d[i]), 6))
+    #             warm_start = True
+    #             logger.info("Тёплый старт: эвристическое решение, Cmax=%.2f",
+    #                         warm["cmax"])
+    #         except Exception:
+    #             warm_start = False
+    #             logger.exception("Не удалось задать тёплый старт")
+    #
+    #     # ── Запуск ──
+    #     msg = 1 if self.verbose else 0
+    #     avail = pulp.listSolvers(onlyAvailable=True)
+    #     if 'PULP_CBC_CMD' in avail:
+    #         solver = pulp.PULP_CBC_CMD(msg=msg, timeLimit=self.time_limit, gapRel=0.05,
+    #                                    warmStart=warm_start)
+    #     elif 'GLPK_CMD' in avail:
+    #         solver = pulp.GLPK_CMD(msg=msg, timeLimit=self.time_limit)
+    #     else:
+    #         solver = pulp.PULP_CBC_CMD(msg=msg)
+    #
+    #     status_code = prob.solve(solver)
+    #     status_str = pulp.LpStatus[status_code]
+    #     sol_status = getattr(prob, "sol_status", None)
+    #
+    #     results = OptimizationResults()
+    #     results.criterion = self.criterion
+    #
+    #     if status_str == "Infeasible" or sol_status == pulp.LpSolutionInfeasible:
+    #         results.status = OptimizationResults.STATUS_INFEASIBLE
+    #         results.message = "Задача не имеет допустимого решения. Проверьте параметры ТО."
+    #         return results
+    #
+    #     # Ключевая проверка: значения переменных валидны только если найдено
+    #     # ЦЕЛОЧИСЛЕННОЕ решение (оптимум или инкумбент). Если за лимит времени
+    #     # целочисленное решение не найдено, PuLP возвращает значения
+    #     # LP-релаксации — их нельзя выдавать за расписание.
+    #     if sol_status == pulp.LpSolutionOptimal:
+    #         results.status = OptimizationResults.STATUS_OPTIMAL
+    #     elif sol_status == pulp.LpSolutionIntegerFeasible:
+    #         results.status = OptimizationResults.STATUS_FEASIBLE
+    #     else:
+    #         results.status = OptimizationResults.STATUS_INFEASIBLE
+    #         results.message = (
+    #             "За отведённый лимит времени целочисленное решение не найдено "
+    #             "(найдена только нижняя оценка критерия). Увеличьте лимит "
+    #             "времени на вкладке «Параметры задачи» или уменьшите "
+    #             "размерность задачи.")
+    #         return results
+    #
+    #     try:
+    #         if self.criterion == "Cmax":
+    #             results.objective_value = pulp.value(Cmax)
+    #         else:
+    #             results.objective_value = sum(pulp.value(delay[i]) or 0.0 for i in range(I))
+    #     except Exception:
+    #         results.objective_value = None
+    #
+    #     if results.objective_value is None:
+    #         results.status = OptimizationResults.STATUS_INFEASIBLE
+    #         results.message = "Решение не найдено"
+    #         return results
+    #
+    #     # ── Единое извлечение результатов + верификация ──
+    #     ok = self._extract_results(
+    #         pulp.value, results, maint_windows, x, m, q,
+    #         g_time=g_time if self.criterion == "G" else None,
+    #         delay=delay if self.criterion == "G" else None)
+    #     if not ok:
+    #         results.status = OptimizationResults.STATUS_ERROR
+    #         results.message = ("Решатель вернул некорректные значения "
+    #                            "переменных. Увеличьте лимит времени.")
+    #         results.batches.clear(); results.schedule.clear()
+    #         results.maintenance.clear()
+    #         return results
+    #
+    #     v_ok, v_report = self._verify_solution(results, maint_windows)
+    #     if not v_ok:
+    #         results.status = OptimizationResults.STATUS_ERROR
+    #         results.message = "Верификация решения не пройдена: " + v_report
+    #         logger.error("Верификация (PuLP): %s", v_report)
+    #         return results
+    #     results.message = ((results.message + " | ") if results.message
+    #                        else "") + "Верификация: " + v_report
+    #
+    #     return results
 
     # ------------------------------------------------------------------
     # CPLEX
@@ -589,9 +590,10 @@ class MILPModel:
     def _solve_cplex(self) -> OptimizationResults:
         p = self.params
         I, L, J = p.I, p.L, p.J
-        horizon = _estimate_horizon(p)
-        R = horizon * 1.5   # big-M: достаточно R >= horizon, берём с запасом 1.5
         n_min = min(p.n)
+
+        horizon = _estimate_horizon(p)
+        R = horizon * 1.5
 
         maint_windows = {}
         for l in range(L):
