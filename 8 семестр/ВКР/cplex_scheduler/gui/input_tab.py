@@ -1,6 +1,5 @@
 """
 Вкладка ввода параметров задачи
-Расширенная версия: поддержка ввода, загрузки/выгрузки JSON и CSV
 """
 
 import os
@@ -33,65 +32,26 @@ class InputTab(QWidget):
 
     def __init__(self, parent=None):
         super().__init__(parent)
-        self._params = TaskParameters.example_small()
-        self._ts_layout = None   # layout для контейнера переналадок
-        self._ts_container = None
-        self._setup_ui()
-        self._load_params_to_ui()
+        #self._params = TaskParameters.example_small()
 
-    # ─────────────────────────── UI ────────────────────────────
+        self._ts_layout = None
+        self._ts_container = None   #
+
+        self._setup_ui()            #
+        #self._load_params_to_ui()
+
+    # -------------------- Интерфейс --------------------
 
     def _setup_ui(self):
+        """Заполнение интерфейса для формы ввода данных"""
         main_layout = QVBoxLayout(self)
         main_layout.setSpacing(6)
         main_layout.setContentsMargins(6, 6, 6, 6)
 
-        # ── Панель быстрых действий ──
-        action_bar = QHBoxLayout()
-        action_bar.setSpacing(6)
+        # Панель быстрых действий
+        main_layout.addLayout(self._build_action_bar())
 
-        lbl = QLabel("Данные:")
-        lbl.setFont(QFont("Arial", 9, QFont.Bold))
-        action_bar.addWidget(lbl)
-
-        btn_import_json = QPushButton("📂 Открыть JSON")
-        btn_import_json.setStyleSheet(BTN_STYLE)
-        btn_import_json.setToolTip("Загрузить параметры из JSON-файла")
-        btn_import_json.clicked.connect(self._import_json)
-        action_bar.addWidget(btn_import_json)
-
-        btn_export_json = QPushButton("💾 Сохранить JSON")
-        btn_export_json.setStyleSheet(BTN_GREEN)
-        btn_export_json.setToolTip("Сохранить текущие параметры в JSON")
-        btn_export_json.clicked.connect(self._export_json)
-        action_bar.addWidget(btn_export_json)
-
-        btn_import_csv = QPushButton("📊 Импорт CSV")
-        btn_import_csv.setStyleSheet(BTN_STYLE)
-        btn_import_csv.setToolTip("Загрузить времена обработки из CSV (строки=приборы, столбцы=типы)")
-        btn_import_csv.clicked.connect(self._import_csv)
-        action_bar.addWidget(btn_import_csv)
-
-        btn_export_csv = QPushButton("📤 Экспорт CSV")
-        btn_export_csv.setStyleSheet(BTN_ORANGE)
-        btn_export_csv.setToolTip("Экспортировать все матрицы в CSV-файлы")
-        btn_export_csv.clicked.connect(self._export_csv)
-        action_bar.addWidget(btn_export_csv)
-
-        action_bar.addSpacing(10)
-
-        btn_ex_s = QPushButton("📋 Пример малый")
-        btn_ex_s.clicked.connect(lambda: self.load_example("small"))
-        action_bar.addWidget(btn_ex_s)
-
-        btn_ex_m = QPushButton("📋 Пример средний")
-        btn_ex_m.clicked.connect(lambda: self.load_example("medium"))
-        action_bar.addWidget(btn_ex_m)
-
-        action_bar.addStretch()
-        main_layout.addLayout(action_bar)
-
-        # ── Скролл-контейнер ──
+        # Прокручиваемая форма ввода данных
         scroll = QScrollArea()
         scroll.setWidgetResizable(True)
         scroll.setFrameShape(QFrame.NoFrame)
@@ -105,58 +65,106 @@ class InputTab(QWidget):
         scroll.setWidget(self._container)
         main_layout.addWidget(scroll)
 
-    def _build_content(self, layout):
-        """Строит основное содержимое вкладки"""
+    def _build_action_bar(self):
+        """Создание окна быстрых действий"""
+        action_bar = QHBoxLayout()
+        action_bar.setSpacing(6)
 
-        # ── Размерности ──
+        lbl = QLabel("Данные:")
+        lbl.setFont(QFont("Arial", 9, QFont.Bold))
+        action_bar.addWidget(lbl)
+
+        btn_import_json = QPushButton("📂 Загрузить JSON")
+        btn_import_json.setStyleSheet(BTN_STYLE)
+        btn_import_json.setToolTip("Загрузить параметры из JSON-файла")
+        btn_import_json.clicked.connect(self._import_json)
+        action_bar.addWidget(btn_import_json)
+
+        btn_export_json = QPushButton("💾 Сохранить JSON")
+        btn_export_json.setStyleSheet(BTN_GREEN)
+        btn_export_json.setToolTip("Сохранить текущие параметры в JSON")
+        btn_export_json.clicked.connect(self._export_json)
+        action_bar.addWidget(btn_export_json)
+
+        # btn_import_csv = QPushButton("📊 Импорт CSV")
+        # btn_import_csv.setStyleSheet(BTN_STYLE)
+        # btn_import_csv.setToolTip("Загрузить времена обработки из CSV (строки=приборы, столбцы=типы)")
+        # btn_import_csv.clicked.connect(self._import_csv)
+        # action_bar.addWidget(btn_import_csv)
+        #
+        # btn_export_csv = QPushButton("📤 Экспорт CSV")
+        # btn_export_csv.setStyleSheet(BTN_ORANGE)
+        # btn_export_csv.setToolTip("Экспортировать все матрицы в CSV-файлы")
+        # btn_export_csv.clicked.connect(self._export_csv)
+        # action_bar.addWidget(btn_export_csv)
+
+        action_bar.addSpacing(10)
+
+        btn_example_small = QPushButton("📋 Малый пример")
+        btn_example_small.clicked.connect(lambda: self.load_example("small"))
+        action_bar.addWidget(btn_example_small)
+
+        btn_example_medium = QPushButton("📋 Средний пример")
+        btn_example_medium.clicked.connect(lambda: self.load_example("medium"))
+        action_bar.addWidget(btn_example_medium)
+
+        action_bar.addStretch()
+        return action_bar
+
+    def _build_content(self, layout):
+        """Строит основное содержимое формы ввода"""
+
+        # Параметры размерности задачи
         dim_group = QGroupBox("Размерность задачи")
         dim_layout = QGridLayout(dim_group)
 
-        dim_layout.addWidget(QLabel("Типов заданий (I):"), 0, 0)
+        dim_layout.addWidget(QLabel("Количество типов заданий:"), 0, 0)
         self.spin_I = QSpinBox()
         self.spin_I.setRange(2, 15)
-        self.spin_I.setValue(3)
-        self.spin_I.setToolTip("Количество типов заданий (2..15)")
+        self.spin_I.setValue(0)
+        self.spin_I.setToolTip("Количество типов заданий (2-15)")
         dim_layout.addWidget(self.spin_I, 0, 1)
 
-        dim_layout.addWidget(QLabel("Приборов (L):"), 0, 2)
+        dim_layout.addWidget(QLabel("Количество приборов:"), 0, 2)
         self.spin_L = QSpinBox()
         self.spin_L.setRange(2, 10)
-        self.spin_L.setValue(3)
+        self.spin_L.setValue(0)
+        self.spin_I.setToolTip("Количество приборов (2-10)")
         dim_layout.addWidget(self.spin_L, 0, 3)
 
-        dim_layout.addWidget(QLabel("Позиций (J):"), 0, 4)
+        dim_layout.addWidget(QLabel("Количество пакетов:"), 0, 4)
         self.spin_J = QSpinBox()
         self.spin_J.setRange(2, 20)
-        self.spin_J.setValue(4)
+        self.spin_J.setValue(0)
+        self.spin_I.setToolTip("Количество позиций (пакетов) в решении (2-20)")
         dim_layout.addWidget(self.spin_J, 0, 5)
 
-        btn_apply_dim = QPushButton("✔ Применить размерность (перестроить таблицы)")
+        btn_apply_dim = QPushButton("✔ Применить размерность (перестроить матрицы)")
         btn_apply_dim.setStyleSheet(BTN_STYLE)
         btn_apply_dim.clicked.connect(self._apply_dimensions)
         dim_layout.addWidget(btn_apply_dim, 1, 0, 1, 6)
 
         layout.addWidget(dim_group)
 
-        # ── Подсказка по формату ──
+        # Подсказка по формату
         hint = QLabel(
-            "ℹ  После изменения I/L нажмите «Применить размерность». "
-            "Для загрузки своих данных используйте кнопки «Открыть JSON» или «Импорт CSV»."
+            "ℹ  После изменения параметров нажмите «Применить размерность». "
+            "Для загрузки своих данных используйте «Загрузить JSON»"
         )
         hint.setWordWrap(True)
         hint.setStyleSheet("color: #555; font-size: 9pt; background: #EEF2FF; "
                            "padding: 4px; border-radius: 3px;")
         layout.addWidget(hint)
 
-        # ── Количество заданий ──
-        n_group = QGroupBox("Количество заданий каждого типа  n[i]")
+        # Количество заданий
+        n_group = QGroupBox("Количество заданий каждого типа")
         n_layout = QVBoxLayout(n_group)
-        self.n_table = QTableWidget(1, 3)
-        self.n_table.setHorizontalHeaderLabels([f"n[{i+1}]" for i in range(3)])
+        self.n_table = QTableWidget(1, 2)
+        self.n_table.setHorizontalHeaderLabels([f"Тип {i+1}" for i in range(2)])
         self.n_table.verticalHeader().hide()
         self.n_table.setMaximumHeight(60)
-        for i in range(3):
-            self._set_cell(self.n_table, 0, i, "4")
+        for i in range(2):
+            self._set_cell(self.n_table, 0, i, "0")
         n_layout.addWidget(self.n_table)
 
         n_hint = QLabel("Минимальное значение — 2.")
@@ -438,33 +446,36 @@ class InputTab(QWidget):
     # ─────────────────── load/save params ──────────────────────
 
     def _load_params_to_ui(self):
+        """Загрузить параметры в форму ввода"""
         p = self._params
+
+        # размерность задачи
         self.spin_I.setValue(p.I)
         self.spin_L.setValue(p.L)
         self.spin_J.setValue(p.J)
 
-        # Применить размерность
+        # список n[i]
         self.n_table.setColumnCount(p.I)
         self.n_table.setHorizontalHeaderLabels([f"n[{i+1}]" for i in range(p.I)])
 
-        self.d_table.setColumnCount(p.I)
-        self.d_table.setHorizontalHeaderLabels([f"d[{i+1}]" for i in range(p.I)])
+        # self.d_table.setColumnCount(p.I)
+        # self.d_table.setHorizontalHeaderLabels([f"d[{i+1}]" for i in range(p.I)])
 
-        # t
+        # матрица t_setup[l][i]
         self.t_table.setRowCount(p.L)
         self.t_table.setColumnCount(p.I)
         self.t_table.setHorizontalHeaderLabels([f"Тип {i+1}" for i in range(p.I)])
         self.t_table.setVerticalHeaderLabels([f"Прибор {l+1}" for l in range(p.L)])
         self._fill_table(self.t_table, p.t)
 
-        # ti
+        # матрица t_init
         self.ti_table.setRowCount(p.L)
         self.ti_table.setColumnCount(p.I)
         self.ti_table.setHorizontalHeaderLabels([f"Тип {i+1}" for i in range(p.I)])
         self.ti_table.setVerticalHeaderLabels([f"Прибор {l+1}" for l in range(p.L)])
         self._fill_table(self.ti_table, p.t_init)
 
-        # ts
+        # матрица t_setup[l][i]
         self._rebuild_ts_tables(p.L, p.I)
         for l in range(min(p.L, len(self.ts_tables))):
             self._fill_table(self.ts_tables[l], p.t_setup[l])
