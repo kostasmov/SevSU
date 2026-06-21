@@ -263,6 +263,7 @@ class MILPModel:
         results.solver_name = used_solver or "none" # использованный решатель
 
         if results.is_solved and results.objective_value is not None:
+            # Вычислить улучшение Cmax оносительно неоптимального расписания
             fixed = self._compute_suboptimal_criterion()
             if fixed is not None and fixed > 0:
                 results.fixed_objective = fixed
@@ -560,6 +561,7 @@ class MILPModel:
     # -------------- Решение задачи оптимизации через CPLEX --------------
 
     def _solve_cplex(self) -> OptimizationResults:
+        """Решение задачи оптимизации с помощью CPLEX"""
         p = self.params
         I, L, J = p.I, p.L, p.J
         n_min = min(p.n)
