@@ -1,7 +1,6 @@
 import json
 import numpy as np
 
-
 class TaskParameters:
     """Объект для хранения параметров задачи"""
 

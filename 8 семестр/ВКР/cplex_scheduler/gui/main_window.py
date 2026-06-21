@@ -244,16 +244,6 @@ class MainWindow(QMainWindow):
         act_save.triggered.connect(self._save_params)
         file_menu.addAction(act_save)
 
-        # file_menu.addSeparator()
-
-        # act_import_csv = QAction("📊 Импорт матриц из CSV", self)
-        # act_import_csv.triggered.connect(self._import_csv_menu)
-        # file_menu.addAction(act_import_csv)
-        #
-        # act_export_csv = QAction("📤 Экспорт матриц в CSV", self)
-        # act_export_csv.triggered.connect(self._export_csv_menu)
-        # file_menu.addAction(act_export_csv)
-
         file_menu.addSeparator()
 
         act_export = QAction("📊 Сохранить результаты (Excel)", self)
@@ -432,6 +422,8 @@ class MainWindow(QMainWindow):
             self.btn_export.setEnabled(False)
             self.btn_save_results.setEnabled(False)
 
+    # ----- Загрузка параметров -----
+
     def _open_params(self):
         """Импортировать параметры задачи из JSON"""
         path, _ = QFileDialog.getOpenFileName(
@@ -458,15 +450,7 @@ class MainWindow(QMainWindow):
             except Exception as e:
                 QMessageBox.critical(self, "Ошибка", str(e))
 
-    # def _import_csv_menu(self):
-    #     """ """
-    #     self.tabs.setCurrentIndex(0)
-    #     self.input_tab._import_csv()
-
-    # def _export_csv_menu(self):
-    #     """"""
-    #     self.tabs.setCurrentIndex(0)
-    #     self.input_tab._export_csv()
+    # ----- Экспорт результатов решения -----
 
     def _export_excel(self):
         """Экспортировать параметры в формате Excel"""
@@ -507,28 +491,7 @@ class MainWindow(QMainWindow):
             except Exception as e:
                 QMessageBox.critical(self, "Ошибка", str(e))
 
-    # def _show_csv_format(self):
-    #     QMessageBox.information(
-    #         self, "Формат CSV-файлов",
-    #         "Программа поддерживает CSV с разделителями ; или ,\n\n"
-    #         "── Матрица времён обработки (t_processing.csv) ──\n"
-    #         "  Строки = приборы (L строк)\n"
-    #         "  Столбцы = типы заданий (I столбцов)\n"
-    #         "  Пример (L=3, I=3):\n"
-    #         "  2;4;6\n"
-    #         "  3;5;7\n"
-    #         "  1;3;5\n\n"
-    #         "── Вектор n[i] (n_counts.csv) ──\n"
-    #         "  Одна строка, I значений:\n"
-    #         "  4;4;4\n\n"
-    #         "── Вектор d[i] (d_deadlines.csv) ──\n"
-    #         "  Одна строка, I значений:\n"
-    #         "  30;40;50\n\n"
-    #         "── Переналадки (t_setup_device_N.csv) ──\n"
-    #         "  Квадратная матрица I×I для прибора N.\n"
-    #         "  Диагональ = 0.\n\n"
-    #         "Используйте «Экспорт CSV» для создания шаблонов."
-    #     )
+    # ----- Сводки в верхнем меню -----
 
     def _show_about(self):
         """Вывести информацию о программе"""
@@ -574,7 +537,7 @@ class MainWindow(QMainWindow):
         QMessageBox.information(self, "Информация о решателе", msg)
 
     def closeEvent(self, event):
-        """Остановить поток решения задачи"""
+        """Остановить поток"""
         if self._worker and self._worker.isRunning():
             self._worker.terminate()
         event.accept()

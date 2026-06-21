@@ -31,14 +31,7 @@ class InputTab(QWidget):
 
     def __init__(self, parent=None):
         super().__init__(parent)
-
-        self._ts_layout = None
-        self._ts_container = None   #
-
         self._setup_ui()
-
-        # self._params = TaskParameters.example_small()
-        # self._load_params_to_ui()
 
     # -------------------- Построение интерфейса --------------------
 
@@ -119,28 +112,7 @@ class InputTab(QWidget):
         self._build_n_group(layout)
         self._build_t_group(layout)
         self._build_t_init_group(layout)
-
-        # ── Первоначальная наладка ──
-
-
-        # ── Переналадки ──
-        ts_group = QGroupBox("Времена переналадок  t_setup[прибор][с типа → на тип]")
-        self._ts_layout = QVBoxLayout(ts_group)
-
-        ts_note = QLabel(
-            "Для каждого прибора — квадратная матрица I×I. "
-            "Строки — 'с какого типа', столбцы — 'на какой тип'. Диагональ = 0."
-        )
-        ts_note.setWordWrap(True)
-        ts_note.setStyleSheet("color: #555; font-size: 9pt;")
-        self._ts_layout.addWidget(ts_note)
-
-        self.ts_tables = []
-        self._ts_subtab = QTabWidget()
-        self._ts_layout.addWidget(self._ts_subtab)
-        self._rebuild_ts_tables(3, 3)
-
-        layout.addWidget(ts_group)
+        self._build_t_setup_group(layout)
 
         # ── Директивные сроки ──
         d_group = QGroupBox("Директивные сроки  d[тип]  (для критерия G — суммарное запаздывание)")
@@ -154,59 +126,9 @@ class InputTab(QWidget):
         d_layout.addWidget(self.d_table)
         layout.addWidget(d_group)
 
-        # ── Техническое обслуживание ──
-        maint_group = QGroupBox("Техническое обслуживание (ТО) приборов")
-        maint_layout = QVBoxLayout(maint_group)
+        self._build_maint_group(layout)
+        self._build_opt_group(layout)
 
-        self.chk_maintenance = QCheckBox("Учитывать техническое обслуживание приборов")
-        self.chk_maintenance.setChecked(True)
-        self.chk_maintenance.setFont(QFont("Arial", 10, QFont.Bold))
-        maint_layout.addWidget(self.chk_maintenance)
-
-        maint_note = QLabel(
-            "Для каждого прибора задаётся ОДИН заранее фиксированный промежуток ТО.\n"
-            "TM[l] — момент начала ТО прибора l;  tm[l] — длительность ТО.\n"
-            "Пакеты планируются целиком до начала промежутка либо целиком после его окончания."
-        )
-        maint_note.setWordWrap(True)
-        maint_note.setStyleSheet("color: #555; font-size: 9pt;")
-        maint_layout.addWidget(maint_note)
-
-        self.maint_table = QTableWidget(3, 3)
-        self.maint_table.setHorizontalHeaderLabels(["Прибор", "Начало ТО, TM[l]", "Длительность ТО, tm[l]"])
-        self.maint_table.verticalHeader().hide()
-        for l in range(3):
-            self._set_cell_readonly(self.maint_table, l, 0, f"Прибор {l+1}")
-            self._set_cell(self.maint_table, l, 1, str([20, 25, 18][l]))
-            self._set_cell(self.maint_table, l, 2, str([2, 3, 2][l]))
-        self.maint_table.setMaximumHeight(115)
-        maint_layout.addWidget(self.maint_table)
-        self.chk_maintenance.toggled.connect(self.maint_table.setEnabled)
-        layout.addWidget(maint_group)
-
-        # ── Оптимизация ──
-        opt_group = QGroupBox("Настройки оптимизации")
-        opt_layout = QGridLayout(opt_group)
-
-        opt_layout.addWidget(QLabel("Критерий:"), 0, 0)
-        self.combo_criterion = QComboBox()
-        self.combo_criterion.addItems([
-            "Cmax — минимизация времени завершения",
-            "G — минимизация суммарного запаздывания"
-        ])
-        opt_layout.addWidget(self.combo_criterion, 0, 1, 1, 3)
-
-        opt_layout.addWidget(QLabel("Лимит времени (сек):"), 1, 0)
-        self.spin_timelimit = QSpinBox()
-        self.spin_timelimit.setRange(10, 3600)
-        self.spin_timelimit.setValue(120)
-        self.spin_timelimit.setSuffix(" с")
-        opt_layout.addWidget(self.spin_timelimit, 1, 1)
-
-        self.chk_verbose = QCheckBox("Показывать лог решателя")
-        opt_layout.addWidget(self.chk_verbose, 1, 2)
-
-        layout.addWidget(opt_group)
         self._apply_dimensions()
 
     # -------------------- Построение блоков формы ввода --------------------
@@ -303,7 +225,82 @@ class InputTab(QWidget):
 
         layout.addWidget(ti_group)
 
-    # ─────────────────────────── helpers ───────────────────────
+    def _build_t_setup_group(self, layout):
+        """Создание блока ввода параметров t_setup[l][i][k]"""
+
+        # Время переналадки прибора l с типа i на тип k
+        ts_group = QGroupBox("Длительность переналадки приборов с одного типа на другой:")
+        self._ts_layout = QVBoxLayout(ts_group)
+
+        ts_note = QLabel(
+            "Для каждого прибора — квадратная матрица I×I. "
+            "Строки — 'с какого типа', столбцы — 'на какой тип'. Диагональ = 0."
+        )
+        ts_note.setWordWrap(True)
+        ts_note.setStyleSheet("color: #555; font-size: 9pt;")
+        self._ts_layout.addWidget(ts_note)
+
+        self.ts_tables = []
+        self._ts_subtab = QTabWidget()
+        self._ts_layout.addWidget(self._ts_subtab)
+        self._rebuild_ts_tables(2, 2)
+
+        layout.addWidget(ts_group)
+
+    def _build_maint_group(self, layout):
+        """Создание блока ввода параметров ПТО"""
+        maint_group = QGroupBox("Профилактическое техническое обслуживание (ПТО) приборов")
+        maint_layout = QVBoxLayout(maint_group)
+
+        self.chk_maintenance = QCheckBox("Учитывать техобслуживание приборов")
+        self.chk_maintenance.setChecked(True)
+        self.chk_maintenance.setFont(QFont("Arial", 10, QFont.Bold))
+        maint_layout.addWidget(self.chk_maintenance)
+
+        maint_note = QLabel(
+            "Для каждого прибора задаётся один заранее фиксированный интервал ПТО.\n"
+            "Выполнение пакета планируется либо до начала интервала, либо после его окончания."
+        )
+        maint_note.setWordWrap(True)
+        maint_note.setStyleSheet("color: #555; font-size: 9pt;")
+        maint_layout.addWidget(maint_note)
+
+        self.maint_table = QTableWidget(2, 3)
+        self.maint_table.setHorizontalHeaderLabels(["Прибор", "Начало ПТО", "Длительность ПТО"])
+        self.maint_table.verticalHeader().hide()
+        self.maint_table.setMaximumHeight(115)
+
+        maint_layout.addWidget(self.maint_table)
+        self.chk_maintenance.toggled.connect(self.maint_table.setEnabled)
+
+        layout.addWidget(maint_group)
+
+    def _build_opt_group(self, layout):
+        """Создание блока определения критерия оптимизации"""
+        opt_group = QGroupBox("Настройки оптимизации")
+        opt_layout = QGridLayout(opt_group)
+
+        opt_layout.addWidget(QLabel("Критерий:"), 0, 0)
+        self.combo_criterion = QComboBox()
+        self.combo_criterion.addItems([
+            "Cmax — минимизация времени завершения",
+            #"G — минимизация суммарного запаздывания"
+        ])
+        opt_layout.addWidget(self.combo_criterion, 0, 1, 1, 3)
+
+        opt_layout.addWidget(QLabel("Лимит времени (сек):"), 1, 0)
+        self.spin_timelimit = QSpinBox()
+        self.spin_timelimit.setRange(10, 3600)
+        self.spin_timelimit.setValue(120)
+        self.spin_timelimit.setSuffix(" с")
+        opt_layout.addWidget(self.spin_timelimit, 1, 1)
+
+        self.chk_verbose = QCheckBox("Показывать лог решателя")
+        opt_layout.addWidget(self.chk_verbose, 1, 2)
+
+        layout.addWidget(opt_group)
+
+    # -------------------- Вспомогательные действия --------------------
 
     def _set_cell(self, table, row, col, text):
         item = QTableWidgetItem(text)
@@ -327,6 +324,7 @@ class InputTab(QWidget):
         table.verticalHeader().setDefaultSectionSize(28)
 
     def _fill_table(self, table, data):
+        """Заполнение матрицы данными"""
         for r, row in enumerate(data):
             for c, val in enumerate(row):
                 self._set_cell(table, r, c, str(val))
@@ -383,7 +381,7 @@ class InputTab(QWidget):
             self.ts_tables.append(tbl)
 
     def _paste_from_clipboard(self, table):
-        """Вставка Tab/Enter матрицы из буфера обмена (Excel)"""
+        """Вставка матрицы из буфера обмена (Excel)"""
         from PyQt5.QtWidgets import QApplication
         text = QApplication.clipboard().text()
         if not text.strip():
@@ -413,36 +411,22 @@ class InputTab(QWidget):
         # Таблица n[i]
         self.n_table.setColumnCount(I)
         self.n_table.setHorizontalHeaderLabels([f"Тип [{i+1}]" for i in range(I)])
-        # for i in range(I):
-        #     if not self.n_table.item(0, i):
-        #         self._set_cell(self.n_table, 0, i, "1")
 
         # d_table
-        # self.d_table.setColumnCount(I)
-        # self.d_table.setHorizontalHeaderLabels([f"d[{i+1}]" for i in range(I)])
-        # for i in range(I):
-        #     if not self.d_table.item(0, i):
-        #         self._set_cell(self.d_table, 0, i, str(30 + i * 10))
+        self.d_table.setColumnCount(I)
+        self.d_table.setHorizontalHeaderLabels([f"d[{i+1}]" for i in range(I)])
 
         # Таблица t[i]
         self.t_table.setRowCount(L)
         self.t_table.setColumnCount(I)
         self.t_table.setHorizontalHeaderLabels([f"Тип {i+1}" for i in range(I)])
         self.t_table.setVerticalHeaderLabels([f"Прибор {l+1}" for l in range(L)])
-        # for r in range(L):
-        #     for c in range(I):
-        #         if not self.t_table.item(r, c):
-        #             self._set_cell(self.t_table, r, c, str((r + 1) * (c + 1) + 1))
 
         # Таблица t_init
         self.ti_table.setRowCount(L)
         self.ti_table.setColumnCount(I)
         self.ti_table.setHorizontalHeaderLabels([f"Тип {i+1}" for i in range(I)])
         self.ti_table.setVerticalHeaderLabels([f"Прибор {l+1}" for l in range(L)])
-        # for r in range(L):
-        #     for c in range(I):
-        #         if not self.ti_table.item(r, c):
-        #             self._set_cell(self.ti_table, r, c, str(c + 1))
 
         # Таблицы t_setup[l][i]
         self._rebuild_ts_tables(L, I)
@@ -451,10 +435,6 @@ class InputTab(QWidget):
         self.maint_table.setRowCount(L)
         for l in range(L):
             self._set_cell_readonly(self.maint_table, l, 0, f"Прибор {l+1}")
-            if not self.maint_table.item(l, 1) or not self.maint_table.item(l, 1).text():
-                self._set_cell(self.maint_table, l, 1, "20")
-            if not self.maint_table.item(l, 2) or not self.maint_table.item(l, 2).text():
-                self._set_cell(self.maint_table, l, 2, "2")
 
         self.params_changed.emit()
 
