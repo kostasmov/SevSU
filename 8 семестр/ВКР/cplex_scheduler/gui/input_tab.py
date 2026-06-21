@@ -8,7 +8,7 @@ import csv
 import io
 
 from PyQt5.QtWidgets import (
-    QWidget, QVBoxLayout, QHBoxLayout, QGridLayout,
+    QApplication, QWidget, QVBoxLayout, QHBoxLayout, QGridLayout,
     QLabel, QSpinBox, QDoubleSpinBox, QCheckBox, QComboBox,
     QPushButton, QGroupBox, QTableWidget, QTableWidgetItem,
     QScrollArea, QSizePolicy, QFrame, QMessageBox, QFileDialog,
@@ -115,16 +115,16 @@ class InputTab(QWidget):
         self._build_t_setup_group(layout)
 
         # ── Директивные сроки ──
-        d_group = QGroupBox("Директивные сроки  d[тип]  (для критерия G — суммарное запаздывание)")
-        d_layout = QVBoxLayout(d_group)
-        self.d_table = QTableWidget(1, 3)
-        self.d_table.setHorizontalHeaderLabels([f"d[{i+1}]" for i in range(3)])
-        self.d_table.verticalHeader().hide()
-        self.d_table.setMaximumHeight(60)
-        for i, val in enumerate([30, 40, 50]):
-            self._set_cell(self.d_table, 0, i, str(val))
-        d_layout.addWidget(self.d_table)
-        layout.addWidget(d_group)
+        # d_group = QGroupBox("Директивные сроки  d[тип]  (для критерия G — суммарное запаздывание)")
+        # d_layout = QVBoxLayout(d_group)
+        # self.d_table = QTableWidget(1, 3)
+        # self.d_table.setHorizontalHeaderLabels([f"d[{i+1}]" for i in range(3)])
+        # self.d_table.verticalHeader().hide()
+        # self.d_table.setMaximumHeight(60)
+        # for i, val in enumerate([30, 40, 50]):
+        #     self._set_cell(self.d_table, 0, i, str(val))
+        # d_layout.addWidget(self.d_table)
+        # layout.addWidget(d_group)
 
         self._build_maint_group(layout)
         self._build_opt_group(layout)
@@ -300,27 +300,35 @@ class InputTab(QWidget):
 
         layout.addWidget(opt_group)
 
-    # -------------------- Вспомогательные действия --------------------
+    # -------------------- Заполнение полей формы ввода --------------------
 
-    def _set_cell(self, table, row, col, text):
+    @staticmethod
+    def _set_cell(table, row, col, text):
+        """Установить значение ячейки таблицы"""
         item = QTableWidgetItem(text)
         item.setTextAlignment(Qt.AlignCenter)
         table.setItem(row, col, item)
 
-    def _set_cell_readonly(self, table, row, col, text):
+    @staticmethod
+    def _set_cell_readonly(table, row, col, text):
+        """Установить значение ячейки таблицы и сделать его неизменяемым"""
         item = QTableWidgetItem(text)
         item.setTextAlignment(Qt.AlignCenter)
         item.setFlags(Qt.ItemIsEnabled)
         table.setItem(row, col, item)
 
-    def _setup_matrix_table(self, table, rows, cols, row_labels=None, col_labels=None):
+    @staticmethod
+    def _setup_matrix_table(table, rows, cols, row_labels=None, col_labels=None):
         table.setRowCount(rows)
         table.setColumnCount(cols)
+
         if col_labels:
             table.setHorizontalHeaderLabels(col_labels)
+
         if row_labels:
             table.setVerticalHeaderLabels(row_labels)
-        table.horizontalHeader().setDefaultSectionSize(72)
+
+        table.horizontalHeader().setDefaultSectionSize(150)
         table.verticalHeader().setDefaultSectionSize(28)
 
     def _fill_table(self, table, data):
@@ -329,65 +337,15 @@ class InputTab(QWidget):
             for c, val in enumerate(row):
                 self._set_cell(table, r, c, str(val))
 
-    def _rebuild_ts_tables(self, L, I):
-        """Перестраивает набор вкладок переналадок"""
-        # Сохранить текущие данные
-        old_data = []
-        for tbl in self.ts_tables:
-            rows = tbl.rowCount()
-            cols = tbl.columnCount()
-            mat = []
-            for r in range(rows):
-                row = []
-                for c in range(cols):
-                    item = tbl.item(r, c)
-                    try:
-                        row.append(float(item.text()) if item else 0.0)
-                    except ValueError:
-                        row.append(0.0)
-                mat.append(row)
-            old_data.append(mat)
-
-        # Очистить вкладки
-        self._ts_subtab.clear()
-        self.ts_tables = []
-
-        for l in range(L):
-            tbl = QTableWidget(I, I)
-            self._setup_matrix_table(
-                tbl, I, I,
-                row_labels=[f"с {i+1}" for i in range(I)],
-                col_labels=[f"на {i+1}" for i in range(I)]
-            )
-            tbl.setMaximumHeight(max(150, I * 30 + 30))
-
-            # Заполнить данными: старыми если есть, иначе default
-            for r in range(I):
-                for c in range(I):
-                    if l < len(old_data) and r < len(old_data[l]) and c < len(old_data[l][r]):
-                        v = old_data[l][r][c]
-                    else:
-                        v = 0 if r == c else abs(r - c)
-                    self._set_cell(tbl, r, c, str(int(v) if v == int(v) else v))
-
-            # Кнопка вставки
-            w = QWidget()
-            wl = QVBoxLayout(w)
-            wl.addWidget(tbl)
-            btn = QPushButton("📋 Вставить из буфера")
-            btn.clicked.connect(lambda checked, t=tbl: self._paste_from_clipboard(t))
-            wl.addWidget(btn)
-            self._ts_subtab.addTab(w, f"Прибор {l+1}")
-            self.ts_tables.append(tbl)
-
     def _paste_from_clipboard(self, table):
         """Вставка матрицы из буфера обмена (Excel)"""
-        from PyQt5.QtWidgets import QApplication
         text = QApplication.clipboard().text()
+
         if not text.strip():
             QMessageBox.information(self, "Буфер пуст",
                                     "В буфере обмена нет текстовых данных.")
             return
+
         rows = text.strip().split('\n')
         for r, row_str in enumerate(rows):
             if r >= table.rowCount():
@@ -413,8 +371,8 @@ class InputTab(QWidget):
         self.n_table.setHorizontalHeaderLabels([f"Тип [{i+1}]" for i in range(I)])
 
         # d_table
-        self.d_table.setColumnCount(I)
-        self.d_table.setHorizontalHeaderLabels([f"d[{i+1}]" for i in range(I)])
+        # self.d_table.setColumnCount(I)
+        # self.d_table.setHorizontalHeaderLabels([f"d[{i+1}]" for i in range(I)])
 
         # Таблица t[i]
         self.t_table.setRowCount(L)
@@ -428,7 +386,7 @@ class InputTab(QWidget):
         self.ti_table.setHorizontalHeaderLabels([f"Тип {i+1}" for i in range(I)])
         self.ti_table.setVerticalHeaderLabels([f"Прибор {l+1}" for l in range(L)])
 
-        # Таблицы t_setup[l][i]
+        # Таблицы t[l]_setup[i][k]
         self._rebuild_ts_tables(L, I)
 
         # Таблица t_maint[l]
@@ -438,7 +396,61 @@ class InputTab(QWidget):
 
         self.params_changed.emit()
 
-    # ─────────────────── load/save params ──────────────────────
+    def _rebuild_ts_tables(self, L, I):
+        """Перестроить набор матриц для переналадок приборов"""
+
+        # Сохранить текущие данные
+        old_data = []
+        for tbl in self.ts_tables:
+            rows = tbl.rowCount()
+            cols = tbl.columnCount()
+            mat = []
+
+            for r in range(rows):
+                row = []
+                for c in range(cols):
+                    item = tbl.item(r, c)
+                    try:
+                        row.append(float(item.text()) if item else "")
+                    except ValueError:
+                        row.append("")
+                mat.append(row)
+
+            old_data.append(mat)
+
+        # Очистить вкладки
+        self._ts_subtab.clear()
+        self.ts_tables = []
+
+        for l in range(L):
+            tbl = QTableWidget(I, I)
+            self._setup_matrix_table(
+                tbl, I, I,
+                row_labels=[f"с {i+1}" for i in range(I)],
+                col_labels=[f"на {i+1}" for i in range(I)]
+            )
+            tbl.setMaximumHeight(max(150, I * 30 + 30))
+
+            # Заполнить матрицы старыми данными если есть
+            for r in range(I):
+                for c in range(I):
+                    if l < len(old_data) and r < len(old_data[l]) and c < len(old_data[l][r]):
+                        v = old_data[l][r][c]
+                        self._set_cell(tbl, r, c, str(v))
+                    else:
+                        self._set_cell(tbl, r, c, "")
+
+            # Кнопка вставки
+            w = QWidget()
+            wl = QVBoxLayout(w)
+            wl.addWidget(tbl)
+            btn = QPushButton("📋 Вставить из буфера")
+            btn.clicked.connect(lambda checked, t=tbl: self._paste_from_clipboard(t))
+            wl.addWidget(btn)
+            self._ts_subtab.addTab(w, f"Прибор {l+1}")
+            self.ts_tables.append(tbl)
+
+    # -------------------- Загрузка параметров в форму --------------------
 
     def _load_params_to_ui(self):
         """Загрузить параметры в форму ввода"""
@@ -451,7 +463,9 @@ class InputTab(QWidget):
 
         # список n[i]
         self.n_table.setColumnCount(p.I)
-        self.n_table.setHorizontalHeaderLabels([f"n[{i+1}]" for i in range(p.I)])
+        self.n_table.setHorizontalHeaderLabels([f"Тип {i+1}" for i in range(p.I)])
+        for i in range(p.I):
+            self._set_cell(self.n_table, 0, i, str(p.n[i]))
 
         # self.d_table.setColumnCount(p.I)
         # self.d_table.setHorizontalHeaderLabels([f"d[{i+1}]" for i in range(p.I)])
@@ -475,15 +489,11 @@ class InputTab(QWidget):
         for l in range(min(p.L, len(self.ts_tables))):
             self._fill_table(self.ts_tables[l], p.t_setup[l])
 
-        # n
-        for i in range(p.I):
-            self._set_cell(self.n_table, 0, i, str(p.n[i]))
-
         # d
-        for i in range(p.I):
-            self._set_cell(self.d_table, 0, i, str(p.d[i]))
+        # for i in range(p.I):
+        #     self._set_cell(self.d_table, 0, i, str(p.d[i]))
 
-        # maint
+        # таблица параметров ПТО (maint)
         self.chk_maintenance.setChecked(p.use_maintenance)
         self.maint_table.setRowCount(p.L)
         for l in range(p.L):
@@ -491,49 +501,44 @@ class InputTab(QWidget):
             self._set_cell(self.maint_table, l, 1, str(p.TM[l]))
             self._set_cell(self.maint_table, l, 2, str(p.tm_maint[l]))
 
-    def _read_table_float(self, table, rows, cols, default=1.0):
-        data = []
-        for r in range(rows):
-            row = []
-            for c in range(cols):
-                item = table.item(r, c)
-                try:
-                    row.append(float(item.text().replace(',', '.')) if item else default)
-                except ValueError:
-                    row.append(default)
-            data.append(row)
-        return data
+    def load_example(self, name="small"):
+        """Загрузка примера для тестирования"""
+        if name == "small":
+            self._params = TaskParameters.example_small()
+        else:
+            self._params = TaskParameters.example_medium()
+        self._load_params_to_ui()
 
-    def _read_row_float(self, table, cols, default=1.0):
-        row = []
-        for c in range(cols):
-            item = table.item(0, c)
-            try:
-                row.append(float(item.text().replace(',', '.')) if item else default)
-            except ValueError:
-                row.append(default)
-        return row
+    def load_params(self, params: TaskParameters):
+        """Загрузка параметров из объекта TaskParameters"""
+        self._params = params
+        self._load_params_to_ui()
 
-    def _read_row_int(self, table, cols, default=4):
-        row = []
-        for c in range(cols):
-            item = table.item(0, c)
-            try:
-                row.append(max(2, int(float(item.text().replace(',', '.')) if item else default)))
-            except ValueError:
-                row.append(default)
-        return row
+    def _fill_table_raw(self, table, data):
+        """Заполнение таблицы данными из списка"""
+        rows = len(data)
+        cols = max(len(r) for r in data) if data else 0
+        table.setRowCount(rows)
+        table.setColumnCount(cols)
+        for r, row in enumerate(data):
+            for c, val in enumerate(row):
+                self._set_cell(table, r, c, val)
+
+    # -------------------- Считывание параметров из формы --------------------
 
     def get_params(self) -> TaskParameters:
-        """Считать параметры из UI"""
+        """Считать параметры из UI в объект TaskParameters"""
         p = TaskParameters()
+
         p.I = self.spin_I.value()
         p.L = self.spin_L.value()
         p.J = self.spin_J.value()
 
         p.n = self._read_row_int(self.n_table, p.I, default=4)
+
         p.t = self._read_table_float(self.t_table, p.L, p.I, default=1.0)
         p.t_init = self._read_table_float(self.ti_table, p.L, p.I, default=1.0)
+
         p.t_setup = [
             self._read_table_float(self.ts_tables[l], p.I, p.I, default=0.0)
             for l in range(min(p.L, len(self.ts_tables)))
@@ -541,11 +546,12 @@ class InputTab(QWidget):
         while len(p.t_setup) < p.L:
             p.t_setup.append([[0] * p.I for _ in range(p.I)])
 
-        p.d = self._read_row_float(self.d_table, p.I, default=30.0)
+        # p.d = self._read_row_float(self.d_table, p.I, default=30.0)
         p.use_maintenance = self.chk_maintenance.isChecked()
 
         p.TM = []
         p.tm_maint = []
+
         for l in range(p.L):
             try:
                 p.TM.append(float(self.maint_table.item(l, 1).text().replace(',', '.')))
@@ -558,29 +564,61 @@ class InputTab(QWidget):
 
         return p
 
+    @staticmethod
+    def _read_table_float(table, rows, cols, default=0):
+        """Считывание матрицы вещественных чисел"""
+        data = []
+        for r in range(rows):
+            row = []
+            for c in range(cols):
+                item = table.item(r, c)
+                try:
+                    row.append(float(item.text().replace(',', '.')) if item else default)
+                except ValueError:
+                    row.append(default)
+            data.append(row)
+        return data
+
+    @staticmethod
+    def _read_row_float(table, cols, default=0):
+        """Считывание матрицы целых чисел"""
+        row = []
+        for c in range(cols):
+            item = table.item(0, c)
+            try:
+                row.append(float(item.text().replace(',', '.')) if item else default)
+            except ValueError:
+                row.append(default)
+        return row
+
+    @staticmethod
+    def _read_row_int(table, cols, default=0):
+        """Считывание списка целых чисел"""
+        row = []
+        for c in range(cols):
+            item = table.item(0, c)
+            try:
+                row.append(max(2, int(float(item.text().replace(',', '.')) if item else default)))
+            except ValueError:
+                row.append(default)
+        return row
+
     def get_criterion(self) -> str:
-        return "Cmax" if self.combo_criterion.currentIndex() == 0 else "G"
+        """Считать критерий оптимизации"""
+        return "Cmax" #if self.combo_criterion.currentIndex() == 0 else "G"
 
     def get_time_limit(self) -> int:
+        """Считать лимит времени"""
         return self.spin_timelimit.value()
 
     def get_verbose(self) -> bool:
+        """ Считать флаг 'Показывать лог решателя' """
         return self.chk_verbose.isChecked()
 
-    def load_example(self, name="small"):
-        if name == "small":
-            self._params = TaskParameters.example_small()
-        else:
-            self._params = TaskParameters.example_medium()
-        self._load_params_to_ui()
-
-    def load_params(self, params: TaskParameters):
-        self._params = params
-        self._load_params_to_ui()
-
-    # ─────────────────── Import / Export ───────────────────────
+    # -------------------- Импорт из файла / Экспорт в файл --------------------
 
     def _import_json(self):
+        """Импорт параметров в форму ввода из файла JSON"""
         path, _ = QFileDialog.getOpenFileName(
             self, "Открыть параметры", "", "JSON (*.json);;Все файлы (*)"
         )
@@ -596,6 +634,7 @@ class InputTab(QWidget):
                                  f"Не удалось загрузить JSON:\n{e}")
 
     def _export_json(self):
+        """"Экспорт параметров из формы ввода в файл JSON"""
         path, _ = QFileDialog.getSaveFileName(
             self, "Сохранить параметры", "params.json", "JSON (*.json)"
         )
@@ -702,15 +741,6 @@ class InputTab(QWidget):
     #             if row:
     #                 data.append([v.strip().replace(',', '.') for v in row])
     #     return data
-
-    def _fill_table_raw(self, table, data):
-        rows = len(data)
-        cols = max(len(r) for r in data) if data else 0
-        table.setRowCount(rows)
-        table.setColumnCount(cols)
-        for r, row in enumerate(data):
-            for c, val in enumerate(row):
-                self._set_cell(table, r, c, val)
 
     # def _export_csv(self):
     #     """Экспорт всех матриц в CSV-файлы в выбранную папку"""

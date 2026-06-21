@@ -36,53 +36,58 @@ class TaskParameters:
         """Проверка корректности параметров. Возвращает список ошибок."""
         errors = []
 
+        # Проверка размерностей задачи
         if self.I < 2:
-            errors.append("Количество типов заданий I должно быть ≥ 2")
+            errors.append("Количество типов заданий (I) должно быть ≥ 2")
         if self.L < 2:
-            errors.append("Количество приборов должно быть ≥ 2")
+            errors.append("Количество приборов (L) должно быть ≥ 2")
         if self.J < self.I:
-            errors.append(
-                f"Количество пакетов должно быть ≥ числу типов заданий I={self.I}: "
-                f"условие чередования типов требует минимум один пакет на каждый тип."
-            )
-        if self.J > self.I * max(self.n) if self.n else True:
-            pass
+            errors.append(f"Количество пакетов (J) должно быть ≥ числу типов заданий I={self.I}: ")
+        # if self.J > self.I * max(self.n) if self.n else True:
+        #     pass
 
+        # Проверка списка количества заданий каждого типа (n[i])
         if len(self.n) != self.I:
-            errors.append(f"Длина массива n ({len(self.n)}) не совпадает с I={self.I}")
+            errors.append(f"Длина списка n[i] не совпадает с I={self.I}")
         else:
             for i, ni in enumerate(self.n):
                 if ni < 2:
-                    errors.append(f"n[{i+1}]={ni} должно быть ≥ 2")
+                    errors.append(f"Заданий n[{i+1}] не может быть меньше 2")
 
+        # Проверка матрицы длительностей обработки t[l][i]
         if len(self.t) != self.L:
             errors.append(f"Матрица t должна иметь {self.L} строк (приборов)")
         else:
             for l in range(self.L):
                 if len(self.t[l]) != self.I:
-                    errors.append(f"t[{l+1}] должна иметь {self.I} элементов")
+                    errors.append(f"Строка t[{l+1}] должна иметь {self.I} элементов (типов заданий)")
                 else:
                     for i in range(self.I):
                         if self.t[l][i] <= 0:
-                            errors.append(f"t[{l+1}][{i+1}]={self.t[l][i]} должно быть > 0")
+                            errors.append(f"Длительность t[{l+1}][{i+1}] не может быть < 0")
 
-        if len(self.d) != self.I:
-            errors.append(f"Длина массива d ({len(self.d)}) не совпадает с I={self.I}")
+        # if len(self.d) != self.I:
+        #     errors.append(f"Длина массива d ({len(self.d)}) не совпадает с I={self.I}")
 
+        # Валидация параметров ПТО
         if self.use_maintenance:
+            # Проверка размерности матриц ПТО
             if len(self.TM) != self.L:
-                errors.append(f"Длина TM ({len(self.TM)}) не совпадает с L={self.L}")
+                errors.append(f"Число сеансов ПТО не совпадает с числом приборов L={self.L}")
             if len(self.tm_maint) != self.L:
-                errors.append(f"Длина tm_maint ({len(self.tm_maint)}) не совпадает с L={self.L}")
+                errors.append(f"Число длин ПТО не совпадает с числом приборов L={self.L}")
+
+            # Проверка значений параметров ПТО
             for l in range(min(len(self.TM), self.L)):
                 if self.TM[l] < 0:
-                    errors.append(f"TM[{l+1}]={self.TM[l]} (момент начала ТО) должно быть ≥ 0")
+                    errors.append(f"Сеанс ПТО TM[{l+1}] не может начаться раньше момента 0")
                 if self.tm_maint[l] <= 0:
-                    errors.append(f"tm_maint[{l+1}]={self.tm_maint[l]} должно быть > 0")
+                    errors.append(f"Длина сеанса ПТО tm_maint[{l+1}] не может быть <= 0")
 
         return errors
 
     def to_dict(self):
+        """Перевод объекта в форму словаря"""
         return {
             "I": self.I,
             "L": self.L,
@@ -91,73 +96,98 @@ class TaskParameters:
             "t": self.t,
             "t_setup": self.t_setup,
             "t_init": self.t_init,
-            "d": self.d,
+            #"d": self.d,
             "TM": self.TM,
             "tm_maint": self.tm_maint,
             "use_maintenance": self.use_maintenance,
         }
 
     def to_json(self, filepath):
+        """Перевод объекта в форму для загрузки в JSON"""
         with open(filepath, 'w', encoding='utf-8') as f:
             json.dump(self.to_dict(), f, indent=2, ensure_ascii=False)
 
     @classmethod
     def from_dict(cls, data):
+        """Формирование объекта из словаря"""
         p = cls()
+
         p.I = data["I"]
         p.L = data["L"]
         p.J = data["J"]
+
         p.n = data["n"]
         p.t = data["t"]
         p.t_setup = data["t_setup"]
-        p.t_init = data.get("t_init", [[1.0]*p.I for _ in range(p.L)])
-        p.d = data["d"]
-        p.TM = data.get("TM", [20.0]*p.L)
-        p.tm_maint = data.get("tm_maint", [2.0]*p.L)
+        p.t_init = data.get("t_init")
+        #p.d = data["d"]
+
+        p.TM = data.get("TM")
+        p.tm_maint = data.get("tm_maint")
         p.use_maintenance = data.get("use_maintenance", True)
+
         return p
+
+    # def get_u_j(self):
+    #     """Максимальное число заданий в одном пакете"""
+    #     n_min = min(self.n)
+    #     return n_min
 
     @classmethod
     def from_json(cls, filepath):
+        """Формирование объекта из файла JSON"""
         with open(filepath, 'r', encoding='utf-8') as f:
             data = json.load(f)
         return cls.from_dict(data)
 
-    def get_u_j(self):
-        """Максимальное число заданий в одном пакете"""
-        n_min = min(self.n)
-        return n_min - 2
-
     @classmethod
     def example_small(cls):
-        """Маленький пример для быстрого тестирования"""
+        """Маленький пример (быстрый тест)"""
         p = cls()
+
         p.I = 3
         p.L = 3
         p.J = 4
+
         p.n = [4, 4, 4]
-        p.t = [[2,4,6],[3,5,7],[1,3,5]]
+
+        p.t = [
+            [2,4,6],
+            [3,5,7],
+            [1,3,5]
+        ]
+
         p.t_setup = [
             [[0,1,2],[1,0,1],[2,1,0]],
             [[0,2,3],[2,0,2],[3,2,0]],
             [[0,1,2],[1,0,1],[2,1,0]],
         ]
-        p.t_init = [[1,2,3],[2,3,4],[1,2,3]]
-        p.d = [30, 40, 50]
+
+        p.t_init = [
+            [1,2,3],
+            [2,3,4],
+            [1,2,3]
+        ]
+
+        #p.d = [30, 40, 50]
+
         p.TM = [20, 25, 18]
         p.tm_maint = [2, 3, 2]
         p.use_maintenance = True
+
         return p
 
     @classmethod
     def example_medium(cls):
-        """Средний пример из статьи Кротова"""
+        """Средний пример"""
         p = cls()
+
         p.I = 5
         p.L = 5
         p.J = 6
+
         p.n = [8, 8, 8, 8, 8]
-        # t[l][i]: прибор l, тип i — соотношение max/min = 4
+
         p.t = [
             [2, 4, 6, 8, 8],
             [3, 5, 7, 6, 9],
@@ -165,6 +195,7 @@ class TaskParameters:
             [2, 4, 6, 5, 7],
             [3, 5, 4, 6, 8],
         ]
+
         p.t_setup = [
             [[0,1,2,1,2],[1,0,1,2,1],[2,1,0,1,2],[1,2,1,0,1],[2,1,2,1,0]],
             [[0,2,3,2,3],[2,0,2,3,2],[3,2,0,2,3],[2,3,2,0,2],[3,2,3,2,0]],
@@ -172,12 +203,19 @@ class TaskParameters:
             [[0,2,3,2,3],[2,0,2,3,2],[3,2,0,2,3],[2,3,2,0,2],[3,2,3,2,0]],
             [[0,1,2,1,2],[1,0,1,2,1],[2,1,0,1,2],[1,2,1,0,1],[2,1,2,1,0]],
         ]
-        p.t_init = [[1,2,3,2,3],[2,3,4,3,4],[1,2,3,2,3],[2,3,4,3,4],[1,2,3,2,3]]
-        p.d = [120, 200, 280, 360, 420]
-        # Межремонтные интервалы выбраны так, чтобы пакет любого допустимого
-        # размера помещался между сеансами ТО (самый длинный полный пакет —
-        # 8 заданий типа 5 на приборе 2: 8*9 = 72 < 80)
+
+        p.t_init = [
+            [1,2,3,2,3],
+            [2,3,4,3,4],
+            [1,2,3,2,3],
+            [2,3,4,3,4],
+            [1,2,3,2,3]
+        ]
+
+        #p.d = [120, 200, 280, 360, 420]
+
         p.TM = [80, 90, 75, 85, 80]
         p.tm_maint = [3, 4, 3, 4, 3]
         p.use_maintenance = True
+
         return p
