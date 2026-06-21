@@ -20,15 +20,17 @@ MILP-модель оптимизации расписания выполнени
   R = 1.5*H — константа big-M.
 
 Переменные:
-  x_ij ∈ {0,1} — в позиции j пакет типа i;
-  m_j ∈ Z, 2 ≤ m_j — размер пакета в позиции j;
+  x_ij ∈ {0,1} — находится ли в пакете j пакет типа i;
+  m_j ≥ 2 — количество заданий в пакете j;
+  q_lj ≥ 0 — момент начала пакета позиции j на приборе l;
+
   r_ji = m_j*x_ij — линеаризация произведения (целая, 0 ≤ r_ji ≤ n_i);
   y_{k,j-1,i,j} = x_{k,j-1}*x_{i,j} — линеаризация для переналадок;
-  q_lj ≥ 0 — момент начала пакета позиции j на приборе l;
+
   delta_lj ∈ {0,1} — пакет (l,j) завершается до промежутка ТО (1)
                       или начинается после него (0); определена
                       только для приборов l, для которых задано ТО;
-  Cmax ≥ 0 — критерий 1;  g_i, p_i ≥ 0, z_i ∈ {0,1} — критерий G.
+  Cmax — критерий ;
 
 Ограничения:
   (C1) Σ_i x_ij = 1                — одна позиция, один тип;
@@ -52,24 +54,8 @@ MILP-модель оптимизации расписания выполнени
   (C9) горизонт:  q_lj + Σ_i t_li*r_ji ≤ H — запрещает «выталкивание»
        пакетов за пределы горизонта планирования.
 
-Критерии:
-  модель 1:  min  Cmax + ε·Σ q_lj,
-             Cmax ≥ q_Lj + Σ_i t_Li*r_ji  для всех j;
-  модель 2:  min  Σ_i p_i + ε·Σ q_lj,  где
-             g_i ≥ q_Lj + Σ t_Li*r_ji − R(1−x_ij);
-             p_i ≥ g_i − d_i;  p_i ≥ 0.
-
-Гарантии реализации:
-  - обе реализации (CPLEX/docplex и PuLP/CBC) строят ОДИН И ТОТ ЖЕ
-    набор ограничений (C1)-(C9);
-  - решение принимается только при целочисленном статусе решателя
-    (оптимум или инкумбент); LP-релаксация отбраковывается;
-  - перед выводом решение проходит верификацию В1-В6
-    (см. _verify_solution); непроверенные данные на диаграмму
-    Ганта и в анализ не попадают;
-  - извлекаются все J позиций и все L*J операций без пропусков;
-  - решателю передаётся тёплый старт (допустимое эвристическое
-    решение), ускоряющий поиск целочисленных решений.
+Критерий оптимизации: min Cmax
+  Cmax ≥ q_Lj + Σ_i t_Li*r_ji  для всех j;
 """
 
 import time
@@ -82,13 +68,17 @@ from model.results import OptimizationResults, BatchInfo, ScheduleEntry, Mainten
 logger = logging.getLogger(__name__)
 
 # --------------- ПРОВЕРКА УСТАНОВЛЕННОГО РЕШАТЕЛЯ ---------------
+
 SOLVER_AVAILABLE = None
+
+# Установлен ли решатель CPLEX
 try:
     from docplex.mp.model import Model as CplexModel
     SOLVER_AVAILABLE = "cplex"
 except ImportError:
     pass
 
+# Установлена ли библиотека PuLP
 if SOLVER_AVAILABLE is None:
     try:
         import pulp
@@ -96,20 +86,17 @@ if SOLVER_AVAILABLE is None:
     except ImportError:
         pass
 
+# -------------------- ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ --------------------
 
 def _maintenance_window(TM: float, tm: float) -> Optional[Tuple[float, float]]:
     """
-    Единственный заранее заданный фиксированный промежуток ТО прибора:
-    [TM, TM + tm]. Промежуток не повторяется циклически — он один на
-    весь горизонт планирования; пакеты планируются либо до него,
-    либо после него.
-
-    Возвращает None, если для прибора ТО не задано (TM < 0 или tm <= 0).
+    Возвращает кортеж с моментом начала и конца сенанса ПТО прибора
+    если параметры TM_l и tm_l корректны
+    Иначе возвращает None (TM < 0 или tm <= 0).
     """
     if TM is None or tm is None or TM < 0 or tm <= 0:
         return None
     return (TM, TM + tm)
-
 
 def _estimate_horizon(params) -> float:
     """Грубая оценка горизонта расписания"""
@@ -137,7 +124,6 @@ def _estimate_horizon(params) -> float:
             if w is not None:
                 horizon = max(horizon, (w[1]) * 1.1)
     return horizon
-
 
 def _greedy_initial_solution(p, maint_windows, horizon):
     """Построить допустимое стартовое решение (тёплый старт для решателя).
@@ -216,13 +202,10 @@ def _greedy_initial_solution(p, maint_windows, horizon):
     cmax = max(q[L - 1][j] + p.t[L - 1][seq[j]] * m[j] for j in range(J))
     return {"seq": seq, "m": m, "q": q, "cmax": cmax}
 
+# -------------------- КЛАСС МОДЕЛИ --------------------
 
 class MILPModel:
-    """
-    Модель 1: min Cmax
-    Модель 2: min G
-    """
-
+    """Класс построения объекта для модели решаемой задачи"""
     def __init__(self, params: TaskParameters, criterion: str = "Cmax",
                  time_limit: int = 300, verbose: bool = False):
         self.params = params
@@ -231,66 +214,63 @@ class MILPModel:
         self.verbose = verbose
 
     def solve(self) -> OptimizationResults:
+        """Запустить решение задачи и выбрать для неё решатель"""
         if SOLVER_AVAILABLE is None:
             r = OptimizationResults()
             r.status = OptimizationResults.STATUS_ERROR
-            r.message = "Решатель не найден. Установите: pip install pulp"
+            r.message = "Решатель не найден. Установите один из решателей задач"
             return r
 
         t0 = time.time()
-        used_solver = SOLVER_AVAILABLE
+        used_solver = SOLVER_AVAILABLE  # имя решателя задач
+
         try:
+            # Пробуем решить через CPLEX
             if SOLVER_AVAILABLE == "cplex":
                 try:
                     results = self._solve_cplex()
                 except Exception as ce:
-                    # Типичный случай: Community-версия CPLEX (лимит 1000 перем./огранич.,
-                    # код 1016). Автоматически переходим на PuLP/CBC, если он установлен.
+                    # ОШИБКА CPLEX (например, выход за лимиты Community Edition)
+                    # пробуем решатель CBC (PuLP)
                     try:
-                        import pulp  # noqa: F401
+                        import pulp
                         logger.warning(
-                            "CPLEX недоступен для этой задачи (%s). "
-                            "Переключаюсь на PuLP/CBC.", ce)
+                            "CPLEX недоступен для этой задачи. "
+                            "Переключаюсь на PuLP (CBC)", ce)
                         used_solver = "pulp (fallback)"
                         results = self._solve_pulp()
                         if results.message:
-                            results.message += " | CPLEX: превышен лимит Community-версии, использован PuLP/CBC"
+                            results.message += " | CPLEX: превышен лимит Community-версии, использован PuLP (CBC)"
                         else:
-                            results.message = "CPLEX: превышен лимит Community-версии, использован PuLP/CBC"
+                            results.message = "CPLEX: превышен лимит Community-версии, использован PuLP (CBC)"
                     except ImportError:
                         results = OptimizationResults()
                         results.status = OptimizationResults.STATUS_ERROR
                         results.message = (
                             "Задача превышает лимит бесплатной Community-версии CPLEX "
-                            "(1000 переменных / 1000 ограничений).\n\n"
-                            "Установите резервный решатель и повторите запуск — "
-                            "программа переключится на него автоматически:\n"
-                            "    pip install pulp\n\n"
-                            "Либо установите полную версию IBM CPLEX "
-                            "(бесплатна для студентов по программе IBM Academic Initiative).")
+                            "Установите резервный решатель либо установите полную версию IBM CPLEX")
             else:
                 results = self._solve_pulp()
         except Exception as e:
+            # Решение не удалось - возврат OptimizationResults с описанием ошибки
             results = OptimizationResults()
             results.status = OptimizationResults.STATUS_ERROR
             results.message = str(e)
             logger.exception("Ошибка при решении")
 
-        results.solve_time = time.time() - t0
-        results.criterion = self.criterion
-        results.solver_name = used_solver or "none"
+        results.solve_time = time.time() - t0       # сколько длился процесс решения
+        results.criterion = self.criterion          # критерий оптимизации
+        results.solver_name = used_solver or "none" # использованный решатель
 
         if results.is_solved and results.objective_value is not None:
-            fixed = self._compute_fixed_objective()
+            fixed = self._compute_suboptimal_criterion()
             if fixed is not None and fixed > 0:
                 results.fixed_objective = fixed
                 results.improvement_percent = (fixed - results.objective_value) / fixed * 100
 
         return results
 
-    # ------------------------------------------------------------------
-    # PuLP
-    # ------------------------------------------------------------------
+    # -------------- Решение задачи оптимизации через CBC --------------
 
     # def _solve_pulp(self) -> OptimizationResults:
     #     import pulp
@@ -577,9 +557,7 @@ class MILPModel:
     #
     #     return results
 
-    # ------------------------------------------------------------------
-    # CPLEX
-    # ------------------------------------------------------------------
+    # -------------- Решение задачи оптимизации через CPLEX --------------
 
     def _solve_cplex(self) -> OptimizationResults:
         p = self.params
@@ -753,9 +731,7 @@ class MILPModel:
 
         return results
 
-    # ------------------------------------------------------------------
-    # Единое извлечение результатов и верификация (общие для CPLEX и PuLP)
-    # ------------------------------------------------------------------
+    # -------------- Извлечение результатов и верификация --------------
 
     def _extract_results(self, getv, results, maint_windows,
                          x, m, q, g_time=None, delay=None) -> bool:
@@ -843,6 +819,7 @@ class MILPModel:
         В5 — пакеты не пересекают промежуток ТО;
         В6 — значение критерия согласовано с расписанием.
         """
+
         p = self.params
         I, L, J = p.I, p.L, p.J
         tol = 1e-4
@@ -902,22 +879,23 @@ class MILPModel:
 
     # ------------------------------------------------------------------
 
-    def _compute_fixed_objective(self) -> Optional[float]:
-        """Критерий для фиксированных пакетов (все задания типа i — один пакет),
-        вычисляется жадным прямым моделированием с учётом ТОГО ЖЕ промежутка ТО,
-        что и в оптимизационной модели — иначе сравнение некорректно."""
+    def _compute_suboptimal_criterion(self) -> Optional[float]:
+        """НЕОПТИМАЛЬНОЕ значение критерия оптимизации,
+            прасчитаное для той же задачи ЖАДНЫМ моделированием"""
         p = self.params
-        try:
-            I, L = p.I, p.L
 
-            windows = {}
+        try:
+            I, L = p.I, p.L # размерность задачи
+            # по условию J=I
+
+            windows = {}    # окна проведения ПТО на приборах
             for l in range(L):
                 windows[l] = _maintenance_window(p.TM[l], p.tm_maint[l]) \
                     if p.use_maintenance else None
 
             def place(l, earliest, dur):
-                """Сдвинуть начало пакета на конец промежутка ТО прибора l,
-                если пакет [earliest, earliest+dur) пересекает этот промежуток."""
+                """Сдвинуть начало пакета на момент после ПТО прибора l
+                если выполнение пакета пересекает его интервал"""
                 w = windows[l]
                 if w is None:
                     return earliest
@@ -926,11 +904,17 @@ class MILPModel:
                     return a_e
                 return earliest
 
-            q = [[0.0] * I for _ in range(L)]
+            q = [[0.0] * I for _ in range(L)]   # моменты начала выполнения пакетов на приборах
             q[0][0] = place(0, p.t_init[0][0], p.t[0][0] * p.n[0])
+
+            """Расписание считается неоптимальным прямолинейным образом.
+            В каждом пакете находятся ВСЕ задания одного типа.
+            Пакеты выполняются подряд и переносятся в интервал после ПТО если не помещаются до."""
+
             for j in range(1, I):
                 earliest = q[0][j-1] + p.t[0][j-1] * p.n[j-1] + p.t_setup[0][j-1][j]
                 q[0][j] = place(0, earliest, p.t[0][j] * p.n[j])
+
             for l in range(1, L):
                 earliest = max(p.t_init[l][0], q[l-1][0] + p.t[l-1][0] * p.n[0])
                 q[l][0] = place(l, earliest, p.t[l][0] * p.n[0])
@@ -938,10 +922,9 @@ class MILPModel:
                     prev_pos = q[l][j-1] + p.t[l][j-1] * p.n[j-1] + p.t_setup[l][j-1][j]
                     prev_dev = q[l-1][j] + p.t[l-1][j] * p.n[j]
                     q[l][j] = place(l, max(prev_pos, prev_dev), p.t[l][j] * p.n[j])
-            if self.criterion == "Cmax":
-                return max(q[L-1][j] + p.t[L-1][j] * p.n[j] for j in range(I))
-            else:
-                return sum(max(0.0, q[L-1][i] + p.t[L-1][i] * p.n[i] - p.d[i])
-                           for i in range(I))
+
+            # подсчитать итоговое время выполнения (Cmax)
+            return max(q[L-1][j] + p.t[L-1][j] * p.n[j] for j in range(I))
+
         except Exception:
             return None
