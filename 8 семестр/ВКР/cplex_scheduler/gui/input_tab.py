@@ -534,33 +534,33 @@ class InputTab(QWidget):
         p.L = self.spin_L.value()
         p.J = self.spin_J.value()
 
-        p.n = self._read_row_int(self.n_table, p.I, default=4)
+        p.n = self._read_row_int(self.n_table, p.I)
 
-        p.t = self._read_table_float(self.t_table, p.L, p.I, default=1.0)
-        p.t_init = self._read_table_float(self.ti_table, p.L, p.I, default=1.0)
+        p.t = self._read_table_float(self.t_table, p.L, p.I)
+        p.t_init = self._read_table_float(self.ti_table, p.L, p.I)
 
         p.t_setup = [
-            self._read_table_float(self.ts_tables[l], p.I, p.I, default=0.0)
+            self._read_table_float(self.ts_tables[l], p.I, p.I)
             for l in range(min(p.L, len(self.ts_tables)))
         ]
         while len(p.t_setup) < p.L:
             p.t_setup.append([[0] * p.I for _ in range(p.I)])
 
         # p.d = self._read_row_float(self.d_table, p.I, default=30.0)
-        p.use_maintenance = self.chk_maintenance.isChecked()
 
         p.TM = []
         p.tm_maint = []
+        p.use_maintenance = self.chk_maintenance.isChecked()
 
         for l in range(p.L):
             try:
                 p.TM.append(float(self.maint_table.item(l, 1).text().replace(',', '.')))
             except Exception:
-                p.TM.append(20.0)
+                p.TM.append(0)
             try:
                 p.tm_maint.append(float(self.maint_table.item(l, 2).text().replace(',', '.')))
             except Exception:
-                p.tm_maint.append(2.0)
+                p.tm_maint.append(0)
 
         return p
 
