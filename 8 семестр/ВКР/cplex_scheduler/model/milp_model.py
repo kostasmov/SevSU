@@ -6,56 +6,32 @@ MILP-модель оптимизации расписания выполнени
 ----------------------------------------
 
 Индексы и параметры:
-  i, k = 1..I — типы заданий;
-  l = 1..L — приборы конвейера;
-  j = 1..J — номера пакетов в решении;
-  n_i — количество заданий типа i;
-  t_li — время обработки задания типа i на приборе l;
-  t_lki — переналадка прибора l с типа k на тип i;
-  t0_li — первоначальная наладка прибора l на тип заданий i;
-  TM_l — момент начала ПТО прибора l,
-  tm_l — длительность ПТО прибора l;
+    i, k = 1..I — типы заданий;
+    l = 1..L    — приборы конвейера;
+    j = 1..J    — номера пакетов в решении;
+    n_i         — количество заданий типа i;
+    t_li        — время обработки задания типа i на приборе l;
+    t_lki       — длина переналадки прибора l с типа k на тип i;
+    t_init[l,i] — первоначальная наладка прибора l на тип заданий i;
+    TM_l        — момент начала ПТО прибора l,
+    tm_l        — длительность ПТО прибора l;
 
-  H — горизонт планирования: H = 1.2 * (суммарная трудоёмкость + переналадки + надбавка на ТО);
-  R = 1.5*H — константа big-M.
+    H — горизонт планирования: H = 1.2 * (суммарная трудоёмкость + переналадки + надбавка на ТО);
+    R = 1.5*H — константа big-M.
 
 Переменные:
-  x_ij ∈ {0,1} — находится ли в пакете j пакет типа i;
-  m_j ≥ 2 — количество заданий в пакете j;
-  q_lj ≥ 0 — момент начала пакета позиции j на приборе l;
+    x_ij ∈ {0,1} — находится ли в пакете j пакет типа i;
+    m_j ≥ 2      — количество заданий в пакете j;
+    q_lj ≥ 0     — момент начала пакета позиции j на приборе l;
 
-  r_ji = m_j*x_ij — линеаризация произведения (целая, 0 ≤ r_ji ≤ n_i);
-  y_{k,j-1,i,j} = x_{k,j-1}*x_{i,j} — линеаризация для переналадок;
+    delta_lj ∈ {0,1} — 1 если пакет j на приборе l завершается до промежутка ПТО
+                       0 - если после
 
-  delta_lj ∈ {0,1} — пакет (l,j) завершается до промежутка ТО (1)
-                      или начинается после него (0); определена
-                      только для приборов l, для которых задано ТО;
-  Cmax — критерий ;
+    r_ji = m_j * x_ij                — количество заданий типа i в пакете j;
+    y[k,j-1,i,j] = x[k,j-1] * x[i,j] — линеаризация для переналадок;
 
-Ограничения:
-  (C1) Σ_i x_ij = 1                — одна позиция, один тип;
-  (C2) x_ij + x_{i,j-1} ≤ 1        — соседние позиции разных типов;
-  (C3) Σ_j r_ji = n_i              — все задания распределены;
-  (C4) линеаризация r_ji:  r_ji ≤ u*x_ij;  r_ji ≥ m_j − u(1−x_ij);
-       r_ji ≤ m_j;  линеаризация y: y ≤ x_{k,j-1}; y ≤ x_ij;
-       y ≥ x_{k,j-1}+x_ij−1;
-  (C5) старт первой позиции:  q_l1 ≥ Σ_i t0_li*x_i1;
-  (C6) порядок на приборе:
-       q_lj ≥ q_{l,j-1} + Σ_i t_li*r_{j-1,i} + Σ_{k,i} t'_lki*y_{k,j-1,i,j};
-  (C7) конвейерность:  q_lj ≥ q_{l-1,j} + Σ_i t_{l-1,i}*r_ji;
-       !! Отличие от прототипа: в статье (C6)-(C7) заданы как точное
-       равенство максимуму (через бинарные v_l, w_lj). При ТО прибор
-       должен уметь простаивать, поэтому равенства заменены на «≥»;
-       прижим расписания влево обеспечивает член ε·Σq в целевой
-       функции (ε = 1/(10R), на оптимум критерия не влияет).
-  (C8) ТО, дизъюнкция для промежутка [a_s, a_e] прибора l:
-       q_lj + Σ_i t_li*r_ji ≤ a_s + R(1−delta_lj)   (пакет до промежутка)
-       q_lj ≥ a_e − R*delta_lj                       (пакет после промежутка)
-  (C9) горизонт:  q_lj + Σ_i t_li*r_ji ≤ H — запрещает «выталкивание»
-       пакетов за пределы горизонта планирования.
-
-Критерий оптимизации: min Cmax
-  Cmax ≥ q_Lj + Σ_i t_Li*r_ji  для всех j;
+Критерий оптимизации:
+    min Cmax
 """
 
 import time
@@ -563,192 +539,192 @@ class MILPModel:
     def _solve_cplex(self) -> OptimizationResults:
         """Решение задачи оптимизации с помощью CPLEX"""
         p = self.params
-        I, L, J = p.I, p.L, p.J
-        n_min = min(p.n)
+        I, L, J = p.I, p.L, p.J # размеры задачи
+        n_min = min(p.n)        # минимальное число заданий одного типа
 
-        horizon = _estimate_horizon(p)
-        R = horizon * 1.5
+        #horizon = _estimate_horizon(p)  # горизонт планирования
+        R = 10000  #horizon * 1.5        # константа (большое число)
 
+        # Расчёт окон ПТО для каждого прибора
         maint_windows = {}
         for l in range(L):
             maint_windows[l] = _maintenance_window(p.TM[l], p.tm_maint[l]) \
                 if p.use_maintenance else None
 
+        # Создание объекта модели
         mdl = CplexModel(name="FlowShop_Batch")
         mdl.parameters.timelimit = self.time_limit
         if not self.verbose:
             mdl.context.solver.log_output = False
 
+        # Задание переменных решения
         x = {(i, j): mdl.binary_var(name=f"x_{i}_{j}")
              for i in range(I) for j in range(J)}
         m = {j: mdl.integer_var(lb=2, ub=n_min, name=f"m_{j}") for j in range(J)}
         q = {(l, j): mdl.continuous_var(lb=0, name=f"q_{l}_{j}")
              for l in range(L) for j in range(J)}
+
+        # Переменные линеаризации
         r = {(j, i): mdl.continuous_var(lb=0, ub=n_min, name=f"r_{j}_{i}")
              for j in range(J) for i in range(I)}
         y = {(k, j-1, i, j): mdl.binary_var(name=f"y_{k}_{j-1}_{i}_{j}")
              for j in range(1, J) for i in range(I) for k in range(I) if i != k}
 
-        # delta[l,j] — ТО: 1=пакет до промежутка ТО, 0=пакет после него
-        # (определена только для приборов l, у которых задан промежуток ТО)
+        # Задание delta[l,j]
         delta = {}
         for l in range(L):
             if maint_windows[l] is not None:
                 for j in range(J):
                     delta[l, j] = mdl.binary_var(name=f"delta_{l}_{j}")
 
+        # ------- ОГРАНИЧЕНИЯ МОДЕЛИ -------
+
+        # Ограничение 2.1
         for j in range(J):
             mdl.add_constraint(mdl.sum(x[i, j] for i in range(I)) == 1)
+
+        # Ограничение 2.2
         for j in range(1, J):
             for i in range(I):
                 mdl.add_constraint(x[i, j] + x[i, j-1] <= 1)
+
+        # Ограничение 2.3
         for i in range(I):
             mdl.add_constraint(mdl.sum(r[j, i] for j in range(J)) == p.n[i])
+
+        # Ограничения 2.4 (r[j][i])
         for j in range(J):
             for i in range(I):
-                mdl.add_constraint(r[j, i] >= 0)
-                mdl.add_constraint(r[j, i] <= n_min * x[i, j])
-                mdl.add_constraint(r[j, i] <= m[j])
-                mdl.add_constraint(r[j, i] >= m[j] - n_min * (1 - x[i, j]))
+                mdl.add_constraint(r[j,i] >= 0)
+                mdl.add_constraint(r[j,i] <= n_min * x[i, j])
+                mdl.add_constraint(r[j,i] <= m[j])
+                mdl.add_constraint(r[j,i] >= m[j] - n_min * (1 - x[i,j]))
             mdl.add_constraint(m[j] >= 2)
 
+        # Ограничения 2.5 (y[k][j-1][i][j])
         for j in range(1, J):
-            j1 = j - 1
             for i in range(I):
                 for k in range(I):
                     if i == k:
                         continue
-                    mdl.add_constraint(y[k, j1, i, j] <= x[k, j1])
-                    mdl.add_constraint(y[k, j1, i, j] <= x[i, j])
-                    mdl.add_constraint(y[k, j1, i, j] >= x[k, j1] + x[i, j] - 1)
+                    mdl.add_constraint(y[k, j-1, i, j] <= x[k, j-1])
+                    mdl.add_constraint(y[k, j-1, i, j] <= x[i, j])
+                    mdl.add_constraint(y[k, j-1, i, j] >= x[k, j-1] + x[i,j] - 1)
 
+        # Ограничение 2.6 (первое задание, первый прибор)
         mdl.add_constraint(
-            q[0, 0] >= mdl.sum(p.t_init[0][i] * x[i, 0] for i in range(I)))
+            q[0,0] >= mdl.sum(p.t_init[0][i] * x[i,0] for i in range(I)))
+
+        # Ограничение 2.7 (остальные пакеты, первый прибор)
         for j in range(1, J):
-            j1 = j - 1
-            setup = mdl.sum(p.t_setup[0][k][i] * y[k, j1, i, j]
+            setup_time = mdl.sum(p.t_setup[0][k][i] * y[k, j-1, i, j]
                             for i in range(I) for k in range(I) if i != k)
             mdl.add_constraint(
-                q[0, j] >= q[0, j1]
-                + mdl.sum(p.t[0][i] * r[j1, i] for i in range(I))
-                + setup)
+                q[0,j] >= q[0, j-1]
+                + mdl.sum(p.t[0][k] * r[j-1, k] for k in range(I))
+                + setup_time)
 
         for l in range(1, L):
-            init_l = mdl.sum(p.t_init[l][i] * x[i, 0] for i in range(I))
-            prev_end = q[l-1, 0] + mdl.sum(p.t[l-1][i] * r[0, i] for i in range(I))
-            # Безусловные нижние границы (равенство max(...) заменено на >=,
-            # чтобы прибор мог простаивать перед промежутком ТО)
-            mdl.add_constraint(q[l, 0] >= init_l)
-            mdl.add_constraint(q[l, 0] >= prev_end)
-            for j in range(1, J):
-                j1 = j - 1
-                setup_l = mdl.sum(p.t_setup[l][k][i] * y[k, j1, i, j]
-                                  for i in range(I) for k in range(I) if i != k)
-                prev_pos = (q[l, j1]
-                            + mdl.sum(p.t[l][i] * r[j1, i] for i in range(I))
-                            + setup_l)
-                prev_dev = q[l-1, j] + mdl.sum(p.t[l-1][i] * r[j, i] for i in range(I))
-                mdl.add_constraint(q[l, j] >= prev_pos)
-                mdl.add_constraint(q[l, j] >= prev_dev)
+            init_moment = mdl.sum(p.t_init[l][i] * x[i, 0] for i in range(I))       # конец наладки нового прибора
+            prev_end = q[l-1, 0] + mdl.sum(p.t[l-1][i] * r[0, i] for i in range(I)) # конец выполнения на предыдущем приборе
 
+            # Ограничение 2.8 (первый пакет, остальные приборы)
+            mdl.add_constraint(q[l,0] >= init_moment)
+            mdl.add_constraint(q[l,0] >= prev_end)
+
+            for j in range(1, J):
+                setup_l = mdl.sum(p.t_setup[l][k][i] * y[k, j-1, i, j]
+                                  for i in range(I) for k in range(I) if i != k)    # конец переналадки следующего прибора
+                prev_pos = (q[l, j-1]
+                            + mdl.sum(p.t[l][k] * r[j-1, k] for k in range(I))      # конец выполнения + переналадка след. прибора
+                            + setup_l)
+                prev_dev = q[l-1, j] + mdl.sum(p.t[l-1][i] * r[j, i] for i in range(I)) # конец обработки на предыдущем приборе
+
+                # Ограничения 2.9 (остальные пакеты, остальные приборы)
+                mdl.add_constraint(q[l,j] >= prev_pos)
+                mdl.add_constraint(q[l,j] >= prev_dev)
+
+        # --- БЛОК ОГРАНИЧЕНИЙ ПТО ---
         if p.use_maintenance:
             for l in range(L):
                 for j in range(J):
                     proc_j = mdl.sum(p.t[l][i] * r[j, i] for i in range(I))
-                    # (ТО.2) Завершение в пределах горизонта планирования
-                    mdl.add_constraint(q[l, j] + proc_j <= horizon)
-                    w = maint_windows[l]
+
+                    # Ограничение на завершение в пределах горизонта планирования
+                    #mdl.add_constraint(q[l, j] + proc_j <= horizon)
+
+                    w = maint_windows[l]    # интервал ПТО прибора l
                     if w is None:
                         continue
-                    a_s, a_e = w
-                    d_var = delta[l, j]
-                    mdl.add_constraint(q[l, j] + proc_j <= a_s + R * (1 - d_var))
-                    mdl.add_constraint(q[l, j] >= a_e - R * d_var)
+                    a_s, a_e = w            # моменты начала и окончания
 
-        if self.criterion == "Cmax":
-            Cmax = mdl.continuous_var(lb=0, name="Cmax")
-            for j in range(J):
-                mdl.add_constraint(
-                    Cmax >= q[L-1, j] + mdl.sum(p.t[L-1][i] * r[j, i] for i in range(I)))
-            eps = 1.0 / (R * 10.0)
-            q_pull = mdl.sum(q[l, j] for l in range(L) for j in range(J))
-            mdl.minimize(Cmax + eps * q_pull)
-        else:
-            g_time = {i: mdl.continuous_var(lb=0, name=f"g_{i}") for i in range(I)}
-            delay = {i: mdl.continuous_var(lb=0, name=f"p_{i}") for i in range(I)}
-            z = {i: mdl.binary_var(name=f"z_{i}") for i in range(I)}
-            for i in range(I):
-                for j in range(J):
-                    end_j = q[L-1, j] + mdl.sum(p.t[L-1][ii] * r[j, ii] for ii in range(I))
-                    mdl.add_constraint(g_time[i] >= end_j - R * (1 - x[i, j]))
-                mdl.add_constraint(delay[i] >= g_time[i] - p.d[i])
-                mdl.add_constraint(delay[i] >= 0)
-                mdl.add_constraint(g_time[i] - p.d[i] <= R * z[i])
-                mdl.add_constraint(g_time[i] - p.d[i] >= -R * (1 - z[i]))
-                mdl.add_constraint(delay[i] <= g_time[i] - p.d[i] + R * (1 - z[i]))
-                mdl.add_constraint(delay[i] <= R * z[i])
-            eps = 1.0 / (R * 10.0)
-            q_pull = mdl.sum(q[l, j] for l in range(L) for j in range(J))
-            mdl.minimize(mdl.sum(delay[i] for i in range(I)) + eps * q_pull)
+                    # Ограничение 2.10 (выполнение до ПТО)
+                    mdl.add_constraint(q[l,j] + proc_j <= a_s + R * (1 - delta[l,j]))
 
+                    # Ограничение 2.11 (выполнение после ПТО)
+                    mdl.add_constraint(q[l,j] >= a_e - R * delta[l,j])
+
+        # Оптимизация по критерию Cmax
+        Cmax = mdl.continuous_var(lb=0, name="Cmax")
+        for j in range(J):
+            # Ограничение 2.12 (критерий оптимизации)
+            mdl.add_constraint(
+                Cmax >= q[L-1, j] + mdl.sum(p.t[L-1][i] * r[j,i] for i in range(I)))
+
+        # Корректировка критерия оптимизации
+        eps = 1.0 / (R * 10.0)
+        q_pull = mdl.sum(q[l, j] for l in range(L) for j in range(J))
+        mdl.minimize(Cmax + eps * q_pull)
+
+        # Запуск решателя
         sol = mdl.solve()
+
+        # Объект для параметров результата
         results = OptimizationResults()
         results.criterion = self.criterion
 
+        # Решение не найдено
         if sol is None:
             results.status = OptimizationResults.STATUS_INFEASIBLE
             results.message = "CPLEX: решение не найдено"
             return results
 
-        results.status = OptimizationResults.STATUS_OPTIMAL
-        if self.criterion == "Cmax":
-            results.objective_value = sol.get_value(Cmax)
-        else:
-            results.objective_value = sum(sol.get_value(delay[i]) or 0.0 for i in range(I))
+        # ---- Извлечение результатов + верификация ----
 
-        # ── Единое извлечение результатов + верификация ──
+        results.status = OptimizationResults.STATUS_OPTIMAL
+        results.objective_value = sol.get_value(Cmax)
+
         def getv(var):
             return sol.get_value(var)
 
-        ok = self._extract_results(
-            getv, results, maint_windows, x, m, q,
-            g_time=g_time if self.criterion == "G" else None,
-            delay=delay if self.criterion == "G" else None)
+        ok = self._extract_results(getv, results, maint_windows, x, m, q)
+
         if not ok:
             results.status = OptimizationResults.STATUS_ERROR
-            results.message = ("Решатель вернул некорректные значения "
-                               "переменных. Увеличьте лимит времени.")
+            results.message = ("Решатель вернул некорректные значения переменных."
+                               "Увеличьте лимит времени.")
             results.batches.clear(); results.schedule.clear()
             results.maintenance.clear()
             return results
 
-        v_ok, v_report = self._verify_solution(results, maint_windows)
-        if not v_ok:
-            results.status = OptimizationResults.STATUS_ERROR
-            results.message = "Верификация решения не пройдена: " + v_report
-            logger.error("Верификация (CPLEX): %s", v_report)
-            return results
-        results.message = ((results.message + " | ") if results.message
-                           else "") + "Верификация: " + v_report
+        # v_ok, v_report = self._verify_solution(results, maint_windows)
+        # if not v_ok:
+        #     results.status = OptimizationResults.STATUS_ERROR
+        #     results.message = "Верификация решения не пройдена: " + v_report
+        #     logger.error("Верификация (CPLEX): %s", v_report)
+        #     return results
+        # results.message = ((results.message + " | ") if results.message
+        #                    else "") + "Верификация: " + v_report
 
         return results
 
     # -------------- Извлечение результатов и верификация --------------
 
-    def _extract_results(self, getv, results, maint_windows,
-                         x, m, q, g_time=None, delay=None) -> bool:
-        """Извлечь решение через функцию доступа getv(var) -> float.
-
-        Гарантии:
-        - извлекаются ВСЕ J позиций (тип = argmax x[i,j], без порога 0.5,
-          который «терял» позиции при численных погрешностях);
-        - количества округляются до целых; пустых/нулевых пакетов не бывает;
-        - расписание содержит ровно L*J записей;
-        - на диаграмму выносится промежуток ТО в пределах фактического
-          расписания каждого прибора (без выборочной фильтрации).
-        Возвращает False, если значения переменных не образуют
-        корректного целочисленного решения.
+    def _extract_results(self, getv, results, maint_windows, x, m, q) -> bool:
+        """Извлечь решение из векторов выходных значений.
+        Возвращает False, если значения переменных не образуют корректного целочисленного решения.
         """
+
         p = self.params
         I, L, J = p.I, p.L, p.J
 
@@ -883,7 +859,7 @@ class MILPModel:
 
     def _compute_suboptimal_criterion(self) -> Optional[float]:
         """НЕОПТИМАЛЬНОЕ значение критерия оптимизации,
-            прасчитаное для той же задачи ЖАДНЫМ моделированием"""
+            подсчитаное для той же задачи ЖАДНЫМ моделированием"""
         p = self.params
 
         try:

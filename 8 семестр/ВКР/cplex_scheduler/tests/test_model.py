@@ -1,8 +1,10 @@
 """
 Тесты модели MILP
 """
+
 import sys
 import os
+
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 
 from model.parameters import TaskParameters
@@ -11,6 +13,7 @@ from model.results import OptimizationResults
 
 
 def test_params_validate():
+    """ТЕСТ 1 - Валидация параметров"""
     p = TaskParameters.example_small()
     errors = p.validate()
     assert len(errors) == 0, f"Ошибки валидации: {errors}"
@@ -18,6 +21,7 @@ def test_params_validate():
 
 
 def test_params_serialization():
+    """ТЕСТ 2 - Сохранение параметров в JSON"""
     import tempfile, json
     p = TaskParameters.example_small()
     with tempfile.NamedTemporaryFile(suffix='.json', delete=False, mode='w') as f:
@@ -31,10 +35,10 @@ def test_params_serialization():
 
 
 def test_fixed_objective():
-    """Тест вычисления цели для фиксированных пакетов"""
+    """ТЕСТ 3 - вычисление критерия при неопитимизированном расписании"""
     p = TaskParameters.example_small()
     model = MILPModel(p, "Cmax", time_limit=30)
-    val = model._compute_fixed_objective()
+    val = model._compute_suboptimal_criterion()
     assert val is not None and val > 0
     print(f"✓ Фиксированные пакеты Cmax = {val:.3f}")
 

@@ -40,12 +40,12 @@ class OptimizationResults:
     """Результаты оптимизации"""
 
     # Статусы решения
-    STATUS_OPTIMAL = "Оптимальное решение"
-    STATUS_FEASIBLE = "Допустимое решение (не оптимальное)"
-    STATUS_INFEASIBLE = "Задача не имеет решения"
-    STATUS_TIMEOUT = "Превышен лимит времени"
-    STATUS_ERROR = "Ошибка решателя"
-    STATUS_NOT_SOLVED = "Задача не решена"
+    STATUS_OPTIMAL      = "Оптимальное решение"
+    STATUS_FEASIBLE     = "Допустимое решение (не оптимальное)"
+    STATUS_INFEASIBLE   = "Задача не имеет решения"
+    STATUS_TIMEOUT      = "Превышен лимит времени"
+    STATUS_ERROR        = "Ошибка решателя"
+    STATUS_NOT_SOLVED   = "Задача не решена"
 
     def __init__(self):
         self.status = self.STATUS_NOT_SOLVED
@@ -54,27 +54,27 @@ class OptimizationResults:
         self.solve_time: float = 0.0
         self.solver_name: str = ""
 
-        # Составы пакетов
+        # Состав пакетов
         self.batches: List[BatchInfo] = []
 
-        # Расписание (по приборам и позициям)
+        # Расписание (по приборам и пакетам)
         self.schedule: List[ScheduleEntry] = []
 
-        # Расписание ТО
+        # Расписание ПТО
         self.maintenance: List[MaintenanceEntry] = []
 
         # Запаздывания (для критерия G)
         self.delays: Dict[int, float] = {}   # тип -> запаздывание
         self.completion_times: Dict[int, float] = {}  # тип -> момент окончания
 
-        # Для сравнения с фиксированными пакетами
+        # Процент улучшения по сравнению с неоптимальным решением
         self.fixed_objective: Optional[float] = None
         self.improvement_percent: Optional[float] = None
 
         # Сообщение об ошибке/статусе
         self.message: str = ""
 
-        # Значения переменных (для отладки)
+        # Значения результирующих параметров
         self.raw_x: Dict = {}   # x[i][j]
         self.raw_m: Dict = {}   # m[j]
         self.raw_q: Dict = {}   # q[l][j]
