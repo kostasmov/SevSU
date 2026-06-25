@@ -67,7 +67,7 @@ class ResultTab(QWidget):
         left_widget = QWidget()
         left_layout = QVBoxLayout(left_widget)
 
-        batch_group = QGroupBox("Составы пакетов")
+        batch_group = QGroupBox("Состав пакетов")
         batch_layout = QVBoxLayout(batch_group)
         self.batch_table = QTableWidget()
         self.batch_table.setColumnCount(3)
